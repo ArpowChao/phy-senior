@@ -5473,10 +5473,10 @@
             // 決定高寬比例
             let ratio = 2.5; // 預設 2.5:1
             if (state.sheetFile) {
-                if (state.sheetFile.includes('115_49')) ratio = 3.38; // (a) and (b) combined: width 490 / height 145
+                if (state.sheetFile.includes('115_49')) ratio = 3.27; // width 490 / height 150
                 else if (state.sheetFile.includes('115_53')) ratio = 2.0;  // width 490 / height 245
-                else if (state.sheetFile.includes('113_46')) ratio = 3.38; // width 490 / height 145
-                else if (state.sheetFile.includes('111_51')) ratio = 4.45; // width 490 / height 110
+                else if (state.sheetFile.includes('113_46')) ratio = 2.58; // width 490 / height 190 (now unclipped bottom)
+                else if (state.sheetFile.includes('111_51')) ratio = 3.77; // width 490 / height 130
             }
             
             const height = width / ratio;
