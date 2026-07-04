@@ -5368,12 +5368,24 @@
             if (!s) return '';
             const sheetFile = s.sheet || '';
             const hand = s.hand ? handwriteBox(sheetFile ? '答題卷作答區（請直接在底圖格線上作答／手繪）' : '非選作答區（可打字或手寫）', key, sheetFile) : '';
+            
+            // 如果是手繪題，動態在答案區最上方渲染官方手繪滿分答案圖
+            const ansImg = sheetFile ? `
+                <div style="margin: 0.5rem 0.9rem 0.75rem 0.9rem; padding-bottom: 0.75rem; border-bottom: 1px dashed var(--border-color);">
+                    <div style="font-weight:700; color:#047857; font-size:0.85rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.25rem;">
+                        <span>🎯</span> 官方答題卷手繪滿分答案示範：
+                    </div>
+                    <img class="exam-crop ${invertCrops ? 'inverted' : ''}" src="assets/exam_crops/${sheetFile.replace('_sheet.png', '_ans.png')}" style="max-width:100%; border:1px solid var(--border-color); border-radius:6px;" alt="手繪題官方答案圖">
+                </div>
+            ` : '';
+
             return `
                 ${hand}
                 <div class="exam-sol-wrap">
                     <button class="exam-sol-btn" onclick="toggleExamSol(this)">📖 顯示答案與詳解</button>
                     <div class="exam-sol" hidden>
                         <div class="exam-ans">✅ 答案：${s.ans}</div>
+                        ${ansImg}
                         <div class="exam-detail">${s.sol}</div>
                         ${s.cer ? '<div class="cer-note">＊上方以 <b>CER</b>（主張 Claim／證據 Evidence／推理 Reasoning）結構作答，為非選說明題的建議寫法。</div>' : ''}
                     </div>
