@@ -1577,6 +1577,76 @@
             border: 1px solid var(--border-color);
         }
 
+        /* 線上手寫與繪圖板（仿大考答題卷） */
+        .canvas-board-wrap {
+            margin: 0.5rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+        .canvas-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .canvas-tool-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.3rem 0.65rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: all 0.2s ease;
+        }
+        .canvas-tool-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            background-color: rgba(59, 130, 246, 0.02);
+        }
+        .canvas-tool-btn.active {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: #ffffff !important;
+        }
+        .canvas-tool-btn.clear-btn {
+            margin-left: auto;
+            color: var(--accent-rose);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        .canvas-tool-btn.clear-btn:hover {
+            background-color: rgba(239, 68, 68, 0.05);
+            color: #b91c1c;
+            border-color: var(--accent-rose);
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .draw-canvas {
+            display: block;
+            max-width: 100%;
+            cursor: crosshair;
+            touch-action: none; /* 禁用瀏覽器的預設觸控手勢，允許手寫 */
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
         /* CER 三段標籤顏色（搭配上方 .cer-item.cer-c/e/r 的淺底左框；深色文字確保可讀）*/
         .cer-item { color: var(--text-main); }
         .cer-item strong { display: inline-block; margin-bottom: 0.15rem; }
@@ -4471,7 +4541,7 @@
                     <div class="quiz-card" style="margin-bottom: 1.25rem;" id="bank-card-${uid}">
                         ${chips}
                         <div class="quiz-title">${q.q}</div>
-                        ${handwriteBox('手寫作答區（先在紙上或此區作答，再對照參考答案）')}
+                        ${handwriteBox('手寫作答區（可打字或切換手寫板作答）', uid)}
                         <div class="quiz-btns">
                             <span></span>
                             <button class="quiz-btn quiz-btn-primary" onclick="bankReveal('${uid}')">對照參考答案</button>
@@ -4921,7 +4991,7 @@
           '111_6': { ans: '(BE)', sol: '晶片卡靠電磁感應供電：讀卡機線圈電流 $I_1$ 變動 → 卡片線圈磁通量變化 → 感應出 $I_2$。由楞次定律反推，欲得指定方向的 $I_2$，$I_1$ 須「正向漸減」或「反向漸增」。' },
           '111_7-8': { ans: 'Q7：(D)　Q8：(BE)', sol: 'Q7：由大氣向外熱輻射曲線對照黑體輻射，找輻射強度最強波段對應的溫度。<br>Q8：溫室氣體增加使大氣吸收更多地面長波輻射，能量收支失衡→大氣內部（近地面）溫度上升。' },
           '111_9': { ans: '(B)', sol: '科學史正確配對：愛因斯坦以光子（光量子）模型解釋光電效應。（馬克士威是統合電磁理論、預測電磁波，非解釋光電效應。）' },
-          '111_49-51': { ans: 'Q49：(BD)　Q50：(D)　Q51：非選（折射作圖）', hand: true, cer: true, sol: 'Q49、Q50：血流訊號的週期性與都卜勒頻移判讀。<br><b>Q51（手繪）</b>官方參考答案：先畫出與介面垂直的「法線」；因波由介質A（慢）進入介質B（快），折射線在介質B中「偏離法線」（向左偏離虛線的斜直線）。<br>作圖要點：①法線垂直界面；②折射角＞入射角（偏離法線）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的條件：</strong>波由介質 A（波速慢）進入介質 B（波速快），入射線與法線夾一銳角。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>司乃耳折射定律：$\\frac{\\sin\\theta_1}{v_1}=\\frac{\\sin\\theta_2}{v_2}$。因 $v_2 > v_1$，$\\sin\\theta_2 > \\sin\\theta_1$，折射角＞入射角（偏離法線）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>法線垂直界面；折射線偏離法線，向左偏折。</div></div>' },
+          '111_49-51': { ans: 'Q49：(BD)　Q50：(D)　Q51：非選（折射作圖）', hand: true, sheet: '111_51_sheet.png', cer: true, sol: 'Q49、Q50：血流訊號的週期性與都卜勒頻移判讀。<br><b>Q51（手繪）</b>官方參考答案：先畫出與介面垂直的「法線」；因波由介質A（慢）進入介質B（快），折射線在介質B中「偏離法線」（向左偏離虛線的斜直線）。<br>作圖要點：①法線垂直界面；②折射角＞入射角（偏離法線）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的條件：</strong>波由介質 A（波速慢）進入介質 B（波速快），入射線與法線夾一銳角。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>司乃耳折射定律：$\\frac{\\sin\\theta_1}{v_1}=\\frac{\\sin\\theta_2}{v_2}$。因 $v_2 > v_1$，$\\sin\\theta_2 > \\sin\\theta_1$，折射角＞入射角（偏離法線）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>法線垂直界面；折射線偏離法線，向左偏折。</div></div>' },
           '111_54': { ans: '非選　$\\Delta f_A > \\Delta f_V > \\Delta f_C$', hand: true, cer: true, sol: '官方參考答案：$\\Delta f_A > \\Delta f_V > \\Delta f_C$（符號 $\\Delta f$ 要寫完整）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的事實：</strong>由生理知識可知，人體血流速率為動脈(A)最快、靜脈(V)次之、微血管(C)最慢。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>都卜勒效應：反射波的頻率偏移量 $\\Delta f$ 正比於反射體（紅血球）的移動速率，血流越快則 $\\Delta f$ 越大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>依流速大小排序，$\\Delta f_A > \\Delta f_V > \\Delta f_C$。</div></div>' },
           '111_58-60': { ans: 'Q58：(A)　Q59：(AD)　Q60：非選（計算 $M\\approx0.1$ kg）', hand: true, cer: true, sol: 'Q58：文中電壓、電阻、能量、普朗克常數皆為導出量，「質量」才是 SI 基本量。<br>Q59：靜態平衡時線圈電流與磁極方向須使電磁力與重力平衡。<br><b>Q60（計算）</b>官方參考答案：①由動態模式斜率求 $f_B=\\frac{\\Delta V}{\\Delta v}=\\frac{90-(-95)}{3.6-(-3.8)}=25$；②$F_B=f_B I=25\\times0.04=1.0$ N；③靜態平衡 $F_B=Mg$，$M=\\frac{1.0}{9.8}\\approx0.1$ kg。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的數據：</strong>動態模式中 $V$ 與 $v$ 的線性關係圖（斜率可讀取），電流 $I=0.04$ A，重力加速度 $g=9.8$ m/s²。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>①由圖的斜率求力常數 $f_B=\\frac{\\Delta V}{\\Delta v}=25$；②電磁力 $F_B=f_B \\cdot I=25 \\times 0.04=1.0$ N；③靜態平衡時 $F_B=Mg$（電磁力等於重力）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>$M=\\frac{F_B}{g}=\\frac{1.0}{9.8}\\approx 0.1$ kg。</div></div>' },
 
@@ -4946,7 +5016,7 @@
           '113_24-25': { ans: 'Q24：(AC)　Q25：(C)', sol: 'Q24：電冰箱利用電能作功把箱內熱能搬到箱外（熱不會自發由低溫流向高溫）；密閉房間開冰箱門長時間運轉，室溫反而上升。<br>Q25：性能係數＝轉移熱能÷輸入功＝2.5，輸入 1 度電（$3.6\\times10^6$ J）可轉移 $2.5\\times3.6\\times10^6=9.0\\times10^6$ J。' },
           '113_26-27': { ans: 'Q26：(C)　Q27：(B)', sol: 'Q26：安全氣囊充氣壓力—時間圖判讀，達飽和壓力一半所需時間。<br>Q27：緩衝的物理原理——延長碰撞作用時間使加速度與受力降低（$a=\\Delta v/\\Delta t$、$F=ma$）。' },
           '113_31': { ans: '(C)　40 秒', sol: '<b>【已知】</b>P 波速率 $v_P=5$ km/s、S 波速率 $v_S=3$ km/s；此測站 P 波比 S 波早到 20 秒；預警通知在地震發生後 10 秒送達市民。<br><b>【求】</b>市民在 S 波到達前可應變的秒數。<br><b>【橋接理論】</b>地震波在均勻介質中等速前進（$t=d/v$）。先用 P、S 到達時間差求震源距 $d$，再算 S 波到達時刻，扣掉收到預警的時刻。<br><b>【計算】</b>①時間差：$\\dfrac{d}{v_S}-\\dfrac{d}{v_P}=\\dfrac{d}{3}-\\dfrac{d}{5}=\\dfrac{2d}{15}=20\\Rightarrow d=150$ km。<br>②S 波到達時刻 $=\\dfrac{d}{v_S}=\\dfrac{150}{3}=50$ 秒。<br>③應變時間 $=$ S 波到達(50 s) $-$ 收到預警(10 s) $=40$ 秒　⟹　<b>(C)</b>。' },
-          '113_44-46': { ans: 'Q44：(E)　Q45：(BD)　Q46：非選（手繪 $I$-$t$ 曲線）', hand: true, cer: true, sol: 'Q44、Q45：磁鐵等速穿過線圈的應電流方向、大小與影響因素（楞次定律、磁通量變化率）。<br><b>Q46（手繪）</b>官方參考答案：(a) 6~12 秒磁鐵移離，磁通量減少，與移進時相反 → 產生逆時針感應電流、電流值為正；因等速，9 秒時 N 極恰脫離環圈甲中心，且 6~12 秒曲線與 0~6 秒曲線對稱於「(6 秒, 0)」點（點對稱）。(b) 以楞次定律＋等速說明電流為正與曲線對稱性。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>磁鐵以等速移離環圈甲（6~12 秒），N 極在 9 秒時恰脫離環圈中心；0~6 秒磁鐵以等速移入。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第定律：感應電動勢正比於磁通量變化率。冷次定律：移離時磁通量減少，感應電流方向為阻止減少（與移入時相反）。等速 → 對稱的磁通量變化 → 曲線與 (6s, 0) 點對稱。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>6~12 秒電流為正（逆時針），曲線與 0~6 秒對稱於 (6 秒, 0) 點。</div></div>' },
+          '113_44-46': { ans: 'Q44：(E)　Q45：(BD)　Q46：非選（手繪 $I$-$t$ 曲線）', hand: true, sheet: '113_46_sheet.png', cer: true, sol: 'Q44、Q45：磁鐵等速穿過線圈的應電流方向、大小與影響因素（楞次定律、磁通量變化率）。<br><b>Q46（手繪）</b>官方參考答案：(a) 6~12 秒磁鐵移離，磁通量減少，與移進時相反 → 產生逆時針感應電流、電流值為正；因等速，9 秒時 N 極恰脫離環圈甲中心，且 6~12 秒曲線與 0~6 秒曲線對稱於「(6 秒, 0)」點（點對稱）。(b) 以楞次定律＋等速說明電流為正與曲線對稱性。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>磁鐵以等速移離環圈甲（6~12 秒），N 極在 9 秒時恰脫離環圈中心；0~6 秒磁鐵以等速移入。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第定律：感應電動勢正比於磁通量變化率。冷次定律：移離時磁通量減少，感應電流方向為阻止減少（與移入時相反）。等速 → 對稱的磁通量變化 → 曲線與 (6s, 0) 點對稱。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>6~12 秒電流為正（逆時針），曲線與 0~6 秒對稱於 (6 秒, 0) 點。</div></div>' },
           '113_54-56': { ans: 'Q54：(CD)　Q55：(C)　Q56：非選（紅外線／平流層／臭氧）', hand: true, cer: true, sol: 'Q54、Q55：天文電磁波觀測、望遠鏡口徑越大繞射越小、解析度越高。<br><b>Q56（非選）</b>官方參考答案：(a-1) 地表向外輻射主要為<b>紅外線</b>；(a-2) 吸收紫外線的臭氧主要在<b>平流層</b>；(b) 來自太空的紫外線會「被大氣中的臭氧吸收」。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的事實：</strong>地表向外輻射的峰值波長落在紅外線波段；紫外線在平流層就被大量吸收，幾乎無法到達地面。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>黑體輻射：地表溫度約 288 K 對應的輻射峰值在紅外線（維恩位移定律）；臭氧的分子結構可共振吸收紫外線，臭氧主要分布於平流層。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a-1) 地表輻射主要為紅外線；(a-2) 臭氧主要在平流層；(b) 太空紫外線被大氣臭氧吸收。</div></div>' },
 
           // ===== 114 學測 =====
@@ -4973,8 +5043,8 @@
           '115_16': { ans: '(B)', sol: '氫原子中電子受質子的庫侖引力，$F\\propto1/x^2$（平方反比），方向指向原點；隨距離增大急遽減弱。' },
           '115_17': { ans: '(E)　$394/140$', sol: '<b>【已知】</b>月球赤道處日間、夜間的溫度（題目給定，換算為絕對溫標後為日間約 394 K、夜間約 140 K）。<br><b>【求】</b>相同氣體分子的平均動能，日間為夜間的幾倍。<br><b>【橋接理論】</b>理想氣體分子平均動能正比於「絕對溫度（克氏溫標）」：$\\bar{E}_k\\propto T(\\text{K})$，故動能比＝絕對溫度比。<br><b>【計算】</b>$\\dfrac{\\bar{E}_{k,日}}{\\bar{E}_{k,夜}}=\\dfrac{T_日}{T_夜}=\\dfrac{394}{140}$　⟹　<b>(E)</b>。<br><span style="color:var(--accent-rose);">關鍵：必須用「絕對溫標 K」相除，不可直接用攝氏溫度相除。</span>' },
           '115_18': { ans: '(E)', sol: '鈾核分裂 $U\\to Kr+Ba+$ 中子，反應前後質量數與電荷數守恆；釋放能量來自質量虧損 $E=\\Delta mc^2$。' },
-          '115_47-49': { ans: 'Q47：(B)　Q48：(AD)　Q49：非選（手繪電場與折射線）', hand: true, cer: true, sol: 'Q47：汞原子 365 nm（3.4 eV）對應的能階躍遷配對。<br>Q48：13.5 nm 極紫外光的光子能量表達與數量級（$E=hc/\\lambda$）。<br><b>Q49（手繪）</b>參考答案：(a) 依干涉加強，$3R$ 的電場與位置圖須與 $2R$ 同相（波峰對波峰）疊加使反射最大；(b) 光由慢介質射向快介質，折射線需「偏離法線」（折射角＞入射角）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的條件：</strong>(a) $3R$ 層需使反射率最大（干涉加強）；(b) 光由速率慢的介質射入速率快的介質。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>(a) 薄膜干涉加強條件：$3R$ 的反射電場須與 $2R$ 同相疊加（波峰對波峰），故電場圖須同相。(b) 折射定律：$n_1\\sin\\theta_1=n_2\\sin\\theta_2$。慢介質折射率較大 → $n_1>n_2$ → $\\sin\\theta_2>\\sin\\theta_1$ → 折射角＞入射角。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a) $3R$ 電場與 $2R$ 同相；(b) 折射線偏離法線。</div></div>' },
-          '115_53': { ans: '非選（手繪應電流波形）', hand: true, cer: true, sol: '本題以手帶動磁鐵相對線圈運動模擬潮汐發電。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>手帶動磁鐵相對線圈做往復運動，磁鐵時而靠近、時而遠離線圈，且速率時大時小。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第電磁感應：感應電動勢正比於磁通量變化率；楞次定律：感應電流方向恆阻礙磁通量變化。磁鐵靠近與遠離時磁通量變化方向相反，且速率最大處變化率最大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>線圈產生方向交替、量值隨速率變化的感應電流（往復交流），速率最大處電流量值最大。</div></div>' },
+          '115_47-49': { ans: 'Q47：(B)　Q48：(AD)　Q49：非選（手繪電場與折射線）', hand: true, sheet: '115_49_sheet.png', cer: true, sol: 'Q47：汞原子 365 nm（3.4 eV）對應的能階躍遷配對。<br>Q48：13.5 nm 極紫外光的光子能量表達與數量級（$E=hc/\\lambda$）。<br><b>Q49（手繪）</b>參考答案：(a) 依干涉加強，$3R$ 的電場與位置圖須與 $2R$ 同相（波峰對波峰）疊加使反射最大；(b) 光由慢介質射向快介質，折射線需「偏離法線」（折射角＞入射角）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的條件：</strong>(a) $3R$ 層需使反射率最大（干涉加強）；(b) 光由速率慢的介質射入速率快的介質。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>(a) 薄膜干涉加強條件：$3R$ 的反射電場須與 $2R$ 同相疊加（波峰對波峰），故電場圖須同相。(b) 折射定律：$n_1\\sin\\theta_1=n_2\\sin\\theta_2$。慢介質折射率較大 → $n_1>n_2$ → $\\sin\\theta_2>\\sin\\theta_1$ → 折射角＞入射角。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a) $3R$ 電場與 $2R$ 同相；(b) 折射線偏離法線。</div></div>' },
+          '115_53': { ans: '非選（手繪應電流波形）', hand: true, sheet: '115_53_sheet.png', cer: true, sol: '本題以手帶動磁鐵相對線圈運動模擬潮汐發電。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>手帶動磁鐵相對線圈做往復運動，磁鐵時而靠近、時而遠離線圈，且速率時大時小。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第電磁感應：感應電動勢正比於磁通量變化率；楞次定律：感應電流方向恆阻礙磁通量變化。磁鐵靠近與遠離時磁通量變化方向相反，且速率最大處變化率最大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>線圈產生方向交替、量值隨速率變化的感應電流（往復交流），速率最大處電流量值最大。</div></div>' },
           // ===== 111 參考卷 =====
           '111參_19': { ans: '(ACD)', sol: '鉛直上拋於重力（等加速度）作用下：上升與下降對稱，最高點速度為零但加速度仍為 $g$ 向下；同高度處速率相等。' },
           '111參_20': { ans: '(A)', sol: '肉品切面的彩虹光澤是薄層結構造成的光「干涉」現象（類似油膜、CD 表面），非色素造成。' },
@@ -5247,25 +5317,57 @@
             if (isOpening) {
                 item.classList.add('open');
                 body.style.maxHeight = body.scrollHeight + 'px';
+                
+                // 自動初始化展開題目的 Canvas 繪圖板
+                const canvases = body.querySelectorAll('.draw-canvas');
+                canvases.forEach(canvas => {
+                    const uid = canvas.getAttribute('id').replace('canvas-', '');
+                    const sheet = canvas.getAttribute('data-sheet');
+                    setTimeout(() => {
+                        initCanvas(uid, sheet);
+                        body.style.maxHeight = body.scrollHeight + 'px';
+                    }, 100); // 延長到 100ms 確保過渡動畫開始並有 clientWidth
+                });
             } else {
                 item.classList.remove('open');
                 body.style.maxHeight = '0px';
             }
         }
 
-        // 手寫作答區（仿答題卷格線）
-        function handwriteBox(label) {
-            return `<div class="handwrite">
-                <div class="handwrite-label">✍️ ${label}</div>
-                <div class="handwrite-lines"></div>
+        // 升級版手寫與繪圖作答區（支援 canvas 手繪與答題紙底圖）
+        function handwriteBox(label, uid, sheetFile = '') {
+            const style = sheetFile ? `style="background-image: url('assets/exam_crops/${sheetFile}');"` : '';
+            return `
+            <div class="handwrite">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <div class="handwrite-label" style="margin-bottom:0;">✍️ ${label}</div>
+                    ${!sheetFile ? `<button class="canvas-tool-btn" id="toggle-mode-btn-${uid}" onclick="toggleWritingMode('${uid}')" style="padding:0.2rem 0.5rem; font-size:0.75rem;">✍️ 切換手寫板</button>` : ''}
+                </div>
+                
+                <!-- 預設打字輸入框（適用於一般文字非選題） -->
+                <textarea class="bank-short-input" id="handwrite-text-${uid}" rows="4" placeholder="請先在此寫下你的作答，或點擊右上角切換至「手寫板」用觸控筆／滑鼠作答..." style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:0.5rem; font-family:inherit; font-size:0.88rem; outline:none; resize:vertical; display:${sheetFile ? 'none' : 'block'};"></textarea>
+                
+                <!-- 繪圖畫布板（有答題紙底圖時預設顯示，無底圖時手寫板顯示） -->
+                <div class="canvas-board-wrap" id="board-wrap-${uid}" style="display:${sheetFile ? 'block' : 'none'};">
+                    <div class="canvas-toolbar">
+                        <button class="canvas-tool-btn active" data-tool="pen" onclick="setCanvasTool('${uid}', 'pen')">✏️ 畫筆</button>
+                        <button class="canvas-tool-btn" data-tool="eraser" onclick="setCanvasTool('${uid}', 'eraser')">🧽 橡皮擦</button>
+                        <button class="canvas-tool-btn clear-btn" onclick="clearCanvas('${uid}')">🗑️ 重畫</button>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="canvas-${uid}" class="draw-canvas" data-sheet="${sheetFile}" ${style}></canvas>
+                    </div>
+                </div>
             </div>`;
         }
 
         // 歷屆題的「答案與詳解」區塊（非選附手寫作答區與 CER 結構）
         function examSolBlock(e) {
-            const s = examSolutions[e.year + '_' + e.q];
+            const key = e.year + '_' + e.q;
+            const s = examSolutions[key];
             if (!s) return '';
-            const hand = s.hand ? handwriteBox('非選／手寫作答區（先自己作答，再看參考答案）') : '';
+            const sheetFile = s.sheet || '';
+            const hand = s.hand ? handwriteBox(sheetFile ? '答題卷作答區（請直接在底圖格線上作答／手繪）' : '非選作答區（可打字或手寫）', key, sheetFile) : '';
             return `
                 ${hand}
                 <div class="exam-sol-wrap">
@@ -5283,6 +5385,210 @@
             const item = el.closest('.exam-item');
             if (body && item && item.classList.contains('open')) {
                 body.style.maxHeight = body.scrollHeight + 'px';
+            }
+        }
+
+        // ===== 全域 Canvas 繪圖板控制邏輯 =====
+        const canvasStates = {};
+
+        function initCanvas(uid, sheetFile) {
+            const canvas = document.getElementById(`canvas-${uid}`);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // 若此畫布尚未註冊狀態，進行註冊
+            if (!canvasStates[uid]) {
+                canvasStates[uid] = {
+                    canvas: canvas,
+                    ctx: ctx,
+                    isDrawing: false,
+                    tool: 'pen',
+                    lastX: 0,
+                    lastY: 0,
+                    sheetFile: sheetFile
+                };
+                
+                // 綁定事件（僅綁定一次）
+                canvas.addEventListener('mousedown', (e) => startDrawing(e, uid));
+                canvas.addEventListener('mousemove', (e) => draw(e, uid));
+                canvas.addEventListener('mouseup', () => stopDrawing(uid));
+                canvas.addEventListener('mouseout', () => stopDrawing(uid));
+                
+                // 觸控事件相容
+                canvas.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                    e.preventDefault();
+                }, { passive: false });
+                
+                canvas.addEventListener('touchmove', (e) => {
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                    e.preventDefault();
+                }, { passive: false });
+                
+                canvas.addEventListener('touchend', () => {
+                    const mouseEvent = new MouseEvent('mouseup', {});
+                    canvas.dispatchEvent(mouseEvent);
+                });
+                
+                // 監聽視窗大小改變，自動調整 canvas 比例
+                window.addEventListener('resize', () => resizeCanvas(uid));
+            }
+            
+            // 每次展開時重新 resize 確保寬高尺寸正確
+            resizeCanvas(uid);
+        }
+
+        function resizeCanvas(uid) {
+            const state = canvasStates[uid];
+            if (!state) return;
+            const canvas = state.canvas;
+            const ctx = state.ctx;
+            
+            const container = canvas.parentElement;
+            const width = container.clientWidth || 500;
+            
+            // 決定高寬比例
+            let ratio = 2.5; // 預設 2.5:1
+            if (state.sheetFile) {
+                if (state.sheetFile.includes('115_49')) ratio = 3.6;
+                else if (state.sheetFile.includes('115_53')) ratio = 2.0;
+                else if (state.sheetFile.includes('113_46')) ratio = 3.38;
+                else if (state.sheetFile.includes('111_51')) ratio = 4.6;
+            }
+            
+            const height = width / ratio;
+            
+            // 備份現有內容以免 resize 後筆跡被清空
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            if (canvas.width > 0 && canvas.height > 0) {
+                tempCtx.drawImage(canvas, 0, 0);
+            }
+            
+            const dpr = window.devicePixelRatio || 1;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // 恢復畫筆與橡皮擦狀態
+            if (state.tool === 'pen') {
+                ctx.strokeStyle = '#1d4ed8'; // 大考常用原子筆藍色
+                ctx.lineWidth = 2.5;
+                ctx.globalCompositeOperation = 'source-over';
+            } else {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 15;
+                ctx.globalCompositeOperation = 'destination-out';
+            }
+            
+            // 貼回舊筆跡
+            if (tempCanvas.width > 0 && tempCanvas.height > 0) {
+                ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width / dpr, tempCanvas.height / dpr, 0, 0, width, height);
+            }
+        }
+
+        function startDrawing(e, uid) {
+            const state = canvasStates[uid];
+            if (!state) return;
+            state.isDrawing = true;
+            
+            const rect = state.canvas.getBoundingClientRect();
+            state.lastX = e.clientX - rect.left;
+            state.lastY = e.clientY - rect.top;
+        }
+
+        function draw(e, uid) {
+            const state = canvasStates[uid];
+            if (!state || !state.isDrawing) return;
+            
+            const rect = state.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ctx = state.ctx;
+            ctx.beginPath();
+            ctx.moveTo(state.lastX, state.lastY);
+            ctx.lineTo(x, y);
+            
+            if (state.tool === 'pen') {
+                ctx.strokeStyle = '#1d4ed8'; // 大考原子筆藍色
+                ctx.lineWidth = 2.5;
+                ctx.globalCompositeOperation = 'source-over';
+            } else {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 15;
+                ctx.globalCompositeOperation = 'destination-out';
+            }
+            ctx.stroke();
+            
+            state.lastX = x;
+            state.lastY = y;
+        }
+
+        function stopDrawing(uid) {
+            const state = canvasStates[uid];
+            if (state) state.isDrawing = false;
+        }
+
+        function setCanvasTool(uid, tool) {
+            const state = canvasStates[uid];
+            if (!state) return;
+            state.tool = tool;
+            
+            const wrap = document.getElementById(`board-wrap-${uid}`);
+            if (wrap) {
+                wrap.querySelectorAll('.canvas-tool-btn').forEach(btn => {
+                    if (btn.getAttribute('data-tool') === tool) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        function clearCanvas(uid) {
+            const state = canvasStates[uid];
+            if (!state) return;
+            state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+        }
+
+        function toggleWritingMode(uid) {
+            const textEl = document.getElementById(`handwrite-text-${uid}`);
+            const boardEl = document.getElementById(`board-wrap-${uid}`);
+            const toggleBtn = document.getElementById(`toggle-mode-btn-${uid}`);
+            
+            if (textEl.style.display === 'none') {
+                textEl.style.display = 'block';
+                boardEl.style.display = 'none';
+                toggleBtn.textContent = '✍️ 切換手寫板';
+                resizeExamBody(toggleBtn);
+            } else {
+                textEl.style.display = 'none';
+                boardEl.style.display = 'block';
+                toggleBtn.textContent = '⌨️ 切換打字框';
+                setTimeout(() => {
+                    initCanvas(uid, '');
+                    resizeExamBody(toggleBtn);
+                }, 50);
             }
         }
 
