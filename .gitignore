@@ -1,0 +1,13 @@
+# IDE / Editor
+.agents/
+.claude/
+*.code-workspace
+skills-lock.json
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temp files
+*.tmp
+*~
