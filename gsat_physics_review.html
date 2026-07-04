@@ -1647,6 +1647,72 @@
             background-repeat: no-repeat;
         }
 
+        /* 歷屆試題選擇題作答樣式 */
+        .exam-mc-section {
+            margin: 0.75rem 0;
+            padding: 0.75rem 0.9rem;
+            background-color: var(--primary-blue-light);
+            border: 1px dashed var(--primary-blue);
+            border-radius: 8px;
+        }
+        .exam-mc-row {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .exam-mc-qtitle {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            min-width: 80px;
+        }
+        .exam-mc-options {
+            display: flex;
+            gap: 0.35rem;
+        }
+        .exam-opt-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+            color: var(--text-main);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .exam-opt-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .exam-opt-btn.selected {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+        }
+        .exam-opt-btn.correct {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+            cursor: default;
+        }
+        .exam-opt-btn.incorrect {
+            background-color: var(--accent-rose);
+            border-color: var(--accent-rose);
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
+            cursor: default;
+        }
+
         /* CER 三段標籤顏色（搭配上方 .cer-item.cer-c/e/r 的淺底左框；深色文字確保可讀）*/
         .cer-item { color: var(--text-main); }
         .cer-item strong { display: inline-block; margin-bottom: 0.15rem; }
@@ -5334,6 +5400,127 @@
             }
         }
 
+        // ===== 歷屆試題選擇題作答邏輯與狀態 =====
+        const examMCSel = {};
+
+        function parseExamAnswers(ansStr) {
+            const results = [];
+            let str = (ansStr || '').trim();
+            
+            // 匹配子題 (如 Q1：(B)、Q22：(CE)、Q51：非選)
+            const subMatches = [...str.matchAll(/(Q\d+|第\s*\d+[-~、]\s*\d+\s*題|第\s*\d+\s*題|Q\d+參)\s*[：:]\s*(非選|\([A-E]+\))/g)];
+            if (subMatches.length > 0) {
+                subMatches.forEach(m => {
+                    const label = m[1];
+                    const ansVal = m[2];
+                    if (ansVal.startsWith('(')) {
+                        const letters = ansVal.replace(/[\(\)]/g, '').split('');
+                        results.push({ label, isMC: true, ans: letters });
+                    } else {
+                        results.push({ label, isMC: false, ans: [] });
+                    }
+                });
+            } else {
+                // 單一題目，匹配 (B) 或 (DE)
+                const mcMatch = str.match(/^\s*\(([A-E]+)\)/);
+                if (mcMatch) {
+                    const letters = mcMatch[1].split('');
+                    results.push({ label: '', isMC: true, ans: letters });
+                } else {
+                    results.push({ label: '', isMC: false, ans: [] });
+                }
+            }
+            return results;
+        }
+
+        function toggleExamMC(btn, key, qIdx, opt) {
+            const item = btn.closest('.exam-item');
+            const solBox = item.querySelector('.exam-sol');
+            if (solBox && !solBox.hasAttribute('hidden')) return; // 已公布答案時禁止更改
+            
+            if (!examMCSel[key]) examMCSel[key] = {};
+            if (!examMCSel[key][qIdx]) examMCSel[key][qIdx] = new Set();
+            
+            const sel = examMCSel[key][qIdx];
+            if (sel.has(opt)) {
+                sel.delete(opt);
+                btn.classList.remove('selected');
+            } else {
+                sel.add(opt);
+                btn.classList.add('selected');
+            }
+        }
+
+        function checkExamMC(key, itemEl) {
+            const s = examSolutions[key];
+            if (!s) return;
+            const mcQuestions = parseExamAnswers(s.ans);
+            const selections = examMCSel[key] || {};
+            
+            mcQuestions.forEach((q, qIdx) => {
+                if (!q.isMC) return;
+                
+                const sel = selections[qIdx] || new Set();
+                const correctSet = new Set(q.ans);
+                const isCorrect = sel.size === correctSet.size && [...sel].every(opt => correctSet.has(opt));
+                
+                const row = itemEl.querySelector(`#exam-mc-row-${key}-${qIdx}`);
+                if (row) {
+                    ['A', 'B', 'C', 'D', 'E'].forEach(opt => {
+                        const optBtn = row.querySelector(`[data-opt="${opt}"]`);
+                        if (optBtn) {
+                            optBtn.classList.remove('selected');
+                            if (correctSet.has(opt)) {
+                                optBtn.classList.add('correct');
+                            } else if (sel.has(opt)) {
+                                optBtn.classList.add('incorrect');
+                            }
+                        }
+                    });
+                    
+                    const resultText = row.querySelector(`#exam-mc-result-${key}-${qIdx}`);
+                    if (resultText) {
+                        resultText.style.display = 'inline-block';
+                        if (isCorrect) {
+                            resultText.style.color = 'var(--accent-green)';
+                            resultText.innerHTML = '🎉 答對了！';
+                        } else {
+                            resultText.style.color = 'var(--accent-rose)';
+                            resultText.innerHTML = `❌ 答錯（正確答案：${q.ans.join('')}）`;
+                        }
+                    }
+                }
+            });
+        }
+
+        function resetExamMC(key, itemEl) {
+            const s = examSolutions[key];
+            if (!s) return;
+            const mcQuestions = parseExamAnswers(s.ans);
+            
+            if (examMCSel[key]) {
+                mcQuestions.forEach((q, qIdx) => {
+                    if (examMCSel[key][qIdx]) examMCSel[key][qIdx].clear();
+                });
+            }
+            
+            mcQuestions.forEach((q, qIdx) => {
+                if (!q.isMC) return;
+                const row = itemEl.querySelector(`#exam-mc-row-${key}-${qIdx}`);
+                if (row) {
+                    ['A', 'B', 'C', 'D', 'E'].forEach(opt => {
+                        const optBtn = row.querySelector(`[data-opt="${opt}"]`);
+                        if (optBtn) optBtn.classList.remove('correct', 'incorrect', 'selected');
+                    });
+                    const resultText = row.querySelector(`#exam-mc-result-${key}-${qIdx}`);
+                    if (resultText) {
+                        resultText.style.display = 'none';
+                        resultText.textContent = '';
+                    }
+                }
+            });
+        }
+
         // 升級版手寫與繪圖作答區（支援 canvas 手繪與答題紙底圖）
         function handwriteBox(label, uid, sheetFile = '') {
             const style = sheetFile ? `style="background-image: url('assets/exam_crops/${sheetFile}');"` : '';
@@ -5361,13 +5548,49 @@
             </div>`;
         }
 
-        // 歷屆題的「答案與詳解」區塊（非選附手寫作答區與 CER 結構）
+        // 歷屆題的「答案與詳解」區塊（非選附手寫作答區與 CER 結構，選擇題附作答按鈕）
         function examSolBlock(e) {
             const key = e.year + '_' + e.q;
             const s = examSolutions[key];
             if (!s) return '';
             const sheetFile = s.sheet || '';
             const hand = s.hand ? handwriteBox(sheetFile ? '答題卷作答區（請直接在底圖格線上作答／手繪）' : '非選作答區（可打字或手寫）', key, sheetFile) : '';
+            
+            // 解析選擇題子題
+            const mcQuestions = parseExamAnswers(s.ans);
+            let mcHtml = '';
+            let hasMC = false;
+            
+            mcQuestions.forEach((q, qIdx) => {
+                if (q.isMC) {
+                    hasMC = true;
+                    let optionsButtons = '';
+                    ['A', 'B', 'C', 'D', 'E'].forEach(opt => {
+                        optionsButtons += `
+                            <button class="exam-opt-btn" data-opt="${opt}" onclick="toggleExamMC(this, '${key}', ${qIdx}, '${opt}')">${opt}</button>
+                        `;
+                    });
+                    
+                    const qTitle = q.label ? `${q.label}作答：` : '選擇題作答：';
+                    mcHtml += `
+                        <div class="exam-mc-row" id="exam-mc-row-${key}-${qIdx}">
+                            <span class="exam-mc-qtitle">${qTitle}</span>
+                            <div class="exam-mc-options">${optionsButtons}</div>
+                            <span class="exam-mc-result" id="exam-mc-result-${key}-${qIdx}" style="display:none; font-weight:700; margin-left:0.5rem; font-size:0.88rem;"></span>
+                        </div>
+                    `;
+                }
+            });
+            
+            let mcSection = '';
+            if (hasMC) {
+                mcSection = `
+                    <div class="exam-mc-section">
+                        <div class="handwrite-label" style="margin-bottom:0.4rem; color:var(--primary-blue); font-size:0.88rem;">✏️ 選擇題作答區（點選作答，點「顯示答案與詳解」時自動核對）</div>
+                        ${mcHtml}
+                    </div>
+                `;
+            }
             
             // 如果是手繪題，動態在答案區最上方渲染官方手繪滿分答案圖
             const ansImg = sheetFile ? `
@@ -5378,11 +5601,12 @@
                     <img class="exam-crop ${invertCrops ? 'inverted' : ''}" src="assets/exam_crops/${sheetFile.replace('_sheet.png', '_ans.png')}" style="max-width:100%; border:1px solid var(--border-color); border-radius:6px;" alt="手繪題官方答案圖">
                 </div>
             ` : '';
-
+ 
             return `
                 ${hand}
+                ${mcSection}
                 <div class="exam-sol-wrap">
-                    <button class="exam-sol-btn" onclick="toggleExamSol(this)">📖 顯示答案與詳解</button>
+                    <button class="exam-sol-btn" onclick="toggleExamSol(this, '${key}')">📖 顯示答案與詳解</button>
                     <div class="exam-sol" hidden>
                         <div class="exam-ans">✅ 答案：${s.ans}</div>
                         ${ansImg}
@@ -5604,17 +5828,25 @@
             }
         }
 
-        function toggleExamSol(btn) {
+        function toggleExamSol(btn, key) {
+            const item = btn.closest('.exam-item');
             const box = btn.parentElement.querySelector('.exam-sol');
             if (box.hasAttribute('hidden')) {
                 box.removeAttribute('hidden');
                 btn.textContent = '📖 收合答案與詳解';
+                
+                // 核對選擇題答案
+                checkExamMC(key, item);
+                
                 if (window.MathJax && window.MathJax.typesetPromise) {
                     window.MathJax.typesetPromise([box]).then(() => resizeExamBody(btn));
                 }
             } else {
                 box.setAttribute('hidden', '');
                 btn.textContent = '📖 顯示答案與詳解';
+                
+                // 重設選擇題答案以重新練習
+                resetExamMC(key, item);
             }
             resizeExamBody(btn);
         }
