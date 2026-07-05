@@ -1017,7 +1017,6 @@
             border-left: 5px solid var(--accent-cyan);
             border-radius: 10px;
             padding: 1.25rem 1.5rem;
-            margin-bottom: 1.25rem;
             box-shadow: var(--shadow-neon);
         }
 
@@ -1032,7 +1031,7 @@
         }
 
         .formula-display {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             text-align: center;
             margin: 0.75rem 0;
             padding: 0.85rem 1rem;
@@ -1041,7 +1040,11 @@
             border: 1px dashed var(--border-color);
             color: var(--text-main);
             overflow-x: auto;
-            white-space: nowrap;
+            white-space: normal;
+            max-width: 100%;
+        }
+
+        .formula-display mjx-container {
             max-width: 100%;
         }
 
@@ -1902,22 +1905,22 @@
             { id: "N02", module: 1, code: "Ea", name: "自然界的尺度與數量級", exam5y: 2, detail: "原子 $10^{-10}$ m 與原子核 $10^{-15}$ m 數量級、奈米/飛米換算、微觀到宇宙的尺度排序" },
             { id: "N03", module: 2, code: "Eb", name: "直線運動與運動圖形", exam5y: 3, detail: "$v-t$ 圖斜率與面積判讀、平均速度與位移向量（111 颱風）、等加速度運動" },
             { id: "N04", module: 2, code: "Eb", name: "牛頓三大運動定律", exam5y: 3, detail: "慣性、$F=ma$ 受力分析（115 起重機）、作用力與反作用力成對性、緩衝與安全氣囊（延長時間降低加速度）" },
-            { id: "N05", module: 2, code: "Eb", name: "摩擦力、彈力與力的平衡", exam5y: 1, detail: "靜摩擦與動摩擦轉換、胡克定律 $F=kx$、共點力平衡" },
+            { id: "N05", module: 2, code: "Eb", name: "摩擦力、彈力與力的平衡", exam5y: 1, detail: "靜摩擦與動摩擦轉換、虎克定律 $F=kx$、共點力平衡" },
             { id: "N07", module: 3, code: "Kb", name: "克卜勒行星運動定律", exam5y: 1, detail: "橢圓軌道、等面積律（近日點快）、$T^2 \\propto r^3$ 週期比值" },
             { id: "N08", module: 3, code: "Kb", name: "萬有引力與重力場", exam5y: 1, detail: "$g = GM/R^2$ 星球表面重力比較（111 火星）、衛星軌道速率、太空站微重力" },
-            { id: "N09", module: 4, code: "Ba", name: "功、動能與位能（機械能守恆）", exam5y: 3, detail: "功的定義 $W=Fd\\cos\\theta$、動能位能互換、非保守力作功與力學能損耗" },
+            { id: "N09", module: 4, code: "Ba", name: "功、動能與位能（機械能守恆）", exam5y: 3, detail: "功的定義 $W=F\\cdot\\Delta x$、動能位能互換、非保守力作功與力學能損耗" },
             { id: "N10", module: 4, code: "Bb", name: "溫度、熱量與熱平衡", exam5y: 3, detail: "比熱 $Q=ms\\Delta T$、熱平衡溫度計算、熱容量概念" },
             { id: "N11", module: 4, code: "Bb", name: "氣體分子平均動能與絕對溫度", exam5y: 4, detail: "$\\bar{E}_k \\propto T$（克氏溫標）、114 Q48 細胞膜電壓溫標轉換、絕熱壓縮升溫" },
             { id: "N12", module: 4, code: "Nc", name: "熱力學定律、能量退化與效率", exam5y: 5, detail: "熱功轉換方向性、廢熱與能量退化、113 Q24-25 電冰箱性能係數、111 Q7-8 地球能量收支、112 Q34 能源效率敘述" },
-            { id: "N13", module: 4, code: "Ba/Nc", name: "質能等價與核能發電", exam5y: 4, detail: "質量虧損觀念（112 Q34、113 Q19 核電廠能量轉換）、核分裂/聚變、114 Q20-21 比特幣耗能守恆換算" },
+            { id: "N13", module: 4, code: "Ba/Nc", name: "質能互換與核能發電", exam5y: 4, detail: "質量虧損觀念（112 Q34、113 Q19 核電廠能量轉換）、核分裂/聚變、114 Q20-21 比特幣耗能守恆換算" },
             { id: "N14", module: 5, code: "Ka", name: "波的性質與波速", exam5y: 3, detail: "$v=f\\lambda$、波傳能量不傳介質、113 Q31 地震波 P/S 波時間差" },
             { id: "N15", module: 5, code: "Ka", name: "聲波與都卜勒效應", exam5y: 3, detail: "接近頻率升高/遠離降低（定性）、112 Q32 血流都卜勒測速、星系紅移" },
-            { id: "N16", module: 5, code: "Ka", name: "光的反射與折射", exam5y: 3, detail: "司乃耳定律作圖（115 Q49）、慢介質到快介質偏離法線、頻率不變波長改變" },
+            { id: "N16", module: 5, code: "Ka", name: "光的反射與折射", exam5y: 3, detail: "折射作圖（115 Q49）、慢介質到快介質偏離法線、頻率不變波長改變（定性）" },
             { id: "N17", module: 5, code: "Ka", name: "干涉、繞射與光的波動性", exam5y: 2, detail: "楊氏雙狹縫亮暗紋條件、波程差整數波長、繞射與孔徑關係" },
             { id: "N18", module: 5, code: "Ka", name: "電磁波與電磁波譜", exam5y: 2, detail: "頻率排序（無線電波→γ射線）、大氣窗吸收、真空中皆以 $c$ 前進" },
             { id: "N19", module: 6, code: "Kc", name: "靜電與庫侖定律", exam5y: 2, detail: "$F = kq_1q_2/r^2$ 平方反比、同性斥異性吸、感應起電" },
             { id: "N20", module: 6, code: "Kc", name: "電流磁效應", exam5y: 1, detail: "厄斯特發現、載流導線周圍磁場、安培右手定則、電磁鐵" },
-            { id: "N21", module: 6, code: "Kc", name: "電磁感應與冷次定律", exam5y: 4, detail: "磁通量變化生應電流、113 Q44-46 磁鐵等速穿過線圈、111 Q6 晶片卡感應、111 Q58-60 電磁天平" },
+            { id: "N21", module: 6, code: "Kc", name: "電磁感應與冷次定律", exam5y: 4, detail: "穿過線圈的磁場變化生應電流、113 Q44-46 磁鐵等速穿過線圈、111 Q6 晶片卡感應、111 Q58-60 電磁天平" },
             { id: "N22", module: 6, code: "Mc", name: "家庭用電與用電安全", exam5y: 2, detail: "並聯電路總電流累加、無熔絲開關過載跳脫、單相三線式 110V/220V" },
             { id: "N23", module: 7, code: "Kd", name: "光電效應與光量子論", exam5y: 3, detail: "$hf = W + E_{k,max}$、底限頻率、光強度只影響光電子數量" },
             { id: "N24", module: 7, code: "Kd", name: "原子模型與能階躍遷", exam5y: 4, detail: "波耳能階、$\\Delta E = hc/\\lambda$ 躍遷配對（115 汞 365 nm）、原子光譜不連續" },
@@ -1939,19 +1942,14 @@
                         desc: "所有其他單位皆由此七者導出。最常考陷阱：電荷庫侖（C）「不是」基本單位，$\\text{C} = \\text{A} \\cdot \\text{s}$ 由電流與時間導出。"
                     },
                     {
-                        name: "自然界尺度數量級",
-                        formula: "\\text{原子直徑} \\approx 10^{-10} \\text{ m } (0.1 \\text{ nm}) \\quad , \\quad \\text{原子核直徑} \\approx 10^{-15} \\text{ m } (1 \\text{ fm})",
-                        desc: "基本尺度單位辨識：奈米 ($1\\text{ nm} = 10^{-9}\\text{ m}$)、飛米 ($1\\text{ fm} = 10^{-15}\\text{ m}$)。原子核比原子小約 5 個數量級。"
+                        name: "科學記號與單位前綴詞",
+                        formula: "a \\times 10^{n} \\quad (1 \\le a < 10)",
+                        desc: "極大或極小的數以科學記號 $a\\times10^{n}$ 表示。常用 SI 前綴詞：奈 n ($10^{-9}$)、微 μ ($10^{-6}$)、毫 m ($10^{-3}$)、千 k ($10^{3}$)、百萬 M ($10^{6}$)、十億 G ($10^{9}$)。例：$1\\text{ nm}=10^{-9}\\text{ m}$、原子直徑約 $10^{-10}\\text{ m}$、原子核約 $10^{-15}\\text{ m}$。"
                     },
                     {
                         name: "因次分析（導出單位分解）",
-                        formula: "\\text{N} = \\text{kg} \\cdot \\text{m} \\cdot \\text{s}^{-2} \\quad , \\quad \\text{J} = \\text{kg} \\cdot \\text{m}^2 \\cdot \\text{s}^{-2} \\quad , \\quad h: \\text{kg} \\cdot \\text{m}^2 \\cdot \\text{s}^{-1}",
-                        desc: "任何物理公式等號兩側的因次必須一致。由公式移項即可分解常數的基本單位組合，例如 $h = E/f$。"
-                    },
-                    {
-                        name: "測量與不確定度（探究與實作）",
-                        formula: "\\text{測量值} = \\text{最佳估計值} \\pm \\text{不確定度}",
-                        desc: "A 類不確定度來自多次測量的統計分散；B 類來自儀器刻度極限。<strong>注意：此主題屬「自然科學探究與實作」課程（學測自然科測驗範圍包含探究與實作），並非必修物理課綱條目。</strong>"
+                        formula: "\\text{N} = \\text{kg}\\cdot\\text{m}\\cdot\\text{s}^{-2} \\;,\\; \\text{J} = \\text{kg}\\cdot\\text{m}^2\\cdot\\text{s}^{-2}",
+                        desc: "任何物理公式等號兩側的因次必須一致。由公式移項即可分解常數的基本單位組合，例如由 $h = E/f$ 得 $h$ 的單位為 $\\text{kg}\\cdot\\text{m}^2\\cdot\\text{s}^{-1}$。"
                     }
                 ],
                 conceptMap: `
@@ -1970,10 +1968,10 @@
                             <div class="map-node-title">3. 數量級與尺度 (Ea)</div>
                             <div class="map-node-desc">從原子核 ($10^{-15}$ m) 到可觀測宇宙 ($10^{26}$ m)，以 10 的次方快速掌握自然界跨尺度結構。</div>
                         </div>
-                        <div class="map-connector">↓ 落實到實驗數據</div>
+                        <div class="map-connector">↓ 以科學記號簡潔表示</div>
                         <div class="map-node">
-                            <div class="map-node-title">4. 測量與不確定度（探究與實作）</div>
-                            <div class="map-node-desc">科學測量必附不確定度。多次測量取平均可降低隨機誤差，但無法消除儀器的系統誤差。（屬探究與實作課程範圍，非必修物理條目）</div>
+                            <div class="map-node-title">4. 科學記號與單位前綴詞 (Ea)</div>
+                            <div class="map-node-desc">極大或極小的量以科學記號 $a\\times10^{n}$ 與 SI 前綴詞（n、μ、m、k、M、G）簡潔表示，方便跨尺度換算與比較。</div>
                         </div>
                     </div>
                 `,
@@ -2030,29 +2028,24 @@
                 subtitle: "涵蓋 108 課綱核心：Eb（力與運動）——運動學圖形、牛頓三大定律、生活中的力與緩衝安全應用。",
                 formulas: [
                     {
-                        name: "等加速度直線運動（含 $v-t$ 圖判讀）",
-                        formula: "v = v_0 + at \\quad , \\quad \\Delta x = v_0 t + \\frac{1}{2}at^2 \\quad , \\quad v^2 = v_0^2 + 2a\\Delta x",
-                        desc: "等加速度運動三式。學測更常考 $v-t$ 圖判讀：圖線「斜率」為加速度，圖線與時間軸間的「面積」為位移（軸下方面積為負位移）。"
+                        name: "運動的描述與運動圖形（x-t、v-t、a-t）",
+                        formula: "x-t 圖斜率 → 速度 ；　v-t 圖斜率 → 加速度、面積 → 位移",
+                        desc: "學測以「運動圖形判讀」為主，不需背等加速度公式。x-t 圖的斜率代表速度；v-t 圖的斜率代表加速度、圖線與時間軸所夾的面積代表位移（軸下方面積為負）；a-t 圖為水平線時表示等加速度。下方附三種圖形對照。"
                     },
                     {
-                        name: "牛頓三大運動定律",
-                        formula: "\\text{慣性} \\quad , \\quad F_{\\text{net}} = ma \\quad , \\quad \\vec{F}_{AB} = -\\vec{F}_{BA}",
-                        desc: "第一定律：不受力（合力為零）則維持原運動狀態。第二定律：合力與加速度的因果關係。第三定律：作用力與反作用力大小相等、方向相反、作用在不同物體。"
+                        name: "牛頓運動定律與應用",
+                        formula: "F_{\\text{net}} = ma \\quad , \\quad \\vec{F}_{AB} = -\\vec{F}_{BA}",
+                        desc: "<b>第一定律（慣性）</b>：合力為零則維持原運動狀態。<b>第二定律</b>：合力＝質量×加速度（$F=ma$），合力方向即加速度方向。<b>第三定律</b>：作用力與反作用力大小相等、方向相反、作用在不同物體。<br><b>應用（緩衝與碰撞安全）</b>：碰撞中速度變化固定時，延長作用時間 → 加速度 $a=\\dfrac{\\Delta v}{\\Delta t}$ 變小 → 受力 $F=ma$ 降低（安全氣囊、緩衝墊、屈膝落地皆同理）。"
                     },
                     {
-                        name: "胡克定律與彈性恢復力",
-                        formula: "F_s = kx",
-                        desc: "在彈性限度內，彈簧產生的恢復力 $F_s$ 與形變量（伸長量或壓縮量）$x$ 成正比，$k$ 為彈性常數（力常數）。"
+                        name: "虎克定律與彈力",
+                        formula: "F = kx",
+                        desc: "在彈性限度內，彈簧的彈力 $F$ 與形變量（伸長量或壓縮量）$x$ 成正比，$k$ 為彈簧的力常數。彈力方向恆指向恢復原長的方向。"
                     },
                     {
                         name: "摩擦力（靜摩擦與動摩擦）",
-                        formula: "f_s \\le f_{s,\\text{max}} = \\mu_s N \\quad , \\quad f_k = \\mu_k N",
-                        desc: "物體未滑動時，靜摩擦力大小「等於外力」（自我調節）；達最大靜摩擦後開始滑動，轉為大小恆定的動摩擦力，且 $f_k < f_{s,\\text{max}}$。"
-                    },
-                    {
-                        name: "緩衝與碰撞安全（牛頓第二定律的應用）",
-                        formula: "a = \\frac{\\Delta v}{\\Delta t} \\quad , \\quad F = ma",
-                        desc: "碰撞中速度變化 $\\Delta v$ 固定時，「延長作用時間 $\\Delta t$」可使加速度變小，受力隨之降低——此即安全氣囊、緩衝墊、屈膝落地的物理原理（必修範圍以加速度觀點分析，不使用動量）。"
+                        formula: "未滑動：靜摩擦力 = 外力 ；　滑動後：動摩擦力為定值",
+                        desc: "物體未滑動時，靜摩擦力會「自我調節」，大小恰等於外力；外力增大到臨界值後物體開始滑動，改為大小大致固定的動摩擦力（動摩擦力略小於最大靜摩擦力）。學測不涉及摩擦係數計算，重點在此定性關係。"
                     }
                 ],
                 conceptMap: `
@@ -2069,7 +2062,7 @@
                         <div class="map-connector">↓ 認識具體的力</div>
                         <div class="map-node">
                             <div class="map-node-title">3. 生活中的力 (Eb)</div>
-                            <div class="map-node-desc">正向力、摩擦力（靜/動轉換）、彈力（胡克定律）皆源自電磁交互作用，於受力圖中逐一標示分析。</div>
+                            <div class="map-node-desc">正向力、摩擦力（靜/動轉換）、彈力（虎克定律）皆源自電磁交互作用，於受力圖中逐一標示分析。</div>
                         </div>
                         <div class="map-connector">↓ 應用於安全設計</div>
                         <div class="map-node">
@@ -2144,12 +2137,7 @@
                     {
                         name: "萬有引力定律與表面重力場強度",
                         formula: "F_g = G\\frac{Mm}{r^2} \\quad , \\quad g = G\\frac{M}{R^2}",
-                        desc: "$F_g$ 為引力，$G$ 為引力常數，$M$、$m$ 為質量，$r$ 為軌道或中心距離。$g$ 為天體半徑 $R$、質量 $M$ 時的表面重力場。"
-                    },
-                    {
-                        name: "衛星圓軌道運動（延伸：向心力觀點）",
-                        formula: "G\\frac{Mm}{r^2} = \\frac{mv^2}{r} \\implies v = \\sqrt{\\frac{GM}{r}}",
-                        desc: "軌道速率只由中心天體質量與軌道半徑決定，與衛星本身質量無關。軌道越高，速率越慢、週期越長。（向心力公式為延伸推導；學測以「越高越慢、越高週期越長」的定性比較與克卜勒第三定律比例為主。）"
+                        desc: "$F_g$ 為引力，$G$ 為引力常數，$M$、$m$ 為質量，$r$ 為軌道或中心距離。$g$ 為天體半徑 $R$、質量 $M$ 時的表面重力場。（衛星繞行由引力維持；軌道越高、週期越長、速率越慢——以定性與克卜勒第三定律比較，不需計算軌道速率。）"
                     }
                 ],
                 conceptMap: `
@@ -2171,7 +2159,7 @@
                         <div class="map-connector">↓ 應用於人造天體</div>
                         <div class="map-node">
                             <div class="map-node-title">4. 衛星與太空站 (Kb)</div>
-                            <div class="map-node-desc">引力恰好全部提供向心力：軌道速率 $v=\\sqrt{GM/r}$。太空站內「失重」是因為人與站一起自由落體式繞行，並非不受引力。</div>
+                            <div class="map-node-desc">引力提供衛星繞行所需、指向地心的力。太空站內「失重」是因為人與站一起繞地球運動（如同持續自由落體），並非不受引力。</div>
                         </div>
                     </div>
                 `,
@@ -2183,12 +2171,12 @@
                     },
                     {
                         feature: "當你看到題目要求：「比較高低軌道衛星（或同步衛星）的速率與週期」。",
-                        bridge: "引力提供向心力 ➔ $G\\frac{Mm}{r^2} = \\frac{mv^2}{r} \\implies v = \\sqrt{GM/r}$：軌道越高速率越慢。週期用克卜勒第三定律 $T^2 \\propto r^3$：軌道越高週期越長。",
+                        bridge: "引力是衛星繞行、指向地心的力 ➔ 由克卜勒第三定律 $T^2 \\propto r^3$：軌道越高，週期越長；且軌道越高，速率越慢（定性比較，不需計算軌道速率）。",
                         trap: "⚡ 避坑指南：軌道速率與衛星「自身質量」無關！同步衛星週期必須等於地球自轉週期（24 小時），故其軌道半徑為唯一定值，且必位於赤道正上方。"
                     },
                     {
                         feature: "當你看到題目提到：「太空人在太空站內漂浮失重」的原因判斷。",
-                        bridge: "失重 ≠ 不受引力 ➔ 在 400 km 高度引力仍約為地表九成。太空站與人一起繞地球做圓周運動，引力「恰好全部」拿去提供向心力 ➔ 人與地板之間正向力為零 ➔ 視重為零（漂浮）。",
+                        bridge: "失重 ≠ 不受引力 ➔ 在 400 km 高度引力仍約為地表九成。太空站與人一起繞地球運動（相當於一起持續自由落體），引力恰好用於維持兩者共同的繞行 ➔ 人對地板沒有壓力（正向力為零）➔ 視重為零（漂浮）。",
                         trap: "⚡ 避坑指南：選項若出現「太空站離地球太遠所以沒有重力」必為誘答！沒有引力的話，太空站根本無法保持繞行軌道，早就直線飛走了。"
                     }
                 ],
@@ -2219,7 +2207,7 @@
                 `,
                 examQuestions: [
                     { year: "111 學測 Q3", title: "火星表面重力加速度", desc: "<strong>解題特徵引導：</strong>已知火星質量為地球的 $0.107$ 倍，半徑為地球的 $0.53$ 倍。列出表面重力場強度公式：$g = G\\frac{M}{R^2}$。比值為：$\\frac{g_{\\text{mars}}}{g_{\\text{earth}}} = \\frac{M_{\\text{mars}}}{M_{\\text{earth}}} \\cdot \\left(\\frac{R_{\\text{earth}}}{R_{\\text{mars}}}\\right)^2 = 0.107 \\times (\\frac{1}{0.53})^2 \\approx 0.107 \\times 3.56 \\approx 0.38$。故火星重力加速度約為地球的 $0.38$ 倍。" },
-                    { year: "114 學測 Q19", title: "國際太空站與同步衛星的軌道比較", desc: "<strong>解題特徵引導：</strong>國際太空站（ISS）繞地週期 90 分鐘、同步衛星週期 24 小時。由克卜勒第三定律 $T^2 \\propto r^3$：ISS 週期短 ➔ 軌道半徑較小。速率 $v = \\sqrt{GM/r}$ 與加速度 $a = GM/r^2$ 皆與衛星質量無關，且隨 $r$ 減小而增大 ➔ ISS 的速率與加速度必較大；反之，含質量 $m$ 的力學能與位能比較，因兩衛星質量未知而「無法斷定」——選項中帶有「一定」的能量敘述即為陷阱。題幹另點出 ISS 用於微重力實驗：失重是引力全數用於提供向心力、支撐力為零，並非不受引力。" }
+                    { year: "114 學測 Q19", title: "國際太空站與同步衛星的軌道比較", desc: "<strong>解題特徵引導：</strong>國際太空站（ISS）繞地週期 90 分鐘、同步衛星週期 24 小時。由克卜勒第三定律 $T^2 \\propto r^3$：ISS 週期短 ➔ 軌道半徑較小。軌道越低，速率越快（定性）；該處的重力場（即加速度）$g=GM/r^2$ 隨 $r$ 減小而增大 ➔ ISS 的速率與加速度均較大。反之，含衛星質量 $m$ 的力學能與位能比較，因兩衛星質量未知而「無法斷定」——選項中帶有「一定」的能量敘述即為陷阱。題幹另點出 ISS 用於微重力實驗：失重是因為與太空站一起繞行（如同自由落體），支撐力為零，並非不受引力。" }
                 ]
             },
             4: {
@@ -2229,8 +2217,8 @@
                 formulas: [
                     {
                         name: "機械能與功",
-                        formula: "E_k = \\frac{1}{2}mv^2 \\quad , \\quad E_p = mgh \\quad , \\quad W = F d \\cos\\theta",
-                        desc: "$E_k$ 為動能，$E_p$ 為重力勢能。功 $W$ 是力 $F$ 與位移 $d$ 以及夾角餘弦的乘積。"
+                        formula: "E_k = \\frac{1}{2}mv^2 \\quad , \\quad E_p = mgh \\quad , \\quad W = F \\cdot \\Delta x",
+                        desc: "$E_k$ 為動能，$E_p$ 為重力勢能。功 $W$ 為（沿運動方向的）力 $F$ 與位移 $\\Delta x$ 的乘積。"
                     },
                     {
                         name: "熱量、比熱與熱平衡",
@@ -2239,16 +2227,11 @@
                     },
                     {
                         name: "理想氣體分子平均動能",
-                        formula: "\\bar{E}_k = \\frac{3}{2} k_B T",
-                        desc: "絕對溫度 $T$（克氏溫標）直接決定了單原子理想氣體分子的微觀無規則平均動能，$k_B$ 為波茲曼常數。"
+                        formula: "\\bar{E}_k \\propto T \\;（絕對溫度，克氏溫標）",
+                        desc: "理想氣體分子的微觀無規則平均動能與「絕對溫度」成正比。溫度越高，分子運動越劇烈；比較平均動能的比值時，務必先把攝氏換算為克氏溫標（K）。"
                     },
                     {
-                        name: "熱力學第一定律（能量守恆）",
-                        formula: "\\Delta E_{\\text{sys}} = Q + W",
-                        desc: "系統總能量變化 $\\Delta E_{\\text{sys}}$ 等於傳入之熱量 $Q$ 與作功 $W$ 的代數和，本質上為熱能與機械能之守恆原理。"
-                    },
-                    {
-                        name: "質能等價（核能來源）",
+                        name: "質能互換（核能來源）",
                         formula: "E = \\Delta m c^2",
                         desc: "質量與能量可以互換。核反應（分裂或聚變）中損失的靜止質量 $\\Delta m$（質量虧損）乘上光速平方 $c^2 = 9 \\times 10^{16} \\text{ m}^2/\\text{s}^2$，即為釋放的能量。極小的質量可換得巨大能量。"
                     },
@@ -2283,13 +2266,13 @@
                 `,
                 keyFeatures: [
                     {
-                        feature: "當你看到題目提到：「快速壓縮汽缸活塞」或「氣體快速膨脹」。",
-                        bridge: "快速過程 ➔ 系統與外界沒有時間進行熱傳遞 ➔ 物理模型為「絕熱過程」（$Q = 0$）。<br>壓縮活塞 ➔ 外界對氣體做功 $W > 0$。依據熱力學第一定律 $\\Delta U = Q + W \\implies \\Delta U > 0$ ➔ 氣體溫度 $T$ 必定上升。",
-                        trap: "⚡ 避坑指南：很多學生會直覺認為壓縮氣體代表等溫。如果題目強調「快速」，一定要抓住「絕熱」這項關鍵特徵！"
+                        feature: "當你看到題目提到：「快速壓縮汽缸活塞」使氣體升溫。",
+                        bridge: "快速過程 ➔ 來不及與外界進行熱交換。<br>壓縮活塞是「外界對氣體做功」，這些功轉為氣體的內能 ➔ 分子平均動能增加 ➔ 氣體溫度上升（例如打氣筒快速打氣會發熱）。",
+                        trap: "⚡ 避坑指南：很多學生會直覺認為壓縮氣體代表等溫。若題目強調「快速」，重點在「對氣體做的功轉為內能使其升溫」（以能量轉換的觀點理解，不需背熱力學公式）。"
                     },
                     {
                         feature: "當你看到題目提到：「核反應質量虧損 $\\Delta m$ 釋放能量」或「核電廠反應功率」。",
-                        bridge: "質能等價 $E = \\Delta m c^2$ ➔ 損失的靜止質量乘上光速平方即為釋放能量。<br>若題目給定反應功率 $P$ 與運轉時間 $t$，則總釋放能量 $E = Pt$，反推質量虧損 $\\Delta m = \\frac{Pt}{c^2}$。",
+                        bridge: "質能互換 $E = \\Delta m c^2$ ➔ 損失的靜止質量乘上光速平方即為釋放能量。<br>若題目給定反應功率 $P$ 與運轉時間 $t$，則總釋放能量 $E = Pt$，反推質量虧損 $\\Delta m = \\frac{Pt}{c^2}$。",
                         trap: "⚡ 避坑指南：光速平方 $c^2 = 9 \\times 10^{16} \\text{ m}^2/\\text{s}^2$ 數量級極大，因此算出的質量虧損通常非常小。若 $\\Delta m$ 大得離譜，多半是忘記除以 $c^2$ 或單位換算出錯！"
                     },
                     {
@@ -2351,13 +2334,18 @@
                     },
                     {
                         name: "雙狹縫干涉與波的疊加",
-                        formula: "\\text{波程差} = n\\lambda \\implies \\text{同相干涉加強（亮紋）} \\quad ; \\quad (n+\\tfrac{1}{2})\\lambda \\implies \\text{反相干涉相消（暗紋）}",
-                        desc: "楊氏雙狹縫實驗證明光具有波動性。兩波「波峰對波峰」同相疊加為建設性干涉，「波峰對波谷」反相疊加為破壞性干涉。繞射與干涉是波動獨有的特徵。"
+                        formula: "波峰對波峰 → 亮紋（加強）；　波峰對波谷 → 暗紋（相消）",
+                        desc: "楊氏雙狹縫實驗證明光具有波動性。兩波同相疊加（波峰對波峰）為建設性干涉（亮紋）；反相疊加（波峰對波谷）為破壞性干涉（暗紋）。「相消」是波動獨有的特徵——兩束光疊加反而變暗，微粒說無法解釋。"
                     },
                     {
                         name: "都卜勒效應（定性）",
-                        formula: "\\text{波源與觀察者相互接近} \\implies f' > f \\quad ; \\quad \\text{相互遠離} \\implies f' < f",
-                        desc: "相對接近時接收頻率升高（聲音變尖、光譜藍移），遠離時頻率降低（紅移）。應用：測速槍、超音波血流計、星系紅移與宇宙膨脹。"
+                        formula: "相互接近 → 頻率升高 ；　相互遠離 → 頻率降低",
+                        desc: "波源與觀察者相對運動時，觀察者「接收到的頻率」改變（波速與波源實際頻率皆不變）：<br>• <b>相對速度越大，頻率變化越大。</b><br>• <b>觀察者移動</b>：改變觀察者相對於波的「視波速」，因而改變接收頻率。<br>• <b>波源移動</b>：把前方波前壓縮、後方拉長，改變觀察者測得的「視波長」，因而改變接收頻率。<br>應用：測速槍、超音波血流計、星系紅移（遠離→紅移，接近→藍移）與宇宙膨脹。"
+                    },
+                    {
+                        name: "電磁波頻譜與繞射",
+                        formula: "無線電波 → 微波 → 紅外線 → 可見光 → 紫外線 → X 射線 → γ 射線",
+                        desc: "所有電磁波在真空中速率皆為 $c$；上列由左至右頻率越高、波長越短、光子能量 $E=hf$ 越大。<br><b>繞射</b>：當波長與障礙物（或孔徑）尺度相當時繞射最明顯——波長長的無線電波易繞過建築物（通訊涵蓋廣）；波長短的光繞射不明顯、直進性強（可精細成像、望遠鏡口徑越大解析度越高）。下方附各波段應用對照。"
                     }
                 ],
                 conceptMap: `
@@ -2374,7 +2362,7 @@
                         <div class="map-connector">↓ 光的幾何行為</div>
                         <div class="map-node">
                             <div class="map-node-title">3. 光的反射與折射 (Ka)</div>
-                            <div class="map-node-desc">跨介質時頻率不變、波速與波長改變：由慢入快偏離法線，由快入慢偏向法線（司乃耳定律）。</div>
+                            <div class="map-node-desc">跨介質時頻率不變、波速與波長改變：由慢入快偏離法線，由快入慢偏向法線（折射的定性規則）。</div>
                         </div>
                         <div class="map-connector">↓ 波動性的決定性證據</div>
                         <div class="map-node">
@@ -2452,8 +2440,8 @@
                     },
                     {
                         name: "電磁感應與冷次定律",
-                        formula: "\\text{磁通量 } \\Phi_B \\text{ 發生變化} \\implies \\text{應電流}",
-                        desc: "穿過線圈的磁通量發生變化時，會感應出應電流。應電流所產生的磁場方向，必定為「抵抗（阻礙）」原磁通量變化的方向（冷次定律）。"
+                        formula: "\\text{穿過線圈的磁場發生變化} \\implies \\text{感應電流}",
+                        desc: "當穿過線圈的磁場（磁力線多寡）發生變化時，會感應出電流。感應電流所產生的磁場方向，必定「抵抗（阻礙）」原本磁場的變化（冷次定律）。"
                     },
                     {
                         name: "家用並聯電路與安全負載",
@@ -2475,7 +2463,7 @@
                         <div class="map-connector">↓ 磁生電</div>
                         <div class="map-node">
                             <div class="map-node-title">3. 電磁感應 (Kc)</div>
-                            <div class="map-node-desc">法拉第發現磁通量變化感應出應電流，冷次定律決定其方向。發電機、變壓器、悠遊卡、無線充電皆為應用。</div>
+                            <div class="map-node-desc">法拉第發現穿過線圈的磁場變化感應出應電流，冷次定律決定其方向。發電機、變壓器、悠遊卡、無線充電皆為應用。</div>
                         </div>
                         <div class="map-connector">↓ 統合與生活安全</div>
                         <div class="map-node">
@@ -2487,7 +2475,7 @@
                 keyFeatures: [
                     {
                         feature: "當你看到題目提到：「磁鐵棒落入/穿過金屬線圈」求受力或感應電流 $I-t$ 曲線圖。",
-                        bridge: "靠近線圈時 ➔ 磁通量增加 ➔ 冷次定律產生「排斥力」（感應電流阻礙磁鐵靠近），電流為正。<br>正中央瞬間 ➔ 磁通量達極大值，變化率 $\\frac{\\Delta \\Phi}{\\Delta t} = 0$ ➔ 感應電流為零。<br>離開線圈時 ➔ 磁通量減少 ➔ 冷次定律產生「吸引力」（感應電流阻礙磁鐵離開），電流方向反向為負。",
+                        bridge: "靠近線圈時 ➔ 穿過線圈的磁場增強 ➔ 冷次定律產生「排斥力」（感應電流阻礙磁鐵靠近），電流為正。<br>正中央瞬間 ➔ 穿過線圈的磁場達最強、「暫時不再變化」 ➔ 感應電流為零。<br>離開線圈時 ➔ 穿過線圈的磁場減弱 ➔ 冷次定律產生「吸引力」（感應電流阻礙磁鐵離開），電流方向反向為負。",
                         trap: "⚡ 避坑指南：手繪電流圖時，進入與離開的電流極值方向必須相反。且離開時磁鐵因重力加速而速度較快，導致離開階段的電流峰值較大、持續時間較短（時間不對稱性）！"
                     },
                     {
@@ -2519,7 +2507,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>生活科技：悠遊卡與手機無線充電</strong></td>
-                                    <td>讀卡機／充電盤線圈通以高頻交流電產生變化磁場，卡片／手機內的線圈因磁通量變化感應出電流。</td>
+                                    <td>讀卡機／充電盤線圈通以高頻交流電產生變化磁場，卡片／手機內的線圈因穿過線圈的磁場變化感應出電流。</td>
                                     <td>兩者底層皆為法拉第電磁感應。關鍵字「沒有電池、不需接線」＋「線圈」＝感應供電模型。</td>
                                 </tr>
                             </tbody>
@@ -2527,8 +2515,8 @@
                     </div>
                 `,
                 examQuestions: [
-                    { year: "113 學測 Q44-46", title: "磁鐵等速穿過線圈的應電流分析", desc: "<strong>解題特徵引導：</strong>題組中細長磁鐵棒「S 極朝下、以等速度」接近、穿過、再離開固定的環圈甲（磁力線僅穿過環圈甲）。分析三階段：接近時磁通量增加，產生某一方向的應電流；磁鐵完全在環圈內移動期間磁通量變化趨緩、電流趨小；離開時磁通量減少，應電流「反向」。由冷次定律，環圈對磁鐵的磁力全程阻礙其運動：接近時排斥、離開時吸引。注意題幹為「等速度」——電流大小變化由磁通量變化率決定，不涉及重力加速。" },
-                    { year: "111 學測 Q6", title: "晶片卡（感應卡）電磁感應機制", desc: "<strong>解題特徵引導：</strong>題幹指出常用的晶片卡內建線圈：讀卡機線圈通有電流 $I_1$ 產生磁場，當 $I_1$ 變動時，貼近的卡片線圈磁通量改變而產生應電流 $I_2$ 驅動晶片。題目給定 $I_2$ 的方向，反問 $I_1$ 應如何變化（應選 2 項）——由冷次定律反推：$I_2$ 的磁場方向阻礙磁通量變化，故 $I_1$ 須「正向漸減」或「反向漸增」。悠遊卡、無線充電皆為同一模型。" }
+                    { year: "113 學測 Q44-46", title: "磁鐵等速穿過線圈的應電流分析", desc: "<strong>解題特徵引導：</strong>題組中細長磁鐵棒「S 極朝下、以等速度」接近、穿過、再離開固定的環圈甲（磁力線僅穿過環圈甲）。分析三階段：接近時穿過線圈的磁場增加，產生某一方向的應電流；磁鐵完全在環圈內移動期間穿過線圈的磁場變化趨緩、電流趨小；離開時穿過線圈的磁場減少，應電流「反向」。由冷次定律，環圈對磁鐵的磁力全程阻礙其運動：接近時排斥、離開時吸引。注意題幹為「等速度」——電流大小變化由穿過線圈的磁場變化率決定，不涉及重力加速。" },
+                    { year: "111 學測 Q6", title: "晶片卡（感應卡）電磁感應機制", desc: "<strong>解題特徵引導：</strong>題幹指出常用的晶片卡內建線圈：讀卡機線圈通有電流 $I_1$ 產生磁場，當 $I_1$ 變動時，貼近的卡片線圈穿過線圈的磁場改變而產生應電流 $I_2$ 驅動晶片。題目給定 $I_2$ 的方向，反問 $I_1$ 應如何變化（應選 2 項）——由冷次定律反推：$I_2$ 的磁場方向阻礙穿過線圈的磁場變化，故 $I_1$ 須「正向漸減」或「反向漸增」。悠遊卡、無線充電皆為同一模型。" }
                 ]
             },
             7: {
@@ -2808,6 +2796,9 @@
                 ${data.extensions}
 
                 ${moduleNum === 1 ? siSectionHtml() : ''}
+                ${moduleNum === 2 ? kinematicsGraphsHtml() : ''}
+                ${moduleNum === 5 ? emSpectrumSectionHtml() : ''}
+                ${moduleNum === 7 ? photoelectricSectionHtml() : ''}
 
                 <div class="handout-section-title">🎯 歷屆真題實戰</div>
                 <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">
@@ -3018,6 +3009,227 @@
             `;
         }
 
+        // 運動圖形對照（x-t、v-t、a-t）——併入模組二
+        function kinematicsGraphsHtml() {
+            const mini = (curve) => `<svg viewBox="0 0 104 66" width="118" style="max-width:100%"><line x1="16" y1="6" x2="16" y2="56" stroke="#94a3b8" stroke-width="1.4"/><line x1="16" y1="56" x2="98" y2="56" stroke="#94a3b8" stroke-width="1.4"/>${curve}</svg>`;
+            const C = 'var(--primary-blue)';
+            const flat = (y) => `<line x1="16" y1="${y}" x2="94" y2="${y}" stroke="${C}" stroke-width="2.4"/>`;
+            const up = (y1, y2) => `<line x1="16" y1="${y1}" x2="94" y2="${y2}" stroke="${C}" stroke-width="2.4"/>`;
+            const para = `<path d="M16,54 Q68,52 94,10" fill="none" stroke="${C}" stroke-width="2.4"/>`;
+            const rows = [
+                ['靜止', flat(30), flat(54), flat(54)],
+                ['等速度運動', up(54, 12), flat(28), flat(54)],
+                ['等加速度運動<br>（由靜止）', para, up(54, 12), flat(28)]
+            ];
+            let body = '';
+            rows.forEach(r => {
+                body += `<tr><td style="font-weight:600; color:var(--text-main);">${r[0]}</td><td>${mini(r[1])}</td><td>${mini(r[2])}</td><td>${mini(r[3])}</td></tr>`;
+            });
+            return `
+                <div class="handout-section-title">📈 運動圖形對照（x-t、v-t、a-t）</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div>學測運動學以「讀圖」為主：<b>x-t 圖的斜率＝速度</b>；<b>v-t 圖的斜率＝加速度、面積＝位移</b>；<b>a-t 圖的高度＝加速度大小</b>。不需背等加速度公式。</div>
+                </div>
+                <div class="edu-table-container">
+                    <table class="edu-table" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th style="width:22%">運動類型</th>
+                                <th>位置－時間（x-t）</th>
+                                <th>速度－時間（v-t）</th>
+                                <th>加速度－時間（a-t）</th>
+                            </tr>
+                        </thead>
+                        <tbody>${body}</tbody>
+                    </table>
+                </div>
+
+                <div class="handout-section-title" style="margin-top: 1.75rem;">📐 「斜率」與「面積」的物理意義</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div><b>通則</b>：圖線的<b>「斜率」＝縱軸物理量對時間的變化率</b>（線越陡代表變化越快）；圖線與時間軸所夾的<b>「面積」＝縱軸物理量對時間的累積量</b>（在時間軸下方的面積計為負）。把這條通則套到每種圖，就不必死背個別公式。</div>
+                </div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:28%">圖形（縱軸－橫軸）</th>
+                                <th>斜率的意義</th>
+                                <th>與時間軸所夾面積的意義</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>x-t（位置－時間）</b></td>
+                                <td>速度（位置的變化率）；斜率為正代表朝正方向、為負代表朝反方向</td>
+                                <td>—（無對應的物理量）</td>
+                            </tr>
+                            <tr>
+                                <td><b>v-t（速度－時間）</b></td>
+                                <td>加速度（速度的變化率）；水平線代表等速、斜直線代表等加速</td>
+                                <td><b>位移</b>（速度對時間的累積；軸下方面積為反向位移）</td>
+                            </tr>
+                            <tr>
+                                <td><b>a-t（加速度－時間）</b></td>
+                                <td>—（一般不討論）</td>
+                                <td><b>速度變化量</b> $\\Delta v$（加速度對時間的累積）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula-desc" style="margin-top: 0.6rem;">
+                    ⚡ 常見陷阱：① $x-t$ 圖是「彎的」不代表加速度，只要斜率（速度）在變就有加速度；② $v-t$ 圖與時間軸下方的面積代表「反向位移」，計算總位移時要相減；③ 只有 $v-t$ 圖同時具備「斜率＝加速度」與「面積＝位移」兩個好用性質，是解題主力。
+                </div>
+
+                <div class="handout-section-title" style="margin-top: 1.75rem;">🔑 通用心法：相乘看「面積」、相除看「斜率」</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div>這個看圖技巧<b>不只用在運動學</b>。判斷某物理量在圖上是「面積」還是「斜率」，只要看它的定義式：<br>• 由兩量<b>「相乘」</b>得到 → 它就是對應圖形的<b>「面積」</b>（縱軸×橫軸的累積）。<br>• 由兩量<b>「相除（變化率）」</b>得到 → 它就是圖形的<b>「斜率」</b>。</div>
+                </div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:38%">物理量的定義式</th>
+                                <th style="width:26%">看哪種圖</th>
+                                <th>對應</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>速度 ＝ 位移 ÷ 時間 <span style="color:var(--text-muted);">（相除）</span></td><td>位置－時間（x-t）</td><td><b>斜率</b></td></tr>
+                            <tr><td>加速度 ＝ 速度 ÷ 時間 <span style="color:var(--text-muted);">（相除）</span></td><td>速度－時間（v-t）</td><td><b>斜率</b></td></tr>
+                            <tr><td>功率 ＝ 功 ÷ 時間 <span style="color:var(--text-muted);">（相除）</span></td><td>功－時間（W-t）</td><td><b>斜率</b></td></tr>
+                            <tr><td>位移 ＝ 速度 × 時間 <span style="color:var(--text-muted);">（相乘）</span></td><td>速度－時間（v-t）</td><td><b>面積</b></td></tr>
+                            <tr><td>功 ＝ 力 × 位移 <span style="color:var(--text-muted);">（相乘）</span></td><td>力－位移（F-x）</td><td><b>面積</b></td></tr>
+                            <tr><td>功（能量）＝ 功率 × 時間 <span style="color:var(--text-muted);">（相乘）</span></td><td>功率－時間（P-t）</td><td><b>面積</b></td></tr>
+                            <tr><td>電量 ＝ 電流 × 時間 <span style="color:var(--text-muted);">（相乘）</span></td><td>電流－時間（I-t）</td><td><b>面積</b></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula-desc" style="margin-top: 0.6rem;">
+                    例：電費的「一度電＝1 kW × 1 hr」就是「功率×時間＝能量」（$P$-$t$ 圖的面積）；電量 $Q = I\\times t$（$I$-$t$ 圖的面積）也對應到「庫侖 ＝ 安培 × 秒」。
+                </div>
+            `;
+        }
+
+        // 電磁波頻譜與應用（含繞射）——併入模組五
+        function emSpectrumSectionHtml() {
+            const rows = [
+                ['無線電波', '&gt; 1 m', '廣播、電視、手機與衛星通訊', '波長長 → 易繞過建築物、涵蓋範圍廣'],
+                ['微波', 'mm ~ cm', '微波爐（加熱水分子）、雷達', '穿透雲層，可全天候雷達偵測'],
+                ['紅外線', '約 μm', '熱像儀、遙控器；地表向外的熱輻射', '被大氣中二氧化碳、水氣吸收（溫室效應）'],
+                ['可見光', '400 ~ 700 nm', '視覺、光學顯微鏡與相機成像', '波長短 → 繞射不明顯、直進性強'],
+                ['紫外線', '約 10 ~ 400 nm', '殺菌、螢光；使皮膚曬傷', '大部分被平流層的臭氧吸收'],
+                ['X 射線', '約 0.01 ~ 10 nm', '醫學造影、晶體結構分析', '波長與原子間距相當 → 可產生晶體繞射（112 學測）'],
+                ['γ 射線', '&lt; 0.01 nm', '放射治療、核子醫學', '能量最高、穿透力最強']
+            ];
+            let body = '';
+            rows.forEach(r => {
+                body += `<tr><td style="font-weight:600; color:var(--text-main); white-space:nowrap;">${r[0]}</td><td style="white-space:nowrap;">${r[1]}</td><td>${r[2]}</td><td style="font-size:0.82rem;">${r[3]}</td></tr>`;
+            });
+            return `
+                <div class="handout-section-title">🌈 電磁波頻譜、應用與繞射</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div>所有電磁波在真空中速率皆為 $c$；由「無線電波 → 微波 → 紅外線 → 可見光 → 紫外線 → X 射線 → γ 射線」，<b>頻率越來越高、波長越來越短、光子能量 $E=hf$ 越大</b>。</div>
+                </div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:12%">波段</th>
+                                <th style="width:14%">波長（約）</th>
+                                <th style="width:30%">主要應用</th>
+                                <th>與繞射／吸收的關係</th>
+                            </tr>
+                        </thead>
+                        <tbody>${body}</tbody>
+                    </table>
+                </div>
+                <div class="feature-guide-box" style="margin-top:1rem;">
+                    <div class="feature-bridge">
+                        <div class="feature-bridge-title">➔ 用「繞射」理解不同波段的應用</div>
+                        <div class="feature-bridge-desc">繞射的明顯程度取決於「波長」與「障礙物或孔徑尺度」的相對大小：兩者相當時繞射最明顯。<br>① <b>無線電波（波長長）</b>：能繞過山丘、建築物，適合大範圍廣播與通訊。<br>② <b>可見光／X 射線（波長短）</b>：繞射不明顯、直進性強，可用於精細成像；望遠鏡或顯微鏡的「口徑越大、波長越短，繞射極限越小、解析度越高」。<br>③ <b>X 射線（波長 ~ 原子間距）</b>：射入晶體會被規則排列的原子層繞射，用來分析晶體結構（112 學測 Q30）。</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 光電效應：雷納實驗、古典困境、愛因斯坦解釋——併入模組七
+        function photoelectricSectionHtml() {
+            const rows = [
+                ['存在「底限頻率」：入射光頻率低於某值時，無論光多強、照多久都打不出電子', '光能量與強度（振幅）有關且可連續累積 → 任何頻率只要夠強或照夠久都應能打出電子（不該有底限頻率）', '✗ 矛盾'],
+                ['光電子的「最大動能」只由入射光頻率決定，與光強無關', '光越強（能量越大）→ 光電子動能應越大', '✗ 矛盾'],
+                ['光一照射就「瞬時」射出電子，沒有時間延遲', '弱光需要一段時間累積足夠能量後才會發射電子', '✗ 矛盾'],
+                ['光越強，射出的光電子「數目」越多（光電流越大）', '光越強能量越多，射出電子越多', '✓ 一致']
+            ];
+            let body = '';
+            rows.forEach(r => {
+                const ok = r[2].startsWith('✓');
+                body += `<tr><td style="font-size:0.85rem;">${r[0]}</td><td style="font-size:0.85rem; color:var(--text-muted);">${r[1]}</td><td style="text-align:center; white-space:nowrap; font-weight:700; color:${ok ? 'var(--accent-green)' : 'var(--accent-rose)'};">${r[2]}</td></tr>`;
+            });
+            return `
+                <div class="handout-section-title">💡 光電效應：雷納實驗、古典的困境與愛因斯坦的解釋</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div>光照射金屬使電子逸出，稱為<b>光電效應</b>。<b>雷納（Lenard）</b>約在 1902 年以實驗仔細研究，歸納出幾個「古典波動說無法解釋」的關鍵事實——正是這些矛盾，催生了愛因斯坦的光量子論。</div>
+                </div>
+
+                <div class="formula-card-title" style="margin:1rem 0 0.5rem 0;">🔬 實驗設計：變因分析</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:28%">探究的問題</th>
+                                <th>操縱變因</th>
+                                <th>應變變因</th>
+                                <th>控制變因</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>入射光「頻率」如何影響光電效應？</b></td>
+                                <td>入射光的頻率（更換不同顏色／波長的光源）</td>
+                                <td>① 是否產生光電流（能否打出光電子）<br>② 光電子的最大動能 $E_{k,\text{max}}$（以截止電壓測量）</td>
+                                <td>入射光的強度（維持單位時間內的光子數）、光電管金屬靶材質（同一塊金屬）</td>
+                            </tr>
+                            <tr>
+                                <td><b>入射光「強度」如何影響光電效應？</b></td>
+                                <td>入射光的強度（改變光源功率，或在功率固定下調整照射距離）</td>
+                                <td>飽和光電流大小（代表單位時間射出的光電子數目）</td>
+                                <td>入射光的頻率（須高於底限頻率且維持定值）、光電管金屬靶材質（同一塊金屬）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="formula-card-title" style="margin:1.25rem 0 0.5rem 0;">📊 實驗事實 vs 古典波動說的預測</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">雷納等人的實驗事實</th>
+                                <th style="width:44%">古典波動說的預測</th>
+                                <th>是否相符</th>
+                            </tr>
+                        </thead>
+                        <tbody>${body}</tbody>
+                    </table>
+                </div>
+                <div class="feature-guide-box" style="margin-top:1rem;">
+                    <div class="feature-trigger">
+                        <span class="feature-trigger-tag">古典的困境</span>
+                        <div class="feature-trigger-title">波動說把光能量看成「可連續累積」，因此無法解釋「底限頻率」、「動能只與頻率有關」與「瞬時發射」。</div>
+                    </div>
+                    <div class="feature-bridge">
+                        <div class="feature-bridge-title">➔ 愛因斯坦的光量子（光子）解釋（1905）</div>
+                        <div class="feature-bridge-desc">愛因斯坦提出：光是一顆顆能量為 $E=hf$ 的「光子」，與電子進行「一對一」的能量交換。由能量守恆：<br><div class="formula-display" style="margin:0.5rem 0;">$$ hf = W + E_{k,\\text{max}} $$</div>其中 $W$ 為<b>功函數</b>（電子脫離金屬表面所需的最低能量）。<br>① <b>頻率</b>決定每顆光子的能量 $hf$ → 決定能否打出電子（底限頻率 $f_0 = W/h$）與光電子的最大動能；<br>② <b>強度</b>決定光子的「數目」 → 決定射出光電子的「數目」（光電流）；<br>③ <b>瞬時發射</b>：單一光子把能量瞬間交給電子，不需要時間累積。<br>此舉確立光的「粒子性」（波粒二象性），愛因斯坦也因此獲 1921 年諾貝爾物理獎。</div>
+                    </div>
+                </div>
+            `;
+        }
+
         function toggleQCard(card) {
             const body = card.querySelector('.q-card-body');
             const arrow = card.querySelector('span:last-child');
@@ -3218,7 +3430,7 @@
                         <div class="buster-cell buster-cell-core">
                             <span class="buster-label">Realization 物理模型本質</span>
                             <div class="buster-model-title">波動折射作圖與干涉加強 (光程差)</div>
-                            <p class="buster-text-desc">折射線作圖只需利用司乃耳定律：光從慢速介質（反射層）進入快速介質時折射角偏離法線。電場疊加則利用反射波波峰與波峰同相疊加（光程差為整數波長）的干涉加強，回歸幾何光學與波動疊加本質。</p>
+                            <p class="buster-text-desc">折射線作圖只需用折射的定性規則：光從慢速介質（反射層）進入快速介質時折射角偏離法線。電場疊加則利用反射波波峰與波峰同相疊加的干涉加強，回歸波的疊加本質。</p>
                         </div>
                     </div>
 
@@ -3502,10 +3714,10 @@
               q: "利用因次分析檢驗，下列哪些物理量組合的單位與「能量（焦耳）」等價？（多選）",
               opts: [
                   { t: "(A) $hf$（普朗克常數 × 頻率）", c: 1, why: "正確：光量子能量公式，$\\text{J} \\cdot \\text{s} \\times \\text{s}^{-1} = \\text{J}$。" },
-                  { t: "(B) $mc^2$（質量 × 光速平方）", c: 1, why: "正確：質能等價公式，$\\text{kg} \\times \\text{m}^2/\\text{s}^2 = \\text{kg} \\cdot \\text{m}^2 \\cdot \\text{s}^{-2} = \\text{J}$。" },
+                  { t: "(B) $mc^2$（質量 × 光速平方）", c: 1, why: "正確：質能互換公式，$\\text{kg} \\times \\text{m}^2/\\text{s}^2 = \\text{kg} \\cdot \\text{m}^2 \\cdot \\text{s}^{-2} = \\text{J}$。" },
                   { t: "(C) $p/V$（壓力 ÷ 體積）", why: "誘答：壓力要「乘」體積才是能量（$pV$）；除以體積後因次為 $\\text{N} \\cdot \\text{m}^{-5}$，並非能量。" },
                   { t: "(D) $qE$（電荷 × 電場）", why: "誘答：$qE$ 是「靜電力」（牛頓），還要再乘上位移才是能量（$W = qEd$）。" },
-                  { t: "(E) $k_B T$（波茲曼常數 × 絕對溫度）", c: 1, why: "正確：出現於分子平均動能 $\\bar{E}_k = \\frac{3}{2}k_B T$，因次即為能量。" }
+                  { t: "(E) $k_B T$（波茲曼常數 × 絕對溫度）", c: 1, why: "正確：分子平均動能與絕對溫度成正比（$\\bar{E}_k \\propto T$），$k_B T$ 具能量的因次（114 學測 Q47 即以 $\\kappa T$ 為能量單位）。" }
               ],
               exp: "此題整合力學、熱學、電磁與量子四個章節的能量公式（114 學測 Q47 命題模式），逐項做因次檢驗即可。" },
 
@@ -3640,13 +3852,13 @@
 
             // ========== N05 摩擦力、彈力與力的平衡 ==========
             { node: "N05", level: "記憶", type: "single", perf: "科學認知（記憶）",
-              q: "在彈性限度內，關於彈簧彈力的胡克定律，下列敘述何者正確？",
+              q: "在彈性限度內，關於彈簧彈力的虎克定律，下列敘述何者正確？",
               opts: [
-                  { t: "(A) 彈力與形變量的平方成正比", why: "誘答：胡克定律是「一次」正比關係 $F = kx$，平方關係出現在彈性位能。" },
+                  { t: "(A) 彈力與形變量的平方成正比", why: "誘答：虎克定律是「一次」正比關係 $F = kx$，平方關係出現在彈性位能。" },
                   { t: "(B) 彈力與形變量成正比，方向與形變方向相反", c: 1, why: "正確：$F = kx$，且彈力是「恢復力」，永遠指向恢復原長的方向。" },
                   { t: "(C) 彈力只在拉伸時存在，壓縮時沒有彈力", why: "誘答：壓縮同樣產生恢復力，方向向外推。" },
                   { t: "(D) 彈性常數 $k$ 與彈簧材質無關，是普適常數", why: "誘答：$k$ 由彈簧本身（材質、線徑、圈數）決定，每根彈簧不同。" },
-                  { t: "(E) 超過彈性限度後，胡克定律依然成立", why: "誘答：超過彈性限度後形變不可恢復，$F$ 與 $x$ 不再成正比。" }
+                  { t: "(E) 超過彈性限度後，虎克定律依然成立", why: "誘答：超過彈性限度後形變不可恢復，$F$ 與 $x$ 不再成正比。" }
               ],
               exp: "$F = kx$ 成立的前提是「彈性限度內」；$k$ 越大代表彈簧越「硬」。" },
             { node: "N05", level: "理解", type: "single", perf: "科學認知（理解）／建立模型 (tm)",
@@ -3738,9 +3950,9 @@
               opts: [
                   { t: "(A) 太空站離地球太遠，已經不受地球引力", why: "誘答：在 400 km 高度引力仍約為地表九成；若真無引力，太空站會沿直線飛離，根本無法繞行。" },
                   { t: "(B) 太空站內是真空，所以沒有重力", why: "誘答：真空與否和引力無關，引力是超距作用。" },
-                  { t: "(C) 太空站與太空人一起繞地球運動，引力恰好全部用於提供向心力，人與地板間正向力為零", c: 1, why: "正確：「視重為零」的本質——支撐力消失，而非引力消失。" },
+                  { t: "(C) 太空站與太空人一起繞地球運動（如同持續自由落體），人對地板沒有壓力，正向力為零", c: 1, why: "正確：「視重為零」的本質——支撐力消失，而非引力消失。" },
                   { t: "(D) 地球引力與月球引力在該處互相抵消", why: "誘答：月球引力在近地軌道處遠小於地球引力，兩者根本不相當。" },
-                  { t: "(E) 太空站以極高速運動，產生了反重力", why: "誘答：物理上不存在「反重力」；高速繞行正是引力作為向心力的結果。" }
+                  { t: "(E) 太空站以極高速運動，產生了反重力", why: "誘答：物理上不存在「反重力」；高速繞行正是引力使太空站維持圓形軌道的結果。" }
               ],
               exp: "失重 = 支撐力（視重）為零，不是引力為零。電梯自由下墜時的失重感是同一模型。" },
             { node: "N08", level: "應用", type: "short", perf: "科學認知（應用）／推理論證 (tr)、計劃與執行 (pe)",
@@ -3759,25 +3971,25 @@
             { node: "N08", level: "分析", type: "multi", perf: "科學認知（分析）／分析與發現 (pa)",
               q: "兩人造衛星甲、乙繞地球做圓軌道運動，甲的軌道半徑較小。下列敘述哪些正確？（多選）",
               opts: [
-                  { t: "(A) 衛星的軌道速率 $v = \\sqrt{GM/r}$，與衛星本身質量無關", c: 1, why: "正確：由 $G\\frac{Mm}{r^2} = \\frac{mv^2}{r}$，衛星質量 $m$ 消去。" },
-                  { t: "(B) 軌道越高的乙，速率越快", why: "誘答：$v \\propto 1/\\sqrt{r}$，軌道越高速率越「慢」。" },
+                  { t: "(A) 衛星的軌道速率只由中心天體與軌道半徑決定，與衛星本身質量無關", c: 1, why: "正確：軌道運動只取決於地球與軌道大小，和衛星自身質量無關。" },
+                  { t: "(B) 軌道越高的乙，速率越快", why: "誘答：軌道越高速率越「慢」（定性：越遠繞得越慢）。" },
                   { t: "(C) 同步衛星必須位於赤道正上方特定高度，週期等於地球自轉週期", c: 1, why: "正確：週期被鎖定為 24 小時，由 $T^2 \\propto r^3$ 反推唯一軌道半徑，且須在赤道面上。" },
-                  { t: "(D) 衛星在軌道上運行時不受地球引力作用", why: "誘答：引力一直都在，而且正是它提供繞行所需的向心力。" },
+                  { t: "(D) 衛星在軌道上運行時不受地球引力作用", why: "誘答：引力一直都在，而且正是它使衛星維持繞行。" },
                   { t: "(E) 軌道半徑較大的乙，公轉週期較長", c: 1, why: "正確：$T^2 \\propto r^3$，半徑大週期長。" }
               ],
-              exp: "衛星問題一條主線：引力 = 向心力。由此導出 $v$、$T$ 與 $r$ 的所有比較關係。" },
+              exp: "衛星問題一條主線：引力使衛星維持繞行，再配合克卜勒第三定律 $T^2 \\propto r^3$ 比較 $T$ 與 $r$（速率則以定性判斷：越高越慢）。" },
 
             // ========== N09 功、動能與位能（機械能守恆） ==========
             { node: "N09", level: "記憶", type: "single", perf: "科學認知（記憶）",
-              q: "關於「功」的定義 $W = Fd\\cos\\theta$，下列敘述何者正確？",
+              q: "關於「功」的定義 $W = F \\cdot \\Delta x$（$F$ 為沿位移方向的力、$\\Delta x$ 為位移），下列敘述何者正確？",
               opts: [
-                  { t: "(A) 只要施力，就一定有作功", why: "誘答：若物體沒有位移（$d=0$），或力與位移垂直，作功皆為零。" },
-                  { t: "(B) 力與位移垂直時（$\\theta = 90^\\circ$），該力不作功", c: 1, why: "正確：$\\cos 90^\\circ = 0$，如圓周運動中的向心力、水平移動時的重力皆不作功。" },
+                  { t: "(A) 只要施力，就一定有作功", why: "誘答：若物體沒有位移（$\\Delta x=0$），或力的方向與位移垂直，作功皆為零。" },
+                  { t: "(B) 力的方向與運動方向垂直時，該力不作功", c: 1, why: "正確：此時力沿位移方向的分量為零，故不作功。例如做圓周運動時指向圓心的力（與運動方向垂直）、水平移動時的重力，皆不作功。" },
                   { t: "(C) 功是向量，有大小也有方向", why: "誘答：功是「純量」，只有正負（輸入或取出能量）之分。" },
                   { t: "(D) 摩擦力永遠不作功", why: "誘答：動摩擦力對滑動物體作「負功」，把力學能轉為熱。" },
                   { t: "(E) 功的單位是瓦特", why: "誘答：瓦特是「功率」（每秒作功）的單位，功的單位是焦耳。" }
               ],
-              exp: "功 = 力沿位移方向的分量 × 位移，是能量傳輸的量度（純量）。" },
+              exp: "功 = 沿位移方向的力 × 位移，是能量傳輸的量度（純量）。力與運動方向垂直時不作功。" },
             { node: "N09", level: "理解", type: "single", perf: "科學認知（理解）／建立模型 (tm)",
               q: "下列哪一種情境中，物體的「力學能（動能＋位能）」保持守恆？",
               opts: [
@@ -3866,7 +4078,7 @@
               q: "從微觀角度來看，「絕對溫度」所直接度量的物理量是下列何者？",
               opts: [
                   { t: "(A) 氣體分子的總數目", why: "誘答：分子數與溫度無關，是獨立變數（莫耳數）。" },
-                  { t: "(B) 氣體分子無規則運動的平均動能", c: 1, why: "正確：$\\bar{E}_k = \\frac{3}{2}k_B T$，絕對溫度是分子平均動能的宏觀指標。" },
+                  { t: "(B) 氣體分子無規則運動的平均動能", c: 1, why: "正確：分子平均動能與絕對溫度成正比（$\\bar{E}_k \\propto T$），絕對溫度是分子平均動能的宏觀指標。" },
                   { t: "(C) 氣體所含的總熱量", why: "誘答：物體不「含有」熱量；溫度也不等於能量總量（還與質量有關）。" },
                   { t: "(D) 氣體分子之間的平均距離", why: "誘答：平均距離與密度（體積、分子數）有關，不是溫度的直接意義。" },
                   { t: "(E) 氣體分子的質量", why: "誘答：分子質量由物質種類決定，與溫度無關。" }
@@ -3889,7 +4101,7 @@
                   { t: "(B) 分子的平均速率增加", c: 1, why: "正確：分子質量不變而平均動能增加，速率必然變快。" },
                   { t: "(C) 氣體壓力增大", c: 1, why: "正確：分子撞壁更快更頻繁，體積又固定，壓力上升（定容加熱）。" },
                   { t: "(D) 容器內氣體分子的數目增加", why: "誘答：密閉容器分子數固定，加熱不會產生新分子。" },
-                  { t: "(E) 因為體積固定，溫度不會改變", why: "誘答：定容下吸熱全數轉為內能，溫度照樣上升（$\\Delta U = Q$）。" }
+                  { t: "(E) 因為體積固定，溫度不會改變", why: "誘答：體積固定（不對外作功）時，吸收的熱全部轉為分子內能，溫度照樣上升。" }
               ],
               exp: "微觀圖像串聯：加熱 → 平均動能↑ → 速率↑ → 撞壁力道與頻率↑ → 壓力↑。" },
 
@@ -3897,13 +4109,13 @@
             { node: "N12", level: "記憶", type: "single", perf: "科學認知（記憶）",
               q: "下列何者是熱力學第二定律的正確敘述？",
               opts: [
-                  { t: "(A) 能量可以憑空產生，也可以憑空消失", why: "誘答：違反熱力學第一定律（能量守恆）。" },
-                  { t: "(B) 熱不會自發地由低溫物體流向高溫物體", c: 1, why: "正確：第二定律的克勞修斯敘述；冷氣機能反向搬熱是因為「輸入了電能」，並非自發。" },
-                  { t: "(C) 熱可以在不引起任何其他變化下完全轉換為功", why: "誘答：恰與第二定律相反——熱機必然排出廢熱。" },
-                  { t: "(D) 系統的能量變化等於吸熱與外界作功之和", why: "誘答：這是熱力學「第一」定律的內容。" },
-                  { t: "(E) 絕對零度可以經由有限步驟達到", why: "誘答：這與熱力學第三定律相悖，且非第二定律內容。" }
+                  { t: "(A) 能量可以憑空產生，也可以憑空消失", why: "誘答：違反能量守恆定律。" },
+                  { t: "(B) 熱不會自發地由低溫物體流向高溫物體", c: 1, why: "正確：熱只會自發由高溫流向低溫；冷氣機能反向搬熱是因為「輸入了電能」，並非自發。" },
+                  { t: "(C) 熱可以在不引起任何其他變化下完全轉換為功", why: "誘答：熱機必然排出廢熱，熱無法完全轉為功。" },
+                  { t: "(D) 只要投入足夠能量，熱機效率可以達到 100%", why: "誘答：熱機必排出廢熱，效率必小於 100%（能量會退化為低品質廢熱）。" },
+                  { t: "(E) 能量在轉換過程中不會有任何損耗", why: "誘答：每次能量轉換都會有部分變成低品質廢熱（能量退化），並非毫無損耗。" }
               ],
-              exp: "第二定律給能量轉換定了「方向」：熱自發流動有方向、熱轉功有極限。" },
+              exp: "熱力學第二定律給能量轉換定了「方向」：熱只會自發由高溫流向低溫，且熱無法完全轉為功、每次轉換都有廢熱（能量退化）。" },
             { node: "N12", level: "理解", type: "single", perf: "科學認知（理解）",
               q: "「能量退化」指的是下列何種現象？",
               opts: [
@@ -3935,9 +4147,9 @@
               ],
               exp: "儲能設施「以能量換調度彈性」：效率必小於 1 但仍具電網價值。此為生活情境分析題（非考古題）；113 學測考過同屬熱力學應用的電冰箱性能係數（Q24-25）。" },
 
-            // ========== N13 質能等價與核能發電 ==========
+            // ========== N13 質能互換與核能發電 ==========
             { node: "N13", level: "記憶", type: "single", perf: "科學認知（記憶）",
-              q: "質能等價關係式 $E = \\Delta m c^2$ 中，各符號的意義下列何者正確？",
+              q: "質能互換關係式 $E = \\Delta m c^2$ 中，各符號的意義下列何者正確？",
               opts: [
                   { t: "(A) $c$ 是聲速，約 $340 \\text{ m/s}$", why: "誘答：$c$ 是真空中的「光速」$3 \\times 10^8 \\text{ m/s}$。" },
                   { t: "(B) $\\Delta m$ 是反應前後損失的靜止質量（質量虧損），$c$ 是光速", c: 1, why: "正確：核反應中損失的靜止質量以能量形式釋放。" },
@@ -4143,7 +4355,7 @@
               cer: {
                   c: "（1）亮紋由建設性干涉（波程差為 $n\\lambda$）形成；暗紋由破壞性干涉（波程差為 $(n+\\frac{1}{2})\\lambda$）形成。（2）光源換成紅光後，干涉條紋間距會「變寬」。",
                   e: "光源由綠光更換為紅光，波長 $\\lambda$ 變長（$\\lambda_{\\text{紅}} > \\lambda_{\\text{綠}}$），而狹縫間距 $d$ 與屏幕距離 $L$ 不變。",
-                  r: "① <b>亮暗紋條件</b>：亮紋出現在兩狹縫光波同相相加處（波程差 $\\Delta = n\\lambda$，波峰對波峰疊加——建設性干涉）；暗紋出現在兩波反相抵消處（波程差 $\\Delta = (n+\\frac{1}{2})\\lambda$，波峰對波谷——破壞性干涉）。<br>② <b>條紋間距與波長</b>：雙狹縫相鄰亮紋間距公式 $\\Delta y = \\frac{L\\lambda}{d}$，$\\Delta y$ 與 $\\lambda$ 成正比。在幾何條件（$L$、$d$）不變下，紅光波長較長，故條紋間距變寬（變疏）。"
+                  r: "① <b>亮暗紋條件</b>：亮紋出現在兩狹縫光波同相相加處（波程差為波長的整數倍 $n\\lambda$，波峰對波峰疊加——建設性干涉）；暗紋出現在兩波反相抵消處（波程差為半波長的奇數倍，波峰對波谷——破壞性干涉）。<br>② <b>條紋間距與波長</b>：相鄰亮紋對應的波程差相差「一個波長」。波長 $\\lambda$ 越長，需要更大的位置偏移才能累積出一個波長的波程差，故條紋間距隨波長增大而變寬。紅光波長較長，條紋較疏。"
               },
               pts: [
                   "正確寫出亮紋（$n\\lambda$、同相加強）與暗紋（$(n+\\frac{1}{2})\\lambda$、反相相消）條件",
@@ -4281,18 +4493,18 @@
             { node: "N21", level: "記憶", type: "single", perf: "科學認知（記憶）",
               q: "根據法拉第電磁感應定律，線圈中產生感應電流的條件為下列何者？",
               opts: [
-                  { t: "(A) 線圈附近存在強大的靜止磁鐵", why: "誘答：磁場再強，只要磁通量「不變」，就沒有感應電流。" },
-                  { t: "(B) 穿過線圈的磁通量發生「變化」", c: 1, why: "正確：關鍵在「變化」二字——增加或減少都會感應出電流。" },
+                  { t: "(A) 線圈附近存在強大的靜止磁鐵", why: "誘答：磁場再強，只要穿過線圈的磁場「不變」，就沒有感應電流。" },
+                  { t: "(B) 穿過線圈的磁場發生「變化」", c: 1, why: "正確：關鍵在「變化」二字——增加或減少都會感應出電流。" },
                   { t: "(C) 線圈必須通有外加電流", why: "誘答：感應電流不需外加電源，這正是發電機的原理。" },
                   { t: "(D) 線圈溫度夠高", why: "誘答：溫度與電磁感應無關。" },
-                  { t: "(E) 線圈放置在真空中", why: "誘答：介質不是條件，磁通量變化才是。" }
+                  { t: "(E) 線圈放置在真空中", why: "誘答：介質不是條件，穿過線圈的磁場變化才是。" }
               ],
-              exp: "電磁感應一句話：磁通量變、感應電流生；不變就沒有。" },
+              exp: "電磁感應一句話：穿過線圈的磁場變、感應電流生；不變就沒有。" },
             { node: "N21", level: "理解", type: "single", perf: "科學認知（理解）／建立模型 (tm)",
               q: "悠遊卡沒有電池，靠近讀卡機時卻能供電給卡內晶片完成感應。其原理為下列何者？",
               opts: [
                   { t: "(A) 讀卡機以紅外線傳輸電力給卡片", why: "誘答：紅外線用於遙控訊號傳輸，功率與機制皆不符。" },
-                  { t: "(B) 讀卡機線圈的交流電產生變化磁場，使卡片內線圈的磁通量改變而感應出電流", c: 1, why: "正確：法拉第電磁感應——變化磁場隔空在卡片線圈中感應電流供電（111 學測 Q6 即以「晶片卡」為情境考此模型）。" },
+                  { t: "(B) 讀卡機線圈的交流電產生變化磁場，使卡片內線圈的磁場改變而感應出電流", c: 1, why: "正確：法拉第電磁感應——變化磁場隔空在卡片線圈中感應電流供電（111 學測 Q6 即以「晶片卡」為情境考此模型）。" },
                   { t: "(C) 卡片內有微型太陽能板，吸收讀卡機的光", why: "誘答：卡片在口袋中也能感應，光電機制不成立。" },
                   { t: "(D) 讀卡機以靜電吸引卡片內的電荷形成電流", why: "誘答：靜電感應無法持續供電，也與線圈結構無關。" },
                   { t: "(E) 卡片與讀卡機直接以金屬接點導電", why: "誘答：悠遊卡是「非接觸式」感應卡，無外露接點。" }
@@ -4301,24 +4513,24 @@
             { node: "N21", level: "應用", type: "single", perf: "科學認知（應用）／推理論證 (tr)",
               q: "將磁鐵的 N 極朝下、由上方接近水平放置的閉合線圈。根據冷次定律，線圈中感應電流所產生的磁場，在線圈上方呈現的磁極為何？",
               opts: [
-                  { t: "(A) N 極，以排斥接近中的磁鐵", c: 1, why: "正確：磁通量增加，感應電流的磁場必「阻礙」變化——面對來者以同極相拒。" },
-                  { t: "(B) S 極，以吸引磁鐵加速落下", why: "誘答：這會「幫助」磁通量增加，違反冷次定律（也違反能量守恆）。" },
-                  { t: "(C) 不產生任何磁場", why: "誘答：磁通量正在變化，必有感應電流與伴隨磁場。" },
-                  { t: "(D) 交替出現 N 極與 S 極", why: "誘答：磁鐵單向接近時磁通量單調增加，感應方向不會來回翻轉。" },
+                  { t: "(A) N 極，以排斥接近中的磁鐵", c: 1, why: "正確：穿過線圈的磁場增加，感應電流的磁場必「阻礙」變化——面對來者以同極相拒。" },
+                  { t: "(B) S 極，以吸引磁鐵加速落下", why: "誘答：這會「幫助」穿過線圈的磁場增加，違反冷次定律（也違反能量守恆）。" },
+                  { t: "(C) 不產生任何磁場", why: "誘答：穿過線圈的磁場正在變化，必有感應電流與伴隨磁場。" },
+                  { t: "(D) 交替出現 N 極與 S 極", why: "誘答：磁鐵單向接近時穿過線圈的磁場單調增加，感應方向不會來回翻轉。" },
                   { t: "(E) 方向取決於線圈的電阻大小", why: "誘答：電阻影響電流「大小」，不影響「方向」；方向由冷次定律決定。" }
               ],
               exp: "冷次定律口訣：「來拒去留」——接近時排斥（同極相對）、遠離時挽留（異極相對）。" },
             { node: "N21", level: "分析", type: "short", perf: "科學認知（分析）／分析與發現 (pa)、討論與傳達 (pc)",
-              q: "磁鐵 N 極朝下，自線圈正上方由靜止自由落下並穿過線圈。請描述感應電流隨時間變化（$I-t$ 圖）的三個關鍵特徵，並以冷次定律與磁通量變化說明理由。",
-              ans: "特徵一：磁鐵接近與穿出時，感應電流「方向相反」——接近時磁通量增加，感應電流阻礙增加；穿出時磁通量減少，感應電流反向以阻礙減少。特徵二：磁鐵位於線圈正中央的瞬間，磁通量達極大值、變化率為零，故感應電流為「零」。特徵三：因重力加速，穿出時磁鐵速度比進入時快，磁通量變化率更大，故「穿出段的電流峰值較高、持續時間較短」（$I-t$ 圖不對稱）。此外由冷次定律，線圈對磁鐵的磁力全程都在阻礙其運動：接近時排斥、離開時吸引。",
+              q: "磁鐵 N 極朝下，自線圈正上方由靜止自由落下並穿過線圈。請描述感應電流隨時間變化（$I-t$ 圖）的三個關鍵特徵，並以冷次定律與穿過線圈的磁場變化說明理由。",
+              ans: "特徵一：磁鐵接近與穿出時，感應電流「方向相反」——接近時穿過線圈的磁場增加，感應電流阻礙增加；穿出時穿過線圈的磁場減少，感應電流反向以阻礙減少。特徵二：磁鐵位於線圈正中央的瞬間，穿過線圈的磁場達極大值、變化率為零，故感應電流為「零」。特徵三：因重力加速，穿出時磁鐵速度比進入時快，穿過線圈的磁場變化率更大，故「穿出段的電流峰值較高、持續時間較短」（$I-t$ 圖不對稱）。此外由冷次定律，線圈對磁鐵的磁力全程都在阻礙其運動：接近時排斥、離開時吸引。",
               cer: {
                   c: "磁鐵穿過線圈的 $I-t$ 圖特徵為：① 接近線圈與穿出線圈時，感應電流方向相反；② 磁鐵恰位於線圈正中央的瞬間，感應電流值為零；③ 穿出階段的電流峰值比進入階段高，且持續時間較短。",
                   e: "磁鐵受重力作用由靜止向下做加速度運動。接近時為 N 極接近線圈；穿出時為 S 極離開線圈。",
-                  r: "物理原理分析如下：<br>① <b>接近與穿出反向</b>：接近時，向下的磁通量增加，由<b>冷次定律</b>，感應電流須產生向上的磁場阻礙增加；穿出時，向下的磁通量減少，感應電流須產生向下的磁場阻礙減少。磁場方向相反，感應電流方向必然相反。<br>② <b>中央電流為零</b>：當磁鐵位於線圈正中央時，線圈內向下的磁通量達到極大值，此瞬間磁通量隨時間的變化率 $\\frac{\\Delta \\Phi}{\\Delta t} = 0$，故感應電動勢與電流皆為零。<br>③ <b>穿出峰值較高且時間較短</b>：因磁鐵下落時持續受重力加速，穿出時的速度明顯大於進入時的速度。速度快導致磁通量隨時間變化率 $\\frac{\\Delta \\Phi}{\\Delta t}$ 顯著增大（峰值變高），且磁鐵通過線圈的總歷時變短（持續時間變短）。"
+                  r: "物理原理分析如下：<br>① <b>接近與穿出反向</b>：接近時，穿過線圈向下的磁場增強，由<b>冷次定律</b>，感應電流須產生向上的磁場以阻礙其增強；穿出時，穿過線圈向下的磁場減弱，感應電流須產生向下的磁場以阻礙其減弱。兩階段磁場方向相反，感應電流方向必然相反。<br>② <b>中央電流為零</b>：當磁鐵位於線圈正中央時，穿過線圈的磁場達到最強，此瞬間磁場「暫時不再變化」，故沒有感應電流。<br>③ <b>穿出峰值較高且時間較短</b>：因磁鐵下落時持續受重力加速，穿出時的速度明顯大於進入時的速度。速度越快，磁場變化越劇烈，感應電流峰值越高；且磁鐵通過線圈的總時間變短，故穿出段電流「峰值較高、持續時間較短」。"
               },
               pts: [
-                  "指出進入與穿出時電流方向相反，並以磁通量增/減與冷次定律說明",
-                  "指出中央瞬間電流為零（磁通量極大、變化率為零）",
+                  "指出進入與穿出時電流方向相反，並以穿過線圈的磁場增/減與冷次定律說明",
+                  "指出中央瞬間電流為零（穿過線圈的磁場極大、變化率為零）",
                   "指出穿出段峰值較大、時間較短，並歸因於重力加速使變化率增大"
               ] },
 
@@ -4867,8 +5079,8 @@
                                 <strong>💡 滿分寫作示範：當磁鐵 N 極由上方接近水平線圈時，應電流方向為何？</strong><br>
                                 <ul style="margin:0.25rem 0 0 1.25rem; padding:0; line-height:1.5;">
                                     <li><strong>【主張 (C)】：</strong>由上往下看，線圈將產生<strong>逆時針方向</strong>的感應電流。</li>
-                                    <li><strong>【證據 (E)】：</strong>磁鐵 N 極向下接近水平線圈，使穿過線圈<strong>向下的磁通量隨時間增加</strong>。</li>
-                                    <li><strong>【推理 (R)】：</strong>根據<strong>冷次定律</strong>，應電流產生的磁場必須抵抗（阻礙）原磁通量的變化，因此線圈會感應出與原磁場方向相反的<strong>向上磁場</strong>。再依<strong>安培右手定則</strong>（大拇指朝上），四指彎曲方向即為<strong>逆時針方向</strong>。</li>
+                                    <li><strong>【證據 (E)】：</strong>磁鐵 N 極向下接近水平線圈，使穿過線圈<strong>向下的穿過線圈的磁場隨時間增加</strong>。</li>
+                                    <li><strong>【推理 (R)】：</strong>根據<strong>冷次定律</strong>，應電流產生的磁場必須抵抗（阻礙）原穿過線圈的磁場的變化，因此線圈會感應出與原磁場方向相反的<strong>向上磁場</strong>。再依<strong>安培右手定則</strong>（大拇指朝上），四指彎曲方向即為<strong>逆時針方向</strong>。</li>
                                 </ul>
                             </div>
                         </div>
@@ -5054,10 +5266,10 @@
           '111_3': { ans: '(B)　約 0.37 倍', sol: '<b>【已知】</b>地球與火星平均半徑比 $R_地/R_火\\approx1.86$、質量比 $M_地/M_火\\approx9.3$（火星較小、較輕）。<br><b>【求】</b>同一物體在火星表面所受重力，為在地球表面的幾倍（即 $g_火/g_地$）。<br><b>【橋接理論】</b>星球表面重力場 $g=\\dfrac{GM}{R^2}$（$G$：萬有引力常數；$M$：星球質量；$R$：星球半徑）——$g$ 與質量成正比、與半徑「平方」成反比。<br><b>【計算】</b>$\\dfrac{g_火}{g_地}=\\dfrac{M_火}{M_地}\\times\\left(\\dfrac{R_地}{R_火}\\right)^2=\\dfrac{1}{9.3}\\times(1.86)^2\\approx\\dfrac{3.46}{9.3}\\approx0.37$（用比例法，免代入 $G$）　⟹　<b>(B) 約 0.37 倍</b>。' },
           '111_4': { ans: '(DE)', sol: '影響日常天氣（大尺度空氣運動）最明顯的是「重力」與「電磁力」——空氣的重量與氣壓差本質上是重力，雲的凝結、摩擦等接觸力源自電磁力。強力、弱力僅作用於原子核尺度。' },
           '111_5': { ans: '(A)　$10^2$ m/s（即 100 m/s）', sol: '<b>【已知】</b>球體質量 $m=720$ kg；動能 $E_k=3600$ <u>千</u>焦耳 $=3.6\\times10^6$ J（注意單位是「千焦耳」kJ，須乘 $10^3$）。<br><b>【求】</b>球體速率 $v$。<br><b>【橋接理論】</b>動能公式 $E_k=\\dfrac{1}{2}mv^2$，反解 $v=\\sqrt{\\dfrac{2E_k}{m}}$。<br><b>【計算】</b>$v=\\sqrt{\\dfrac{2\\times3.6\\times10^6}{720}}=\\sqrt{10^4}=100$ m/s $=10^2$ m/s　⟹　<b>(A)</b>。<br><span style="color:var(--accent-rose);">易錯：把「千焦耳」當成焦耳，會少算 $10^3$（$\\sqrt{10}\\approx3.16$ 是錯的）。</span>' },
-          '111_6': { ans: '(BE)', sol: '晶片卡靠電磁感應供電：讀卡機線圈電流 $I_1$ 變動 → 卡片線圈磁通量變化 → 感應出 $I_2$。由楞次定律反推，欲得指定方向的 $I_2$，$I_1$ 須「正向漸減」或「反向漸增」。' },
+          '111_6': { ans: '(BE)', sol: '晶片卡靠電磁感應供電：讀卡機線圈電流 $I_1$ 變動 → 卡片線圈穿過線圈的磁場變化 → 感應出 $I_2$。由楞次定律反推，欲得指定方向的 $I_2$，$I_1$ 須「正向漸減」或「反向漸增」。' },
           '111_7-8': { ans: 'Q7：(D)　Q8：(BE)', sol: 'Q7：由大氣向外熱輻射曲線對照黑體輻射，找輻射強度最強波段對應的溫度。<br>Q8：溫室氣體增加使大氣吸收更多地面長波輻射，能量收支失衡→大氣內部（近地面）溫度上升。' },
           '111_9': { ans: '(B)', sol: '科學史正確配對：愛因斯坦以光子（光量子）模型解釋光電效應。（馬克士威是統合電磁理論、預測電磁波，非解釋光電效應。）' },
-          '111_49-51': { ans: 'Q49：(BD)　Q50：(D)　Q51：非選（折射作圖）', hand: true, sheet: '111_51_sheet.png', cer: true, sol: 'Q49、Q50：血流訊號的週期性與都卜勒頻移判讀。<br><b>Q51（手繪）</b>官方參考答案：先畫出與介面垂直的「法線」；因波由介質A（慢）進入介質B（快），折射線在介質B中「偏離法線」（向左偏離虛線的斜直線）。<br>作圖要點：①法線垂直界面；②折射角＞入射角（偏離法線）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的條件：</strong>波由介質 A（波速慢）進入介質 B（波速快），入射線與法線夾一銳角。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>司乃耳折射定律：$\\frac{\\sin\\theta_1}{v_1}=\\frac{\\sin\\theta_2}{v_2}$。因 $v_2 > v_1$，$\\sin\\theta_2 > \\sin\\theta_1$，折射角＞入射角（偏離法線）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>法線垂直界面；折射線偏離法線，向左偏折。</div></div>' },
+          '111_49-51': { ans: 'Q49：(BD)　Q50：(D)　Q51：非選（折射作圖）', hand: true, sheet: '111_51_sheet.png', cer: true, sol: 'Q49、Q50：血流訊號的週期性與都卜勒頻移判讀。<br><b>Q51（手繪）</b>官方參考答案：先畫出與介面垂直的「法線」；因波由介質A（慢）進入介質B（快），折射線在介質B中「偏離法線」（向左偏離虛線的斜直線）。<br>作圖要點：①法線垂直界面；②折射角＞入射角（偏離法線）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的條件：</strong>波由介質 A（波速慢）進入介質 B（波速快），入射線與法線夾一銳角。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>波跨介質折射時頻率不變、波速改變。波由慢介質進入快介質，波速變快 → 折射角大於入射角，折射線偏離法線（定性判斷，不需司乃耳定律計算）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>法線垂直界面；折射線偏離法線，向左偏折。</div></div>' },
           '111_54': { ans: '非選　$\\Delta f_A > \\Delta f_V > \\Delta f_C$', hand: true, cer: true, sol: '官方參考答案：$\\Delta f_A > \\Delta f_V > \\Delta f_C$（符號 $\\Delta f$ 要寫完整）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的事實：</strong>由生理知識可知，人體血流速率為動脈(A)最快、靜脈(V)次之、微血管(C)最慢。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>都卜勒效應：反射波的頻率偏移量 $\\Delta f$ 正比於反射體（紅血球）的移動速率，血流越快則 $\\Delta f$ 越大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>依流速大小排序，$\\Delta f_A > \\Delta f_V > \\Delta f_C$。</div></div>' },
           '111_58-60': { ans: 'Q58：(A)　Q59：(AD)　Q60：非選（計算 $M\\approx0.1$ kg）', hand: true, cer: true, sol: 'Q58：文中電壓、電阻、能量、普朗克常數皆為導出量，「質量」才是 SI 基本量。<br>Q59：靜態平衡時線圈電流與磁極方向須使電磁力與重力平衡。<br><b>Q60（計算）</b>官方參考答案：①由動態模式斜率求 $f_B=\\frac{\\Delta V}{\\Delta v}=\\frac{90-(-95)}{3.6-(-3.8)}=25$；②$F_B=f_B I=25\\times0.04=1.0$ N；③靜態平衡 $F_B=Mg$，$M=\\frac{1.0}{9.8}\\approx0.1$ kg。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的數據：</strong>動態模式中 $V$ 與 $v$ 的線性關係圖（斜率可讀取），電流 $I=0.04$ A，重力加速度 $g=9.8$ m/s²。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>①由圖的斜率求力常數 $f_B=\\frac{\\Delta V}{\\Delta v}=25$；②電磁力 $F_B=f_B \\cdot I=25 \\times 0.04=1.0$ N；③靜態平衡時 $F_B=Mg$（電磁力等於重力）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>$M=\\frac{F_B}{g}=\\frac{1.0}{9.8}\\approx 0.1$ kg。</div></div>' },
 
@@ -5082,18 +5294,18 @@
           '113_24-25': { ans: 'Q24：(AC)　Q25：(C)', sol: 'Q24：電冰箱利用電能作功把箱內熱能搬到箱外（熱不會自發由低溫流向高溫）；密閉房間開冰箱門長時間運轉，室溫反而上升。<br>Q25：性能係數＝轉移熱能÷輸入功＝2.5，輸入 1 度電（$3.6\\times10^6$ J）可轉移 $2.5\\times3.6\\times10^6=9.0\\times10^6$ J。' },
           '113_26-27': { ans: 'Q26：(C)　Q27：(B)', sol: 'Q26：安全氣囊充氣壓力—時間圖判讀，達飽和壓力一半所需時間。<br>Q27：緩衝的物理原理——延長碰撞作用時間使加速度與受力降低（$a=\\Delta v/\\Delta t$、$F=ma$）。' },
           '113_31': { ans: '(C)　40 秒', sol: '<b>【已知】</b>P 波速率 $v_P=5$ km/s、S 波速率 $v_S=3$ km/s；此測站 P 波比 S 波早到 20 秒；預警通知在地震發生後 10 秒送達市民。<br><b>【求】</b>市民在 S 波到達前可應變的秒數。<br><b>【橋接理論】</b>地震波在均勻介質中等速前進（$t=d/v$）。先用 P、S 到達時間差求震源距 $d$，再算 S 波到達時刻，扣掉收到預警的時刻。<br><b>【計算】</b>①時間差：$\\dfrac{d}{v_S}-\\dfrac{d}{v_P}=\\dfrac{d}{3}-\\dfrac{d}{5}=\\dfrac{2d}{15}=20\\Rightarrow d=150$ km。<br>②S 波到達時刻 $=\\dfrac{d}{v_S}=\\dfrac{150}{3}=50$ 秒。<br>③應變時間 $=$ S 波到達(50 s) $-$ 收到預警(10 s) $=40$ 秒　⟹　<b>(C)</b>。' },
-          '113_44-46': { ans: 'Q44：(E)　Q45：(BD)　Q46：非選（手繪 $I$-$t$ 曲線）', hand: true, sheet: '113_46_sheet.png', cer: true, sol: 'Q44、Q45：磁鐵等速穿過線圈的應電流方向、大小與影響因素（楞次定律、磁通量變化率）。<br><b>Q46（手繪）</b>官方參考答案：(a) 6~12 秒磁鐵移離，磁通量減少，與移進時相反 → 產生逆時針感應電流、電流值為正；因等速，9 秒時 N 極恰脫離環圈甲中心，且 6~12 秒曲線與 0~6 秒曲線對稱於「(6 秒, 0)」點（點對稱）。(b) 以楞次定律＋等速說明電流為正與曲線對稱性。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>磁鐵以等速移離環圈甲（6~12 秒），N 極在 9 秒時恰脫離環圈中心；0~6 秒磁鐵以等速移入。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第定律：感應電動勢正比於磁通量變化率。冷次定律：移離時磁通量減少，感應電流方向為阻止減少（與移入時相反）。等速 → 對稱的磁通量變化 → 曲線與 (6s, 0) 點對稱。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>6~12 秒電流為正（逆時針），曲線與 0~6 秒對稱於 (6 秒, 0) 點。</div></div>' },
+          '113_44-46': { ans: 'Q44：(E)　Q45：(BD)　Q46：非選（手繪 $I$-$t$ 曲線）', hand: true, sheet: '113_46_sheet.png', cer: true, sol: 'Q44、Q45：磁鐵等速穿過線圈的應電流方向、大小與影響因素（楞次定律、穿過線圈的磁場變化率）。<br><b>Q46（手繪）</b>官方參考答案：(a) 6~12 秒磁鐵移離，穿過線圈的磁場減少，與移進時相反 → 產生逆時針感應電流、電流值為正；因等速，9 秒時 N 極恰脫離環圈甲中心，且 6~12 秒曲線與 0~6 秒曲線對稱於「(6 秒, 0)」點（點對稱）。(b) 以楞次定律＋等速說明電流為正與曲線對稱性。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>磁鐵以等速移離環圈甲（6~12 秒），N 極在 9 秒時恰脫離環圈中心；0~6 秒磁鐵以等速移入。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第定律：感應電動勢正比於穿過線圈的磁場變化率。冷次定律：移離時穿過線圈的磁場減少，感應電流方向為阻止減少（與移入時相反）。等速 → 對稱的穿過線圈的磁場變化 → 曲線與 (6s, 0) 點對稱。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>6~12 秒電流為正（逆時針），曲線與 0~6 秒對稱於 (6 秒, 0) 點。</div></div>' },
           '113_54-56': { ans: 'Q54：(CD)　Q55：(C)　Q56：非選（紅外線／平流層／臭氧）', hand: true, cer: true, sol: 'Q54、Q55：天文電磁波觀測、望遠鏡口徑越大繞射越小、解析度越高。<br><b>Q56（非選）</b>官方參考答案：(a-1) 地表向外輻射主要為<b>紅外線</b>；(a-2) 吸收紫外線的臭氧主要在<b>平流層</b>；(b) 來自太空的紫外線會「被大氣中的臭氧吸收」。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的事實：</strong>地表向外輻射的峰值波長落在紅外線波段；紫外線在平流層就被大量吸收，幾乎無法到達地面。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>黑體輻射：地表溫度約 288 K 對應的輻射峰值在紅外線（維恩位移定律）；臭氧的分子結構可共振吸收紫外線，臭氧主要分布於平流層。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a-1) 地表輻射主要為紅外線；(a-2) 臭氧主要在平流層；(b) 太空紫外線被大氣臭氧吸收。</div></div>' },
 
           // ===== 114 學測 =====
           '114_11': { ans: '(BCD)', sol: '屬於電磁波者：無線電波、紅外線、可見光、紫外線、X 射線等皆是；微中子、聲波不是電磁波。' },
-          '114_19': { ans: '(DE)', sol: 'ISS 週期 90 分＜同步衛星 24 小時，由 $T^2\\propto r^3$ 知 ISS 軌道半徑較小；$v=\\sqrt{GM/r}$、$a=GM/r^2$ 與衛星質量無關且隨 $r$ 減小而增大 → ISS 速率、加速度較大。含質量的力學能/位能因質量未知無法斷定。' },
+          '114_19': { ans: '(DE)', sol: 'ISS 週期 90 分＜同步衛星 24 小時，由 $T^2\\propto r^3$ 知 ISS 軌道半徑較小；軌道越低速率越快（定性），該處重力場（加速度）$g=GM/r^2$ 隨 $r$ 減小而增大 → ISS 速率、加速度較大。含衛星質量的力學能／位能因質量未知，無法斷定。' },
           '114_20-21': { ans: 'Q20：(B)　Q21：(A)', sol: 'Q20：耗電 $E=Pt$ 全轉為熱，由熔化熱 $Q=mL$ 求可融化的冰量。<br>Q21：$E$ 全轉為力學能，由 $W=mgh$ 求可將多少水抬升至玉山山頂。單位換算（度→焦耳）是關鍵。' },
           '114_22-23': { ans: 'Q22：(C)　Q23：(AD)', sol: 'Q22：太空船飛行距離÷時間求平均速率（並與光速比較）。<br>Q23：太空船遠離時，地面測得電磁波頻率下降（都卜勒紅移）。' },
           '114_24': { ans: '(D)', sol: '原子能階敘述：電子只能處於分立能階，躍遷時吸收/放出的光子能量等於能階差；能階間不可停留。' },
           '114_25': { ans: '(D)', sol: '電子雙狹縫干涉圖樣與光類似，證實電子具波動性（物質波）；即使一顆一顆發射，長時間累積仍出現條紋。' },
           '114_26': { ans: '(B)', sol: '接觸力（地板支撐力等）本質是原子間的電磁交互作用；強力僅作用於原子核尺度，不涵蓋整個原子。' },
-          '114_27': { ans: '(D)', sol: '手機無線充電：充電器線圈的變化磁場使手機線圈磁通量改變而感應電流（法拉第電磁感應），與悠遊卡同模型。' },
+          '114_27': { ans: '(D)', sol: '手機無線充電：充電器線圈的變化磁場使手機線圈穿過線圈的磁場改變而感應電流（法拉第電磁感應），與悠遊卡同模型。' },
           '114_47-48': { ans: 'Q47：(AE)　Q48：(C)　$300/290$', sol: '<b>Q47</b>：細胞膜平衡電壓式中，$eE$（電荷×電壓）與 $\\kappa T$ 皆為能量單位（應選 2 項）。<br><b>Q48（計算）</b><br>　<b>【已知】</b>兩情況溫度為攝氏 $27^\\circ$C 與 $17^\\circ$C，且 $n_內$、$n_外$ 維持恆定。<br>　<b>【求】</b>$27^\\circ$C 時的平衡電壓量值，約為 $17^\\circ$C 時的幾倍。<br>　<b>【橋接理論】</b>平衡電壓式中的 $T$ 為「絕對溫度」，$n$ 不變時平衡電壓正比於 $T$。先把攝氏換成克氏：$27^\\circ$C$=300$ K、$17^\\circ$C$=290$ K。<br>　<b>【計算】</b>比值 $=\\dfrac{300}{290}$　⟹　<b>(C)</b>。' },
           '114_50-51': { ans: 'Q50：(BE)　Q51：非選（計算 $\\lambda\\approx390$ nm）', hand: true, cer: true, sol: 'Q50：光觸媒電子躍過能隙產生催化，需光子能量≥能隙。<br><b>Q51（計算）</b>官方參考答案：(a) $\\lambda_{max}=\\frac{hc}{E}=\\frac{6.63\\times10^{-34}\\times3.0\\times10^8}{3.2\\times1.6\\times10^{-19}}\\approx390$ nm；(b) 摻雜鋅離子後可用 400 nm（較長波長）啟動，由 $E\\propto1/\\lambda$ 知能隙「＜」3.2 eV。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的數據：</strong>二氧化鈦能隙 $E=3.2$ eV；$h=6.63\\times10^{-34}$ J·s，$c=3.0\\times10^8$ m/s，$1$ eV $=1.6\\times10^{-19}$ J；摻鋅後可用 400 nm 啟動。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>光子能量與波長公式 $E=\\frac{hc}{\\lambda}$，反解得 $\\lambda_{max}=\\frac{hc}{E}$。代入得 $\\lambda\\approx390$ nm。摻鋅後啟動波長變長（400 nm），由 $E\\propto1/\\lambda$ 知能隙變小。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a) $\\lambda_{max}\\approx390$ nm；(b) 摻鋅後能隙＜3.2 eV。</div></div>' },
 
@@ -5103,14 +5315,14 @@
           '115_8': { ans: '(BD)', sol: 'P 波（6 km/s）、S 波（3 km/s）、海嘯波（12 km/分）等速前進，由波速與距離推算抵達時間。' },
           '115_10': { ans: '(C)', sol: '汽車先等加速、再等速、後等減速；由 $v-t$ 圖斜率求加速度、圖線面積求位移；加速段與減速段位移由三角形面積比較。' },
           '115_11-12': { ans: 'Q11：(DE)　Q12：(BE)', sol: 'Q11：起重機三階段（加速/等速/減速）合力方向判斷——先由運動狀態定加速度方向再定合力。<br>Q12：三段的重力位能變化與動能變化比較（力學能觀點）。' },
-          '115_13': { ans: '(E)', sol: '系外行星繞恆星圓周運動，引力提供向心力；速度方向沿切線、量值由軌道決定，配合克卜勒定律判圖。' },
+          '115_13': { ans: '(E)', sol: '系外行星繞恆星做圓周運動，引力是維持其繞行、指向恆星的力；速度方向沿軌道切線，配合克卜勒定律判斷圖形。' },
           '115_14': { ans: '(C)', sol: '氦核內四種力量值比較：兩質子間靜電斥力（甲）與強力（丁）在核尺度均遠大於重力（乙）；一般 丁＞甲，且電磁力＞重力。依核尺度四力強度排序判定。' },
           '115_15': { ans: '(B)', sol: '電場＝單位電荷所受力，SI 單位為 N/C（牛頓每庫侖），等價於 V/m。' },
           '115_16': { ans: '(B)', sol: '氫原子中電子受質子的庫侖引力，$F\\propto1/x^2$（平方反比），方向指向原點；隨距離增大急遽減弱。' },
           '115_17': { ans: '(E)　$394/140$', sol: '<b>【已知】</b>月球赤道處日間、夜間的溫度（題目給定，換算為絕對溫標後為日間約 394 K、夜間約 140 K）。<br><b>【求】</b>相同氣體分子的平均動能，日間為夜間的幾倍。<br><b>【橋接理論】</b>理想氣體分子平均動能正比於「絕對溫度（克氏溫標）」：$\\bar{E}_k\\propto T(\\text{K})$，故動能比＝絕對溫度比。<br><b>【計算】</b>$\\dfrac{\\bar{E}_{k,日}}{\\bar{E}_{k,夜}}=\\dfrac{T_日}{T_夜}=\\dfrac{394}{140}$　⟹　<b>(E)</b>。<br><span style="color:var(--accent-rose);">關鍵：必須用「絕對溫標 K」相除，不可直接用攝氏溫度相除。</span>' },
           '115_18': { ans: '(E)', sol: '鈾核分裂 $U\\to Kr+Ba+$ 中子，反應前後質量數與電荷數守恆；釋放能量來自質量虧損 $E=\\Delta mc^2$。' },
-          '115_47-49': { ans: 'Q47：(B)　Q48：(AD)　Q49：非選（手繪電場與折射線）', hand: true, sheet: '115_49_sheet.png', cer: true, sol: 'Q47：汞原子 365 nm（3.4 eV）對應的能階躍遷配對。<br>Q48：13.5 nm 極紫外光的光子能量表達與數量級（$E=hc/\\lambda$）。<br><b>Q49（手繪）</b>參考答案：(a) 依干涉加強，$3R$ 的電場與位置圖須與 $2R$ 同相（波峰對波峰）疊加使反射最大；(b) 光由慢介質射向快介質，折射線需「偏離法線」（折射角＞入射角）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的條件：</strong>(a) $3R$ 層需使反射率最大（干涉加強）；(b) 光由速率慢的介質射入速率快的介質。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>(a) 薄膜干涉加強條件：$3R$ 的反射電場須與 $2R$ 同相疊加（波峰對波峰），故電場圖須同相。(b) 折射定律：$n_1\\sin\\theta_1=n_2\\sin\\theta_2$。慢介質折射率較大 → $n_1>n_2$ → $\\sin\\theta_2>\\sin\\theta_1$ → 折射角＞入射角。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a) $3R$ 電場與 $2R$ 同相；(b) 折射線偏離法線。</div></div>' },
-          '115_53': { ans: '非選（手繪應電流波形）', hand: true, sheet: '115_53_sheet.png', cer: true, sol: '本題以手帶動磁鐵相對線圈運動模擬潮汐發電。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>手帶動磁鐵相對線圈做往復運動，磁鐵時而靠近、時而遠離線圈，且速率時大時小。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第電磁感應：感應電動勢正比於磁通量變化率；楞次定律：感應電流方向恆阻礙磁通量變化。磁鐵靠近與遠離時磁通量變化方向相反，且速率最大處變化率最大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>線圈產生方向交替、量值隨速率變化的感應電流（往復交流），速率最大處電流量值最大。</div></div>' },
+          '115_47-49': { ans: 'Q47：(B)　Q48：(AD)　Q49：非選（手繪電場與折射線）', hand: true, sheet: '115_49_sheet.png', cer: true, sol: 'Q47：汞原子 365 nm（3.4 eV）對應的能階躍遷配對。<br>Q48：13.5 nm 極紫外光的光子能量表達與數量級（$E=hc/\\lambda$）。<br><b>Q49（手繪）</b>參考答案：(a) 依干涉加強，$3R$ 的電場與位置圖須與 $2R$ 同相（波峰對波峰）疊加使反射最大；(b) 光由慢介質射向快介質，折射線需「偏離法線」（折射角＞入射角）。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—題目給定的條件：</strong>(a) $3R$ 層需使反射率最大（干涉加強）；(b) 光由速率慢的介質射入速率快的介質。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>(a) 薄膜干涉加強：$3R$ 的反射電場須與 $2R$ 同相疊加（波峰對波峰），故電場圖須同相。(b) 波由慢介質射入快介質，波速變快 → 折射角大於入射角，折射線偏離法線（定性判斷）。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>(a) $3R$ 電場與 $2R$ 同相；(b) 折射線偏離法線。</div></div>' },
+          '115_53': { ans: '非選（手繪應電流波形）', hand: true, sheet: '115_53_sheet.png', cer: true, sol: '本題以手帶動磁鐵相對線圈運動模擬潮汐發電。<div class="cer-box" style="border:none;padding:0;margin:0;"><div class="cer-item cer-e"><strong>證據 (Evidence)—觀察到的情境：</strong>手帶動磁鐵相對線圈做往復運動，磁鐵時而靠近、時而遠離線圈，且速率時大時小。</div><div class="cer-item cer-r"><strong>推理 (Reasoning)—依據的理論：</strong>法拉第電磁感應：感應電動勢正比於穿過線圈的磁場變化率；楞次定律：感應電流方向恆阻礙穿過線圈的磁場變化。磁鐵靠近與遠離時穿過線圈的磁場變化方向相反，且速率最大處變化率最大。</div><div class="cer-item cer-c"><strong>主張 (Claim)—結論判斷：</strong>線圈產生方向交替、量值隨速率變化的感應電流（往復交流），速率最大處電流量值最大。</div></div>' },
           // ===== 111 參考卷 =====
           '111參_19': { ans: '(ACD)', sol: '鉛直上拋於重力（等加速度）作用下：上升與下降對稱，最高點速度為零但加速度仍為 $g$ 向下；同高度處速率相等。' },
           '111參_20': { ans: '(A)', sol: '肉品切面的彩虹光澤是薄層結構造成的光「干涉」現象（類似油膜、CD 表面），非色素造成。' },
@@ -5118,7 +5330,7 @@
           '111參_23': { ans: '(BDE)', sol: '光電效應顯示光的粒子性：頻率低於底限頻率再強也打不出電子；頻率夠高則瞬時逸出。（愛因斯坦是「提出理論解釋」而非首先做實驗。）' },
           '111參_24': { ans: '(B)', sol: '聲波由空氣進入水中：跨介質「頻率不變」；水中聲速較大，波長變長；行進方向依折射而改變。' },
           '111參_25': { ans: '(C)', sol: '基本力判斷：中子單獨不穩定會因「弱力」衰變成質子＋電子；火星受太陽「萬有引力」繞行。（核子束縛靠強力，非電磁力。）' },
-          '111參_26': { ans: '(ABE)', sol: '長直導線電流變化 → 導線環磁通量變化 → 感應電流。$I$ 定值時無感應（$i=0$）；$I$ 增大與減小時感應電流方向相反（楞次定律）。' },
+          '111參_26': { ans: '(ABE)', sol: '長直導線電流變化 → 導線環穿過線圈的磁場變化 → 感應電流。$I$ 定值時無感應（$i=0$）；$I$ 增大與減小時感應電流方向相反（楞次定律）。' },
           '111參_27': { ans: '(C)', sol: '雷擊使牆壁窗紙變黑卻屋體完好，屬「靜電放電」的尖端與表面放電熱效應現象。' },
           '111參_37': { ans: '(B)', sol: 'SI 基本物理量為電流（安培）；速度是導出量。' },
           '111參_38': { ans: '(AE)', sol: '加速度、與導出量相關者為導出物理量；溫度屬基本量。' },
@@ -5130,7 +5342,7 @@
           '106_15': { ans: '(D)', sol: '光是電磁波，帶有隨時間變化的電場與磁場；微波波長比可見光長；β 射線是電子流，非電磁波。' },
           '106_16-17': { ans: 'Q16：(C)　Q17：(B)', sol: 'Q16：克服重力的能量＝功率-時間圖的面積（三角形）$=\\frac12\\times30\\times300=4500$ J。<br>Q17：$4500=mgh=50\\times10\\times h$ → $h=9$ m，每層 3 m → 爬了 3 層。' },
           '106_28': { ans: '(BC)', sol: '基本交互作用：靜電力作用範圍（無限遠）大於弱力（極短程）；有質量者間必有重力（含核內質子）。' },
-          '106_29': { ans: '(ABE)', sol: '長直導線電流 $I$ 變化使導線環磁通量變化而生感應電流；$I$ 定值時無感應，增/減時方向相反（楞次定律）。' },
+          '106_29': { ans: '(ABE)', sol: '長直導線電流 $I$ 變化使導線環穿過線圈的磁場變化而生感應電流；$I$ 定值時無感應，增/減時方向相反（楞次定律）。' },
           '106_30': { ans: '(ABE)', sol: '光的波粒二象性：頻率越高光量子能量越大（$E=hf$）；光同時具波動性（干涉繞射）與粒子性（光電效應）。' },
           '106_32': { ans: '(CE)', sol: '拉塞福金箔散射：少數 α 粒子大角度反彈，推知原子質量與正電集中於極小的原子核，原子內部大部分是空的。' },
           '106_55-57': { ans: 'Q55：(D)　Q56：(E)　Q57：(C)', sol: '克卜勒等面積定律：地球與太陽連線每秒掃過的「面積」相等（不變）；但掃過的「角度」在近日點較大；由節氣時距可推地球公轉速率與遠近變化。' },
@@ -5142,17 +5354,17 @@
           '107_16': { ans: '(E)', sol: '小球受空氣阻力落下：先加速、加速度漸減，最終達終端速度（$v-t$ 圖趨於水平線）。' },
           '107_17': { ans: '(A)', sol: '兩相對而立的載流圓線圈，於圓心連線中點的磁場方向由各線圈電流方向（右手定則）疊加判定。' },
           '107_18': { ans: '(C)', sol: '證實光粒子性的關鍵：存在底限頻率、光電子最大動能只與頻率有關（與強度無關）、瞬時逸出——皆波動說無法解釋。' },
-          '107_29-30': { ans: 'Q29：(BC)　Q30：(BE)', sol: '電磁感應題組：甲迴路電流變化 → 乙迴路（檢流計）感應電流；將乙迴路等速拉離時磁通量變化，產生感應電流並使磁針偏轉。' },
+          '107_29-30': { ans: 'Q29：(BC)　Q30：(BE)', sol: '電磁感應題組：甲迴路電流變化 → 乙迴路（檢流計）感應電流；將乙迴路等速拉離時穿過線圈的磁場變化，產生感應電流並使磁針偏轉。' },
           '107_31': { ans: '(AC)', sol: '光經不透光擋板後在牆上的亮度分布：幾何直進造成陰影，邊緣因繞射使明暗界線不完全銳利。' },
           '107_37': { ans: '(E)', sol: '硼能吸收熱中子，降低核反應中可引發連鎖分裂的中子數，抑制反應爐核反應。' },
           '107_39': { ans: '(A)', sol: '核融合需高溫使氘、氚原子核具足夠高動能，克服兩核間的庫侖排斥力而融合。' },
           '107_55-56': { ans: 'Q55：(D)　Q56：(C)', sol: '智慧手機測 $g$：靜止時內部加速度計讀值對應重力；自由落體（放手後）時讀值近乎為零（失重），由 $v-t$／讀值圖判定自由落體時段。' },
-          '107_60': { ans: '(A)', sol: '衛星在 720 km 高圓軌道週期約 100 分鐘；引力提供向心力 $v=\\sqrt{GM/r}$，軌道越高速率越慢、週期越長。' },
+          '107_60': { ans: '(A)', sol: '衛星在 720 km 高圓軌道週期約 100 分鐘；引力維持衛星繞行，由克卜勒第三定律 $T^2\\propto r^3$，軌道越高週期越長、速率越慢（定性）。' },
 
           // ===== 108 學測（99 課綱）=====
           '108_4': { ans: '(B)', sol: '波浪向岸傳播，水淺處波速變慢 → 波前偏折（折射），使波前逐漸與海岸線平行。' },
           '108_5': { ans: '(D)', sol: '防靜電工作服導電性較高，可將累積的靜電荷導走、抑制靜電放電，降低引燃危害。' },
-          '108_6': { ans: '(E)', sol: '電磁感應需「磁通量變化」。以「直流」通小線圈且維持定值時磁場不變 → 大線圈無感應電流。' },
+          '108_6': { ans: '(E)', sol: '電磁感應需「穿過線圈的磁場變化」。以「直流」通小線圈且維持定值時磁場不變 → 大線圈無感應電流。' },
           '108_7': { ans: '(D)', sol: '氫、氦、汞的發射光譜為不連續線光譜，可作為辨識原子種類的指紋（能階量子化）。' },
           '108_21': { ans: '(AD)', sol: '密閉氦氣置入沸水加熱：體積固定，溫度升高使分子平均動能增大、撞壁更頻繁 → 壓力上升。' },
           '108_22': { ans: '(BCE)', sol: '基本力：強力克服質子間靜電斥力形成原子核；摩擦力、正向力源自電磁力（非重力）。' },
@@ -5175,7 +5387,7 @@
           '109_36': { ans: '(ABC)', sol: '閃電多發生於對流層；夏季午後熱對流旺盛易伴隨閃電；為雲層間或雲對地的靜電放電現象。' },
           '109_40': { ans: '(CD)', sol: '一次直接轉換成電能且描述正確者：如太陽能電池（光能→電能）、燃料電池（化學能→電能）等。（乾電池為化學能→電能，非熱能。）' },
           '109_43': { ans: '(C)', sol: '槓鈴力學能：由各時段動能與位能變化判斷（上舉時位能增、加速時動能增），依力學能守恆與外力作功分析。' },
-          '109_45': { ans: '(ACD)', sol: '合力判斷：等速直線飛行的民航機合力為零；等速繞地的衛星「合力不為零」（提供向心力），故該選項錯。' },
+          '109_45': { ans: '(ACD)', sol: '合力判斷：等速直線飛行的民航機合力為零；等速繞地的衛星速度方向持續改變 → 有加速度 → 合力不為零（此力由引力提供），故「合力為零」的選項錯。' },
           '109_46': { ans: '(A)', sol: '作用力與反作用力：須為「同一交互作用、作用在不同物體、大小相等方向相反」的一對力。' },
           '109_47': { ans: '(E)', sol: '力的量值關係式判斷：依受力圖與牛頓定律，比較各力（重力、正向力、張力等）的量值關係。' },
 
