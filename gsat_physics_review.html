@@ -2031,7 +2031,8 @@
             const specialHtml = (nodeId === 'N01' ? siSectionHtml() : '')
                 + (nodeId === 'N03' ? kinematicsGraphsHtml() : '')
                 + (nodeId === 'N18' ? emSpectrumSectionHtml() : '')
-                + (nodeId === 'N23' ? photoelectricSectionHtml() : '');
+                + (nodeId === 'N23' ? photoelectricSectionHtml() : '')
+                + (nodeId === 'N27' ? fourForcesSectionHtml() : '');
 
             const lvOrder = { '記憶': 1, '理解': 2, '應用': 3, '分析': 4 };
             const qs = questionBank.filter(q => q.node === nodeId).sort((a, b) => lvOrder[a.level] - lvOrder[b.level]);
@@ -2736,6 +2737,11 @@
                         name: "放射性衰變與半衰期",
                         formula: "N = N_0 \\left(\\frac{1}{2}\\right)^{t/T_{1/2}}",
                         desc: "每經過一個半衰期 $T_{1/2}$，尚未衰變的原子核數目減半。半衰期由核種本身決定，不受溫度、壓力等外在環境影響。$\\alpha$ 衰變：質量數 $-4$、原子序 $-2$；$\\beta$ 衰變：質量數不變、原子序 $+1$。"
+                    },
+                    {node: 'N27', 
+                        name: "四大基本交互作用特性對照",
+                        formula: "\\text{強力} > \\text{電磁力} > \\text{弱力} > \\text{重力}",
+                        desc: "<b>強力</b>：強度最高（約電磁力 $10^2$ 倍）、短程力（$\\approx 10^{-15}\\text{ m}$，穩定原子核）。<br><b>電磁力</b>：強度次之（基準值 $1$）、長程力（無限遠，主導日常生活接觸力如摩擦力、彈力）。<br><b>弱力</b>：強度極低（約 $10^{-13}$）、極短程力（$\\approx 10^{-18}\\text{ m}$，控制$\\beta$衰變與核融合）。<br><b>重力</b>：強度最弱（約 $10^{-38}$）、長程力（無限遠，主導天體運行與重力場）。"
                     }
                 ],
                 conceptMap: `
@@ -3428,6 +3434,56 @@
                         <div class="feature-bridge-title">➔ 愛因斯坦的光量子（光子）解釋（1905）</div>
                         <div class="feature-bridge-desc">愛因斯坦提出：光是一顆顆能量為 $E=hf$ 的「光子」，與電子進行「一對一」的能量交換。由能量守恆：<br><div class="formula-display" style="margin:0.5rem 0;">$$ hf = W + E_{k,\\text{max}} $$</div>其中 $W$ 為<b>功函數</b>（電子脫離金屬表面所需的最低能量）。<br>① <b>頻率</b>決定每顆光子的能量 $hf$ → 決定能否打出電子（底限頻率 $f_0 = W/h$）與光電子的最大動能；<br>② <b>強度</b>決定光子的「數目」 → 決定射出光電子的「數目」（光電流）；<br>③ <b>瞬時發射</b>：單一光子把能量瞬間交給電子，不需要時間累積。<br>此舉確立光的「粒子性」（波粒二象性），愛因斯坦也因此獲 1921 年諾貝爾物理獎。</div>
                     </div>
+                </div>
+            `;
+        }
+
+        // 四大基本交互作用對照矩陣——併入模組七
+        function fourForcesSectionHtml() {
+            return `
+                <div class="handout-section-title" style="margin-top: 1.5rem;">🌌 四大基本交互作用對照矩陣</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">基本交互作用</th>
+                                <th style="width: 15%">相對強度</th>
+                                <th style="width: 20%">作用範圍 (m)</th>
+                                <th style="width: 15%">媒介粒子</th>
+                                <th>大考主要物理特徵與生活實例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>強交互作用 (強力)</strong></td>
+                                <td>$10^2$ (最強)</td>
+                                <td>$\\approx 10^{-15}$ (短程力)</td>
+                                <td>膠子</td>
+                                <td>作用於原子核內。克服質子間庫侖靜電排斥力以穩定結合質子與中子；束縛夸克。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>電磁交互作用</strong></td>
+                                <td>$1$ (次強)</td>
+                                <td>$\\infty$ (長程力)</td>
+                                <td>光子</td>
+                                <td>作用於帶電粒子間。主導日常所有接觸力（摩擦力、彈力、正向力）與化學鍵。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>弱交互作用 (弱力)</strong></td>
+                                <td>$10^{-13}$</td>
+                                <td>$\\approx 10^{-18}$ (極短程)</td>
+                                <td>W/Z 玻色子</td>
+                                <td>控制原子核的放射性衰變，例如使中子衰變為質子的 $\\beta$ 衰變。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>萬有引力 (重力)</strong></td>
+                                <td>$10^{-38}$ (最弱)</td>
+                                <td>$\\infty$ (長程力)</td>
+                                <td>重力子</td>
+                                <td>作用於所有具質量的物體。主導天體運行與天體重力場，但在微觀粒子間極微弱。</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             `;
         }
