@@ -2071,6 +2071,7 @@
 
                 ${formulasHtml}
                 ${featuresHtml}
+                ${nodeDiagramsHtml(nodeId)}
                 ${specialHtml}
 
                 ${examHtml ? `<div class="handout-section-title">🎯 歷屆真題實戰</div><div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">${examHtml}</div>` : ''}
@@ -2310,7 +2311,8 @@
                 examQuestions: [
                     {node: ['N03','N04'],  year: "111 學測 Q1-2", title: "颱風路徑與合力方向", desc: "<strong>解題特徵引導：</strong>將颱風中心視為質點。第一小題：平均速度 $\\vec{v} = \\Delta \\vec{x} / \\Delta t$，只需起點和終點的位移向量，不用理會路徑彎曲。第二小題：路徑發生彎曲代表運動方向改變，因此加速度必不為零，且合力方向（等同於加速度方向）必與瞬時速度方向不平行。" },
                     {node: 'N04',  year: "115 學測 Q11-12", title: "起重機吊物三階段力學分析", desc: "<strong>解題特徵引導：</strong>題組中重物自甲點由靜止鉛直上拉：甲→乙加速、乙→丙等速、丙→丁減速停止。逐段分析：加速段合力向上 $T - W = ma \\implies T > W$；等速段合力為零 $T = W$；減速段合力向下 $T < W$。關鍵是「先由運動狀態判定加速度方向，再定合力方向」，切勿一律套 $T = mg$。" },
-                    {node: 'N04',  year: "113 學測 Q26-27", title: "汽車安全氣囊充氣壓力圖判讀", desc: "<strong>解題特徵引導：</strong>題組說明車身急遽減速時安全氣囊充氣彈出，「透過內部氣體的緩衝降低駕駛人受到的衝擊力」，並給出充氣壓力—時間關係圖。考點為圖表判讀（充氣達飽和壓力一半所需時間）與緩衝概念：延長減速的作用時間，使加速度與受力降低（$a = \\Delta v/\\Delta t$、$F = ma$）——大考在必修範圍內以加速度觀點處理緩衝，不使用動量。" }
+                    {node: 'N04',  year: "113 學測 Q26-27", title: "汽車安全氣囊充氣壓力圖判讀", desc: "<strong>解題特徵引導：</strong>題組說明車身急遽減速時安全氣囊充氣彈出，「透過內部氣體的緩衝降低駕駛人受到的衝擊力」，並給出充氣壓力—時間關係圖。考點為圖表判讀（充氣達飽和壓力一半所需時間）與緩衝概念：延長減速的作用時間，使加速度與受力降低（$a = \\Delta v/\\Delta t$、$F = ma$）——大考在必修範圍內以加速度觀點處理緩衝，不使用動量。" },
+                    { node: ['N03', 'N05'], year: "112 學測 Q33", title: "落體實驗：空氣阻力與終端速率", desc: "<strong>解題特徵引導：</strong>半徑相同、質量 1 g、4 g、9 g 的三球由靜止落下，50 秒後速率均趨於穩定（終端速率），比值為 1：2：3；空氣阻力與浮力的合力近似 $F = \\alpha v^{\\beta}$。關鍵：達終端速率時合力為零 ➔ $mg = \\alpha v^{\\beta}$ ➔ $v^{\\beta} \\propto m$。代入比值：質量比 $1:4:9$ 恰為速率比 $1:2:3$ 的「平方」 ➔ $\\beta = 2$。$v-t$ 圖特徵：先加速、斜率漸減、最後趨於水平（終端速率），質量大者終端速率較大。" }
                 ]
             },
             3: {
@@ -2503,7 +2505,8 @@
                 examQuestions: [
                     {node: ['N13','N09'],  year: "114 學測 Q20-21", title: "比特幣耗電轉融冰熱與抬水位能", desc: "<strong>解題特徵引導：</strong>題組給出全球比特幣一年運作耗電約 $4.3 \\times 10^{17}$ J。Q20：若全數轉為熱能，由熔化熱 $Q = mL$（冰的熔化熱 80 kcal/kg）求可融化多少 0°C 的冰。Q21：若全數轉為力學能，由 $W = mgh$ 計算可將多少座烏山頭水庫的蓄水量從海平面抬升至玉山山頂（4000 m）。兩小題都是「總電能 = 單一用途能量」的守恆換算，關鍵在單位換算（度電→焦耳、kcal→kJ）。" },
                     {node: 'N12',  year: "113 學測 Q24-25", title: "電冰箱熱轉移與性能係數", desc: "<strong>解題特徵引導：</strong>Q24 考觀念：電冰箱是「利用電能作功，把冰箱內的熱能轉移到冰箱外」——熱不會自發由低溫流向高溫（熱力學第二定律），但輸入功即可反向搬熱；在密閉隔熱房間開著冰箱門長時間運轉，平均室溫反而上升（電能最終全變熱）。Q25 考計算：性能係數 = 轉移熱能 ÷ 輸入功 = 2.5，輸入 1 度電（$3.6 \\times 10^6$ J）可轉移 $2.5 \\times 3.6 \\times 10^6 = 9.0 \\times 10^6$ J 熱能。" },
-                    {node: ['N13','N12'],  year: "112 學測 Q34", title: "能源敘述判斷（含質量虧損觀念）", desc: "<strong>解題特徵引導：</strong>本題為五個能源敘述的組合判斷題。核心考點：核分裂發電後「反應爐內的原子總質量會比發電前少」——正確，此即質量虧損 $E = \\Delta m c^2$；但「鈾-235 燃料的全部質量都可轉換為熱能」——錯誤，只有虧損的微小差額轉為能量。另含變壓器待機仍耗電、LED 與白熾燈效能不同等生活用電判斷。" }
+                    {node: ['N13','N12'],  year: "112 學測 Q34", title: "能源敘述判斷（含質量虧損觀念）", desc: "<strong>解題特徵引導：</strong>本題為五個能源敘述的組合判斷題。核心考點：核分裂發電後「反應爐內的原子總質量會比發電前少」——正確，此即質量虧損 $E = \\Delta m c^2$；但「鈾-235 燃料的全部質量都可轉換為熱能」——錯誤，只有虧損的微小差額轉為能量。另含變壓器待機仍耗電、LED 與白熾燈效能不同等生活用電判斷。" },
+                    { node: 'N11', year: "115 學測 Q17", title: "月球日夜氣體分子平均動能比（絕對溫標）", desc: "<strong>解題特徵引導：</strong>已知氣體分子平均動能正比於「克氏溫度」（$\\bar{E}_k \\propto T$）。月球赤道日間約 $121^\\circ$C、夜間約 $-133^\\circ$C ➔ 必須先換算成絕對溫標：$121 + 273 = 394$ K、$-133 + 273 = 140$ K ➔ 平均動能比 $= 394/140$。本題唯一的陷阱就是「必須用 K、不能用 °C」——直接以攝氏數值相除的選項全是誘答。" }
                 ]
             },
             5: {
@@ -2580,11 +2583,16 @@
                         feature: "當你看到題目提到：「地震波 P 波與 S 波抵達測站的時間差（測震央距離）」之分析方式。",
                         bridge: "利用時間差公式：$\\Delta t = d(\\frac{1}{v_S} - \\frac{1}{v_P})$。P 波（縱波，速率快）先到，S 波（橫波，速率慢）後到。時間差 $\\Delta t$ 與震央距離 $d$ 成正比。",
                         trap: "⚡ 避坑指南：波傳遞的是「能量與擾動」，「介質質點」只在原地附近往復振動，絕不會隨波向前移動！另外，力學波的傳播速率只由「介質本身的性質」決定，與波的頻率、振幅無關。"
+                    },
+                    { node: 'N14',
+                        feature: "當你看到題目給出：「波速、頻率、波長其中兩者」或「地震波／海嘯波的走時」問題。",
+                        bridge: "核心關係 $v = f\\lambda$ ➔ 波速由「介質」決定、頻率由「波源」決定。等速前進的波以 $t = d/v$ 求走時（地震波、海嘯波皆適用）。",
+                        trap: "⚡ 避坑指南：波前進時只傳遞「能量與波形」，介質質點在原地振動、不隨波前進！同一介質中改變頻率並不會改變波速（波速只看介質）。"
                     },
-                    {node: 'N17', 
-                        feature: "當你看到雙狹縫干涉題目問及：「在某點形成亮帶或暗帶的物理判斷」。",
-                        bridge: "利用波程差 $\\Delta S = |PS_1 - PS_2|$ 與波長的關係判斷：亮帶（建設性干涉）➔ $\\Delta S = n\\lambda$（同相相長，波峰重疊）；暗帶（破壞性干涉）➔ $\\Delta S = (n-\\frac{1}{2})\\lambda$（反相相消，波峰與波谷重疊）。",
-                        trap: "⚡ 避坑指南：干涉和繞射是「波」的專屬特徵，若某個微觀粒子（如電子、中子）能產生干涉或繞射條紋，就代表它具有波動性！注意楊氏雙狹縫的狹縫寬度必須極小，否則只會看到兩個獨立的單狹縫繞射圖樣而無明顯的干涉條紋。"
+                    { node: 'N17',
+                        feature: "當你看到題目要求：「判斷螢幕上某點是亮紋或暗紋」或「更換不同波長的光後條紋如何變化」。",
+                        bridge: "比較兩狹縫到該點的「波程差」$\\Delta$ ➔ $\\Delta = n\\lambda$（波長整數倍）→ 同相加強、亮紋；$\\Delta = (n+\\frac{1}{2})\\lambda$ → 反相相消、暗紋。相鄰亮紋的波程差恰差一個波長 ➔ 波長越長（如紅光），條紋間距越寬（定性）。",
+                        trap: "⚡ 避坑指南：學測不需背條紋間距公式，用「波程差差一個波長」的幾何論證即可。「兩束光疊加反而變暗」是波動獨有的特徵——微粒說無法解釋相消！另外，狹縫必須夠窄（尺度與波長相當），干涉條紋才會明顯。"
                     }
                 ],
                 extensions: `
@@ -2619,7 +2627,9 @@
                 `,
                 examQuestions: [
                     {node: ['N16','N17'],  year: "115 學測 Q49", title: "鍍膜反射幾何光學與電場手繪", desc: "<strong>解題特徵引導：</strong>光在界面反射與折射。第一小問要求畫出折射線箭頭：光從慢速介質射向快速介質，折射線必須向外偏折，使得折射角大於入射角。第二小問要求畫出電場干涉相加：反射鏡薄膜設計為干涉加強，代表在界面反射的兩束光程差剛好為波長的整數倍，反射波峰與波峰重疊，合成電場振幅翻倍。" },
-                    {node: 'N14',  year: "113 學測 Q31", title: "地震 P 波與 S 波抵達時間差", desc: "<strong>解題特徵引導：</strong>地震波在均勻介質中可視為等速前進。題目給定 $v_P = 5$ km/s、$v_S = 3$ km/s，臺北測站 P 波比 S 波早到 20 秒：$\\frac{d}{3} - \\frac{d}{5} = 20 \\implies \\frac{2d}{15} = 20 \\implies d = 150$ km，再扣除預警發布耗時 10 秒即得應變時間。地科情境包裝下，底層本質是等速運動 $S = vt$ 的時間差問題。" }
+                    {node: 'N14',  year: "113 學測 Q31", title: "地震 P 波與 S 波抵達時間差", desc: "<strong>解題特徵引導：</strong>地震波在均勻介質中可視為等速前進。題目給定 $v_P = 5$ km/s、$v_S = 3$ km/s，臺北測站 P 波比 S 波早到 20 秒：$\\frac{d}{3} - \\frac{d}{5} = 20 \\implies \\frac{2d}{15} = 20 \\implies d = 150$ km，再扣除預警發布耗時 10 秒即得應變時間。地科情境包裝下，底層本質是等速運動 $S = vt$ 的時間差問題。" },
+                    { node: ['N14', 'N15'], year: "114 學測 Q22-23", title: "太空船飛行速率與都卜勒頻率變化", desc: "<strong>解題特徵引導：</strong>Q22：電磁波從火星傳到地球約需 10 分鐘 ➔ 距離 $d = ct = 3\\times10^8 \\times 600 = 1.8\\times10^{11}$ m；太空船飛行約 7 個月（$\\approx 1.8\\times10^7$ s）走過大致相同距離 ➔ 平均速率約 $10^4$ m/s。Q23：太空船「持續遠離」地球 ➔ 都卜勒效應使地球測得的頻率 $f$ 恆低於原頻率 $f_0$——重點是「只要相對距離在拉長，接收頻率就變低」，與加速或等速無關（加速過程與等速過程皆 $f < f_0$）。" },
+                    { node: 'N18', year: "115 學測 Q3", title: "多波段天文觀測與大氣窗", desc: "<strong>解題特徵引導：</strong>「大氣窗」指大氣層只對「特定波段」的電磁波較透明（主要為可見光與無線電波），並非所有波長都能通過。紅外線會被大氣中的水氣與二氧化碳（溫室氣體）強烈吸收 ➔ 紅外線望遠鏡要放到太空中觀測；臭氧吸收紫外線，且臭氧主要分布在「平流層」（選項稱中氣層即為誘答）。逐選項以「哪個波段被哪種大氣成分吸收」對照即可判斷。" }
                 ]
             },
             6: {
@@ -2686,11 +2696,11 @@
                         feature: "當你看到題目要求：「比較兩電荷間距改變後的靜電力大小」。",
                         bridge: "庫侖定律 $F = k\\frac{q_1 q_2}{r^2}$ ➔ 用比例法：距離變 $n$ 倍，力變 $\\frac{1}{n^2}$ 倍；任一電量變 $m$ 倍，力變 $m$ 倍. 兩電荷受力必相等（作用力與反作用力）。",
                         trap: "⚡ 避坑指南：即使兩電荷的「電量不同」，彼此施加的靜電力大小依然相等（牛頓第三定律）！電量大小只影響公式中的乘積，不會造成「大電荷施力較大」。"
-                    },
-                    {node: 'N20', 
-                        feature: "當你看到導線通電而指針偏轉，或詢問「螺線管／直導線周圍的磁場方向」。",
-                        bridge: "利用安培右手定則判定磁場：①直導線 ➔ 大拇指指電流，四指彎曲方向為磁場。②螺線管／環形導線 ➔ 四指彎曲指電流，大拇指指內部磁場方向（即 N 極指向）。載流導線受磁力方向則用右手開掌定則。",
-                        trap: "⚡ 避坑指南：磁力線是「封閉的連續曲線」，在磁鐵外部由 N 極指向 S 極，但在「磁鐵內部」或「載流螺線管內部」則是從 S 極指向 N 極！切勿死背外部規律而忽略了內部的封閉性。"
+                    },
+                    { node: 'N20',
+                        feature: "當你看到題目要求：「判斷載流長直導線或螺線管（線圈）周圍的磁場方向」。",
+                        bridge: "安培右手定則 ➔ 長直導線：大拇指指向「電流」方向，四指環繞的方向即「磁場」方向。螺線管：四指順著「線圈電流」彎曲，大拇指指向管內磁場方向（即 N 極端）。多條導線在某點的合成磁場 ➔ 先逐一判向、再疊加。",
+                        trap: "⚡ 避坑指南：長直導線的磁場是「環繞」導線的同心圓，方向與電流垂直，不是與電流平行！判斷兩導線之間某點的磁場時，兩者可能相加也可能相消，必須先各自定向再合成。另外，磁力線是「封閉曲線」：磁鐵與螺線管「內部」的磁力線由 S 極指向 N 極，勿只背外部 N→S 的規律。"
                     }
                 ],
                 extensions: `
@@ -2720,7 +2730,9 @@
                 `,
                 examQuestions: [
                     {node: 'N21',  year: "113 學測 Q44-46", title: "磁鐵等速穿過線圈的應電流分析", desc: "<strong>解題特徵引導：</strong>題組中細長磁鐵棒「S 極朝下、以等速度」接近、穿過、再離開固定的環圈甲（磁力線僅穿過環圈甲）。分析三階段：接近時穿過線圈的磁場增加，產生某一方向的應電流；磁鐵完全在環圈內移動期間穿過線圈的磁場變化趨緩、電流趨小；離開時穿過線圈的磁場減少，應電流「反向」。由冷次定律，環圈對磁鐵的磁力全程阻礙其運動：接近時排斥、離開時吸引。注意題幹為「等速度」——電流大小變化由穿過線圈的磁場變化率決定，不涉及重力加速。" },
-                    {node: 'N21',  year: "111 學測 Q6", title: "晶片卡（感應卡）電磁感應機制", desc: "<strong>解題特徵引導：</strong>題幹指出常用的晶片卡內建線圈：讀卡機線圈通有電流 $I_1$ 產生磁場，當 $I_1$ 變動時，貼近的卡片線圈穿過線圈的磁場改變而產生應電流 $I_2$ 驅動晶片。題目給定 $I_2$ 的方向，反問 $I_1$ 應如何變化（應選 2 項）——由冷次定律反推：$I_2$ 的磁場方向阻礙穿過線圈的磁場變化，故 $I_1$ 須「正向漸減」或「反向漸增」。悠遊卡、無線充電皆為同一模型。" }
+                    {node: 'N21',  year: "111 學測 Q6", title: "晶片卡（感應卡）電磁感應機制", desc: "<strong>解題特徵引導：</strong>題幹指出常用的晶片卡內建線圈：讀卡機線圈通有電流 $I_1$ 產生磁場，當 $I_1$ 變動時，貼近的卡片線圈穿過線圈的磁場改變而產生應電流 $I_2$ 驅動晶片。題目給定 $I_2$ 的方向，反問 $I_1$ 應如何變化（應選 2 項）——由冷次定律反推：$I_2$ 的磁場方向阻礙穿過線圈的磁場變化，故 $I_1$ 須「正向漸減」或「反向漸增」。悠遊卡、無線充電皆為同一模型。" },
+                    { node: 'N19', year: "115 學測 Q16", title: "氫原子中電子所受靜電力隨位置的變化", desc: "<strong>解題特徵引導：</strong>質子固定於原點、電子位於 $x$ 軸上：庫侖引力量值 $F \\propto 1/x^2$（平方反比，隨距離急遽減弱），方向恆「指向原點」（吸引力）。依「$F$ 朝 $+x$ 方向為正」的規約：電子在 $x>0$ 側受力為負、在 $x<0$ 側受力為正，且兩側曲線都隨 $|x|$ 增大而趨近於零——選出同時滿足「方向指向原點」與「$1/x^2$ 衰減」的圖形。" },
+                    { node: 'N20', year: "112 學測 Q36", title: "圓盤型永久磁鐵的磁極分布與受力平衡", desc: "<strong>解題特徵引導：</strong>兩個「完全相同」的圓盤磁鐵上下相對，乙懸空斜靠在直桿上而與甲分開——若兩者相吸，乙會被拉貼到甲上、無法分開懸置 ➔ 必為「排斥力」（同名磁極相對），由磁力把乙托起與重力平衡。乙向左傾斜使左半邊較靠近甲 ➔ 左半排斥力較大（磁力隨距離縮短而增強）。此類題的核心是「同極相斥、異極相吸」＋「磁力隨距離變化」的定性受力分析。" }
                 ]
             },
             7: {
@@ -2883,7 +2895,8 @@
                 examQuestions: [
                     {node: 'N24',  year: "115 學測 Q47-48", title: "汞原子能階躍遷與 EUV 光子能量", desc: "<strong>解題特徵引導：</strong>題幹直接給出：晶片製程使用的 365 nm 紫外光（UV）光子能量為 3.4 eV。Q47：在汞原子能階圖中，尋找能量差恰為 3.4 eV 的一對能階——發射光子對應「由高能階向低能階」的向下躍遷。Q48：先進製程使用 13.5 nm 極紫外光（EUV），由 $E = hc/\\lambda$ 判斷其光子能量的正確表達與數量級（波長縮小約 27 倍，光子能量放大約 27 倍）。" },
                     {node: ['N24','N23'],  year: "114 學測 Q50-54（跨科題組）", title: "二氧化鈦光觸媒能隙躍遷", desc: "<strong>解題特徵引導：</strong>題組說明奈米級二氧化鈦光觸媒照光後，「電子會從價帶躍遷到導電帶」，在表面生成自由基分解汙染物。物理考點：電子要躍過能隙 $E_{\\text{gap}}$，入射光子能量必須不小於能隙 ➔ 能激發光觸媒的最大波長為 $\\lambda_{\\text{max}} = \\frac{hc}{E_{\\text{gap}}}$，波長超過此值（能量不足）則無法激發。題組後半與化學（自由基分解有機物）整合。" },
-                    {node: ['N17','N25'],  year: "112 學測 Q30-31", title: "X 光晶體繞射與粒子雙狹縫干涉", desc: "<strong>解題特徵引導：</strong>Q30：以 X 光測定晶體原子排列，經兩層原子反射的光波因路徑差發生干涉——適用的 X 光波長需與原子層間距同數量級，即 $10^{-10}$ m。Q31（應選 2 項）：干涉亮紋處兩波「同相」疊加（波峰對波峰、波谷對波谷都會抵達）；暗紋處兩波「反相」（波峰對波谷同時抵達）。並判斷「原子等實體粒子通過適當縫距的雙狹縫也會有干涉現象」為正確——此即物質波的波粒二象性。" }
+                    {node: ['N17','N25'],  year: "112 學測 Q30-31", title: "X 光晶體繞射與粒子雙狹縫干涉", desc: "<strong>解題特徵引導：</strong>Q30：以 X 光測定晶體原子排列，經兩層原子反射的光波因路徑差發生干涉——適用的 X 光波長需與原子層間距同數量級，即 $10^{-10}$ m。Q31（應選 2 項）：干涉亮紋處兩波「同相」疊加（波峰對波峰、波谷對波谷都會抵達）；暗紋處兩波「反相」（波峰對波谷同時抵達）。並判斷「原子等實體粒子通過適當縫距的雙狹縫也會有干涉現象」為正確——此即物質波的波粒二象性。" },
+                    { node: 'N26', year: "112 學測 Q51-52", title: "鈾衰變鏈：衰變類型判斷與基本交互作用", desc: "<strong>解題特徵引導：</strong>Q51：由「質量數與原子序的變化」判斷衰變類型——$^{238}_{92}$U → $^{234}_{90}$Th 質量數 $-4$、原子序 $-2$ ➔ α 衰變（放出氦核）；$^{206}_{81}$Tl → $^{206}_{82}$Pb 質量數不變、原子序 $+1$ ➔ β 衰變（放出電子）。Q52（非選）：α 衰變是核子小集團脫離原子核 ➔ 涉及「強作用」；β 衰變是中子轉變為質子並放出電子 ➔ 涉及「弱作用」。「質量數守恆＋原子序守恆」是判斷一切核反應的萬用鑰匙。" }
                 ]
             }
         };
@@ -3506,6 +3519,267 @@
                     </table>
                 </div>
             `;
+        }
+
+        // ===== 高精度 inline SVG 圖解教學（依節點注入；座標一律以 JS 依物理關係計算）=====
+        const DG = { blue: '#2563eb', rose: '#e11d48', green: '#059669', orange: '#d97706', ink: '#334155', muted: '#64748b', grid: '#cbd5e1' };
+        const dgR = v => Math.round(v * 10) / 10;
+        function dgArrow(x1, y1, x2, y2, color, w) {
+            w = w || 2;
+            const a = Math.atan2(y2 - y1, x2 - x1), h = 8 + 2 * w;
+            const bx = x2 - (h - 2) * Math.cos(a), by = y2 - (h - 2) * Math.sin(a);
+            return '<line x1="' + dgR(x1) + '" y1="' + dgR(y1) + '" x2="' + dgR(bx) + '" y2="' + dgR(by) + '" stroke="' + color + '" stroke-width="' + w + '"/>' +
+                   '<polygon points="' + dgR(x2) + ',' + dgR(y2) + ' ' + dgR(x2 - h * Math.cos(a - 0.4)) + ',' + dgR(y2 - h * Math.sin(a - 0.4)) + ' ' + dgR(x2 - h * Math.cos(a + 0.4)) + ',' + dgR(y2 - h * Math.sin(a + 0.4)) + '" fill="' + color + '"/>';
+        }
+        function dgTxt(x, y, s, o) {
+            o = o || {};
+            return '<text x="' + dgR(x) + '" y="' + dgR(y) + '" font-size="' + (o.fs || 12) + '" fill="' + (o.fill || DG.ink) + '" text-anchor="' + (o.an || 'middle') + '"' + (o.b ? ' font-weight="700"' : '') + (o.tr ? ' transform="' + o.tr + '"' : '') + '>' + s + '</text>';
+        }
+        function dgLine(x1, y1, x2, y2, color, w, dash) {
+            return '<line x1="' + dgR(x1) + '" y1="' + dgR(y1) + '" x2="' + dgR(x2) + '" y2="' + dgR(y2) + '" stroke="' + (color || DG.grid) + '" stroke-width="' + (w || 1) + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
+        }
+        function dgPoly(pts, color, w, fill, dash) {
+            return '<polyline points="' + pts + '" fill="' + (fill || 'none') + '" stroke="' + color + '" stroke-width="' + (w || 2) + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + ' stroke-linejoin="round"/>';
+        }
+        function dgCard(title, svg, cap) {
+            return '<div class="formula-card"><div class="formula-card-title">📐 ' + title + '</div><div style="text-align:center; margin:0.4rem 0; overflow-x:auto;">' + svg + '</div><div class="formula-desc">' + cap + '</div></div>';
+        }
+        function dgSvg(w, h, inner) {
+            return '<svg viewBox="0 0 ' + w + ' ' + h + '" style="max-width:' + w + 'px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img">' + inner + '</svg>';
+        }
+
+        function diagN04() {
+            let s = '';
+            const scenes = [
+                { cx: 100, T: 56, note: '等速上升（a = 0）', rel: 'T = mg', aDir: 0 },
+                { cx: 265, T: 84, note: '加速上升（a 向上）', rel: 'T > mg', aDir: -1 },
+                { cx: 430, T: 34, note: '減速上升（a 向下）', rel: 'T &lt; mg', aDir: 1 }
+            ];
+            scenes.forEach(sc => {
+                s += dgTxt(sc.cx, 22, sc.note, { fs: 12, b: 1 });
+                s += '<rect x="' + (sc.cx - 32) + '" y="120" width="64" height="40" rx="4" fill="rgba(100,116,139,0.15)" stroke="' + DG.ink + '" stroke-width="1.5"/>';
+                s += dgArrow(sc.cx, 120, sc.cx, 120 - sc.T, DG.blue, 2.5) + dgTxt(sc.cx + 13, 120 - sc.T + 6, 'T', { fill: DG.blue, b: 1 });
+                s += dgArrow(sc.cx, 160, sc.cx, 216, DG.rose, 2.5) + dgTxt(sc.cx + 18, 212, 'mg', { fill: DG.rose, b: 1 });
+                if (sc.aDir !== 0) {
+                    const y1 = sc.aDir < 0 ? 100 : 60, y2 = sc.aDir < 0 ? 60 : 100;
+                    s += dgArrow(sc.cx + 55, y1, sc.cx + 55, y2, DG.green, 2) + dgTxt(sc.cx + 68, (y1 + y2) / 2 + 4, 'a', { fill: DG.green, b: 1 });
+                }
+                s += dgTxt(sc.cx, 240, sc.rel, { fs: 14, b: 1, fill: sc.aDir === 0 ? DG.ink : (sc.aDir < 0 ? DG.blue : DG.rose) });
+            });
+            return dgCard('起重機吊物三情境受力分析', dgSvg(520, 252, s),
+                '先由「運動狀態」判定加速度方向，再定合力方向：等速 a=0 → T=mg；加速上升合力向上 → T>mg；減速上升合力向下 → T&lt;mg。切勿看到吊起就一律套 T=mg！');
+        }
+
+        function diagN05() {
+            let s = '';
+            s += dgArrow(60, 190, 492, 190, DG.ink, 1.5) + dgArrow(60, 190, 60, 28, DG.ink, 1.5);
+            s += dgTxt(468, 210, '外力 F', { fs: 12 }) + dgTxt(88, 40, '摩擦力 f', { fs: 12 });
+            s += dgLine(60, 190, 240, 85, DG.blue, 2.5);
+            s += dgTxt(128, 118, '靜摩擦 ＝ 外力', { fill: DG.blue, fs: 11.5, tr: 'rotate(-30 128 118)' });
+            s += dgTxt(128, 133, '（自我調節）', { fill: DG.blue, fs: 10, tr: 'rotate(-30 128 133)' });
+            s += '<circle cx="240" cy="85" r="4.5" fill="' + DG.rose + '"/>' + dgTxt(240, 68, '最大靜摩擦', { fill: DG.rose, fs: 11.5, b: 1 });
+            s += dgLine(240, 85, 240, 112, DG.rose, 1.5, '4 3');
+            s += dgLine(240, 112, 470, 112, DG.green, 2.5) + dgTxt(360, 100, '動摩擦（約為定值）', { fill: DG.green, fs: 11.5, b: 1 });
+            s += dgLine(240, 112, 240, 190, DG.grid, 1, '4 3') + dgTxt(240, 208, '開始滑動', { fs: 11, fill: DG.muted });
+            return dgCard('摩擦力 f 隨外力 F 的變化', dgSvg(520, 235, s),
+                '物體未滑動時，靜摩擦力大小「恰等於外力」（沿斜線自我調節、與正向力無關）；外力達最大靜摩擦後開始滑動，轉為略小且大致固定的動摩擦。學測不涉及摩擦係數計算。');
+        }
+
+        function diagN07() {
+            const cx = 255, cy = 130, rx = 175, ry = 92;
+            const fx = cx - Math.sqrt(rx * rx - ry * ry);
+            const P = th => [cx + rx * Math.cos(th * Math.PI / 180), cy + ry * Math.sin(th * Math.PI / 180)];
+            let s = '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="none" stroke="' + DG.muted + '" stroke-width="1.6"/>';
+            const sector = (a1, a2, fill, stroke) => {
+                let pts = dgR(fx) + ',' + cy;
+                for (let a = a1; a <= a2; a += 3) { const p = P(a); pts += ' ' + dgR(p[0]) + ',' + dgR(p[1]); }
+                pts += ' ' + dgR(fx) + ',' + cy;
+                return '<polygon points="' + pts + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1"/>';
+            };
+            s += sector(150, 210, 'rgba(37,99,235,0.16)', DG.blue);
+            s += sector(-16, 16, 'rgba(5,150,105,0.16)', DG.green);
+            s += '<circle cx="' + dgR(fx) + '" cy="' + cy + '" r="8" fill="' + DG.orange + '"/>' + dgTxt(fx, 156, '太陽（焦點）', { fs: 11, fill: DG.orange, b: 1 });
+            s += dgArrow(cx - rx, cy, cx - rx, cy - 50, DG.blue, 2.5) + dgTxt(cx - rx - 18, cy - 28, 'v 大', { fill: DG.blue, b: 1 });
+            s += dgArrow(cx + rx, cy, cx + rx, cy + 38, DG.green, 2.5) + dgTxt(cx + rx + 21, cy + 24, 'v 小', { fill: DG.green, b: 1 });
+            s += dgTxt(cx - rx + 4, cy - 60, '近日點', { fs: 11 }) + dgTxt(cx + rx - 6, cy + 56, '遠日點', { fs: 11 });
+            s += dgTxt(148, cy + 4, '甲', { fs: 13, b: 1, fill: DG.blue }) + dgTxt(398, cy + 4, '乙', { fs: 13, b: 1, fill: DG.green });
+            return dgCard('克卜勒第二定律：等面積律', dgSvg(520, 262, s),
+                '行星與太陽的連線在「相等時間」內掃過「相等面積」（甲＝乙）→ 近日點快、遠日點慢。第三定律：T² ∝ r³，軌道越大、週期越長（繞同一中心天體比較）。');
+        }
+
+        function diagN14() {
+            const y0 = 118, A = 58, x0 = 55, lam = 180;
+            let pts = '';
+            for (let x = x0; x <= 465; x += 4) pts += dgR(x) + ',' + dgR(y0 - A * Math.sin(2 * Math.PI * (x - x0) / lam)) + ' ';
+            let s = dgLine(x0, y0, 465, y0, DG.grid, 1, '5 4');
+            s += dgPoly(pts, DG.blue, 2.5);
+            const c1 = x0 + lam / 4, c2 = c1 + lam, t1 = x0 + 3 * lam / 4;
+            s += dgArrow(c1, y0, c1, y0 - A, DG.rose, 2) + dgTxt(c1 - 30, y0 - A / 2 + 4, '振幅 A', { fill: DG.rose, fs: 11.5, b: 1 });
+            s += dgLine(c1, y0 - A, c1, 34, DG.grid, 1, '3 3') + dgLine(c2, y0 - A, c2, 34, DG.grid, 1, '3 3');
+            s += dgArrow(c1, 34, c2, 34, DG.ink, 1.5) + dgArrow(c2, 34, c1, 34, DG.ink, 1.5) + dgTxt((c1 + c2) / 2, 26, '波長 λ', { fs: 12, b: 1 });
+            s += dgTxt(c1, y0 - A - 10, '波峰', { fs: 11, fill: DG.muted }) + dgTxt(t1, y0 + A + 16, '波谷', { fs: 11, fill: DG.muted });
+            s += dgArrow(330, 212, 430, 212, DG.green, 2.5) + dgTxt(380, 232, '波的前進方向', { fill: DG.green, fs: 11.5, b: 1 });
+            return dgCard('週期波的波形解剖', dgSvg(520, 245, s),
+                'v = fλ：波速由「介質」決定、頻率由「波源」決定。波傳遞的是能量與波形，介質質點只在原地振動、不隨波前進。');
+        }
+
+        function diagN15() {
+            const cy = 125;
+            const cs = [150, 168, 186, 204], rs = [100, 75, 50, 25];
+            let s = '';
+            cs.forEach((c, i) => { s += '<circle cx="' + c + '" cy="' + cy + '" r="' + rs[i] + '" fill="none" stroke="' + DG.blue + '" stroke-width="1.6" opacity="' + (0.45 + i * 0.15) + '"/>'; });
+            s += '<circle cx="216" cy="' + cy + '" r="5" fill="' + DG.rose + '"/>';
+            s += dgArrow(216, cy, 268, cy, DG.rose, 2.5) + dgTxt(252, cy + 22, '波源移動', { fill: DG.rose, fs: 11, b: 1 });
+            s += dgTxt(388, 92, '前方：波前密集', { an: 'start', fs: 11.5, b: 1 }) + dgTxt(388, 109, '→ 視波長短、頻率高', { an: 'start', fs: 11 }) + dgTxt(388, 126, '（接近 → 藍移）', { an: 'start', fs: 11, fill: DG.blue });
+            s += dgTxt(30, 40, '後方：波前稀疏', { an: 'start', fs: 11.5, b: 1 }) + dgTxt(30, 57, '→ 視波長長、頻率低', { an: 'start', fs: 11 }) + dgTxt(30, 74, '（遠離 → 紅移）', { an: 'start', fs: 11, fill: DG.rose });
+            return dgCard('都卜勒效應：移動波源的波前分布', dgSvg(520, 250, s),
+                '波源移動時，前方波前被壓縮（視波長變短、接收頻率變高）、後方拉長（頻率變低）；相對速度越大、頻率變化越大。波在介質中的速率不變（由介質決定）。');
+        }
+
+        function diagN16() {
+            const vx = 260, vy = 130, th1 = 35 * Math.PI / 180;
+            const th2 = Math.asin(1.33 * Math.sin(th1));
+            let s = '<rect x="40" y="' + vy + '" width="440" height="105" fill="rgba(37,99,235,0.08)"/>';
+            s += dgLine(40, vy, 480, vy, DG.ink, 2);
+            s += dgLine(vx, 25, vx, 240, DG.muted, 1.2, '6 4') + dgTxt(vx, 18, '法線', { fs: 11, fill: DG.muted });
+            const ix = vx - 110 * Math.sin(th1), iy = vy + 110 * Math.cos(th1);
+            s += dgArrow(ix, iy, vx, vy, DG.blue, 2.5) + dgTxt(ix - 12, iy - 6, '入射線', { fill: DG.blue, fs: 11.5, b: 1 });
+            const rx2 = vx + 115 * Math.sin(th2), ry2 = vy - 115 * Math.cos(th2);
+            s += dgArrow(vx, vy, rx2, ry2, DG.rose, 2.5) + dgTxt(rx2 + 14, ry2 - 4, '折射線', { fill: DG.rose, fs: 11.5, b: 1, an: 'end' });
+            const gx = vx + 78 * Math.sin(th1), gy = vy - 78 * Math.cos(th1);
+            s += dgLine(vx, vy, gx, gy, DG.grid, 1.2, '4 3') + dgTxt(gx + 6, gy - 6, '原方向', { fs: 10, fill: DG.muted, an: 'start' });
+            const arc = (r, a1, a2) => { let p = ''; for (let a = a1; a <= a2; a += 2) p += dgR(vx + r * Math.cos(a * Math.PI / 180)) + ',' + dgR(vy + r * Math.sin(a * Math.PI / 180)) + ' '; return dgPoly(p, DG.ink, 1.2); };
+            s += arc(42, 90, 90 + 35) + dgTxt(vx + 58 * Math.cos(107.5 * Math.PI / 180), vy + 58 * Math.sin(107.5 * Math.PI / 180) + 4, 'θ₁', { fs: 12, b: 1 });
+            const a2deg = th2 * 180 / Math.PI;
+            s += arc(40, -90, -90 + a2deg) + dgTxt(vx + 57 * Math.cos((-90 + a2deg / 2) * Math.PI / 180), vy + 57 * Math.sin((-90 + a2deg / 2) * Math.PI / 180) + 4, 'θ₂', { fs: 12, b: 1 });
+            s += dgTxt(66, 50, '空氣（波速快）', { an: 'start', fs: 11.5 }) + dgTxt(66, 226, '水（波速慢）', { an: 'start', fs: 11.5, fill: DG.blue });
+            return dgCard('折射：由慢介質進入快介質（角度依折射定律計算）', dgSvg(520, 252, s),
+                '波由慢介質（水）進入快介質（空氣）：折射角 θ₂ ＞ 入射角 θ₁，折射線「偏離」法線（圖中角度即依實際比例繪出）；頻率不變、波速與波長變大。反向（快→慢）則偏向法線。');
+        }
+
+        function diagN17() {
+            const S1 = [150, 95], S2 = [150, 155], Px = 450, Py = 70;
+            const r1 = Math.hypot(Px - S1[0], Py - S1[1]), r2 = Math.hypot(Px - S2[0], Py - S2[1]);
+            let s = dgLine(150, 30, 150, 88, DG.ink, 4) + dgLine(150, 102, 150, 148, DG.ink, 4) + dgLine(150, 162, 150, 230, DG.ink, 4);
+            s += dgTxt(134, 99, 'S₁', { an: 'end', fs: 12, b: 1 }) + dgTxt(134, 159, 'S₂', { an: 'end', fs: 12, b: 1 });
+            s += dgLine(450, 30, 450, 230, DG.ink, 3);
+            s += dgLine(150, 125, 450, 125, DG.grid, 1, '5 4') + dgTxt(464, 129, 'O', { fs: 11, fill: DG.muted });
+            s += dgArrow(62, 95, 110, 95, DG.muted, 1.5) + dgArrow(62, 155, 110, 155, DG.muted, 1.5) + dgTxt(88, 130, '入射波', { fs: 10.5, fill: DG.muted });
+            s += dgLine(S1[0], S1[1], Px, Py, DG.blue, 1.8) + dgLine(S2[0], S2[1], Px, Py, DG.rose, 1.8);
+            s += '<circle cx="' + Px + '" cy="' + Py + '" r="3.5" fill="' + DG.ink + '"/>' + dgTxt(Px + 14, Py + 4, 'P', { fs: 12, b: 1 });
+            const angS2 = Math.atan2(S2[1] - Py, S2[0] - Px) * 180 / Math.PI;
+            let arcPts = '';
+            for (let a = angS2 - 5; a <= angS2 + 3; a += 0.5) arcPts += dgR(Px + r1 * Math.cos(a * Math.PI / 180)) + ',' + dgR(Py + r1 * Math.sin(a * Math.PI / 180)) + ' ';
+            s += dgPoly(arcPts, DG.green, 1.4, null, '4 3');
+            const ux = (Px - S2[0]) / r2, uy = (Py - S2[1]) / r2, d = r2 - r1;
+            s += dgLine(S2[0], S2[1], S2[0] + ux * d, S2[1] + uy * d, DG.green, 4.5);
+            s += dgTxt(206, 182, 'Δ ＝ 波程差', { fill: DG.green, fs: 11.5, b: 1 });
+            [[125, 20], [70, 16], [180, 16]].forEach(bar => {
+                s += '<rect x="452" y="' + (bar[0] - bar[1] / 2) + '" width="9" height="' + bar[1] + '" fill="' + DG.blue + '" opacity="0.75"/>';
+            });
+            s += dgTxt(487, 74, '亮紋', { fs: 10.5, fill: DG.blue });
+            return dgCard('雙狹縫干涉：波程差的幾何意義', dgSvg(520, 250, s),
+                '兩狹縫到 P 點的路徑長不同，波程差 Δ = |S₂P − S₁P|（綠色粗段）。Δ = nλ → 同相加強（亮紋）；Δ = (n＋½)λ → 反相相消（暗紋）；相鄰亮紋的 Δ 恰差一個 λ。');
+        }
+
+        function diagN19() {
+            const ox = 265, oy = 125, k = 60000;
+            let s = dgArrow(40, oy, 492, oy, DG.ink, 1.5) + dgArrow(ox, 237, ox, 25, DG.ink, 1.5);
+            s += dgTxt(484, oy + 20, 'x', { fs: 12 }) + dgTxt(ox + 14, 36, 'F', { fs: 12 });
+            let pR = '', pL = '';
+            for (let xr = 26; xr <= 215; xr += 3) {
+                const f = Math.min(95, k / (xr * xr));
+                pR += dgR(ox + xr) + ',' + dgR(oy + f) + ' ';
+                pL = dgR(ox - xr) + ',' + dgR(oy - f) + ' ' + pL;
+            }
+            s += dgPoly(pR, DG.rose, 2.2) + dgPoly(pL, DG.rose, 2.2);
+            s += '<circle cx="' + ox + '" cy="' + oy + '" r="5.5" fill="' + DG.orange + '"/>' + dgTxt(ox + 24, oy - 10, '質子', { fs: 11, fill: DG.orange, b: 1 });
+            s += '<circle cx="365" cy="' + oy + '" r="4" fill="' + DG.green + '"/>' + dgArrow(365, oy, 325, oy, DG.green, 2) + dgTxt(383, oy - 14, '電子受力指向原點', { fs: 10.5, fill: DG.green, an: 'start' });
+            s += '<circle cx="165" cy="' + oy + '" r="4" fill="' + DG.green + '"/>' + dgArrow(165, oy, 205, oy, DG.green, 2);
+            s += dgTxt(408, 218, 'x＞0 側：F＜0', { fs: 11, fill: DG.muted }) + dgTxt(122, 46, 'x＜0 側：F＞0', { fs: 11, fill: DG.muted });
+            return dgCard('氫原子中電子所受靜電力 F–x 圖（曲線依 1/x² 計算）', dgSvg(520, 250, s),
+                '電子受質子的庫侖引力：量值 ∝ 1/x²（隨距離急遽衰減）、方向恆「指向原點」——x＞0 側 F 為負、x＜0 側 F 為正。115 學測 Q16 即考此圖形的判讀。');
+        }
+
+        function diagN21() {
+            let s = '';
+            for (let i = 0; i < 4; i++) s += '<ellipse cx="100" cy="' + (170 + i * 10) + '" rx="45" ry="10" fill="none" stroke="' + DG.ink + '" stroke-width="2"/>';
+            s += '<rect x="78" y="45" width="44" height="32" fill="#94a3b8"/><rect x="78" y="77" width="44" height="33" fill="' + DG.rose + '" opacity="0.85"/>';
+            s += dgTxt(100, 66, 'S', { fill: '#fff', b: 1, fs: 14 }) + dgTxt(100, 100, 'N', { fill: '#fff', b: 1, fs: 14 });
+            s += dgArrow(140, 68, 140, 115, DG.green, 2.5) + dgTxt(154, 95, 'v', { fill: DG.green, b: 1 });
+            s += dgTxt(100, 232, '磁鐵自由落下', { fs: 11, fill: DG.muted });
+            s += dgArrow(205, 145, 502, 145, DG.ink, 1.5) + dgArrow(205, 237, 205, 40, DG.ink, 1.5);
+            s += dgTxt(192, 50, 'I', { fs: 12 }) + dgTxt(494, 163, 't', { fs: 12 });
+            let pts = '';
+            for (let tp = 0; tp <= 275; tp += 2) {
+                const I = 34 * Math.exp(-Math.pow((tp - 60) / 24, 2)) - 58 * Math.exp(-Math.pow((tp - 150) / 15, 2));
+                pts += dgR(210 + tp) + ',' + dgR(145 - I) + ' ';
+            }
+            s += dgPoly(pts, DG.blue, 2.2);
+            s += dgTxt(272, 84, '進入：峰值小、時間長', { fs: 10.5, fill: DG.blue });
+            s += dgTxt(330, 162, '中央 I = 0', { fs: 10.5, fill: DG.muted, an: 'start' });
+            s += dgTxt(408, 228, '離開：反向、峰值大、時間短', { fs: 10.5, fill: DG.rose });
+            return dgCard('磁鐵自由落下穿過線圈的感應電流 I–t 曲線', dgSvg(520, 250, s),
+                '進入與離開時感應電流「方向相反」（冷次定律）；磁鐵位於線圈正中央的瞬間，穿過線圈的磁場暫時不變 → I = 0；因重力加速、離開時速度較快 → 離開段峰值較大、歷時較短（曲線不對稱）。');
+        }
+
+        function diagN23() {
+            const ox = 75, oy = 195, f0x = 210, ex = 455, ey = 72;
+            const slope = (oy - ey) / (ex - f0x);
+            let s = dgArrow(ox, oy, 492, oy, DG.ink, 1.5) + dgArrow(ox, 268, ox, 30, DG.ink, 1.5);
+            s += dgTxt(150, 44, '光電子最大動能 Eₖ', { fs: 11.5 }) + dgTxt(432, 215, '入射光頻率 f', { fs: 11.5 });
+            s += dgLine(f0x, oy, ex, ey, DG.blue, 2.5);
+            const wy = oy + slope * (f0x - ox);
+            s += dgLine(f0x, oy, ox, wy, DG.rose, 1.8, '6 4');
+            s += dgTxt(ox + 20, wy + 6, '−W（功函數）', { fill: DG.rose, fs: 11, an: 'start', b: 1 });
+            s += '<circle cx="' + f0x + '" cy="' + oy + '" r="4.5" fill="' + DG.rose + '"/>' + dgTxt(f0x, 216, 'f₀（底限頻率）', { fill: DG.rose, fs: 11, b: 1 });
+            s += dgTxt(352, 112, '斜率 ＝ h（普朗克常數）', { fs: 11, fill: DG.blue, b: 1, tr: 'rotate(-26.5 352 112)' });
+            s += dgTxt(142, 178, 'f ＜ f₀：打不出電子', { fs: 10.5, fill: DG.muted });
+            return dgCard('光電效應 Eₖ–f 圖：一條直線讀出 h、f₀、W', dgSvg(520, 285, s),
+                'hf = W + Eₖ：橫軸截距為底限頻率 f₀ = W/h、斜率為普朗克常數 h、縱軸截距（外插）為 −W。改變光強度只改變光電子「數目」（光電流），整條直線不動。');
+        }
+
+        function diagN24() {
+            const yOf = E => 48 + (-E / 13.6) * 190;
+            const lv = [[0, 'n = ∞（游離）', '0 eV'], [-0.85, 'n = 4', '−0.85 eV'], [-1.51, 'n = 3', '−1.51 eV'], [-3.4, 'n = 2', '−3.40 eV'], [-13.6, 'n = 1（基態）', '−13.6 eV']];
+            let s = '';
+            lv.forEach((L, i) => {
+                const y = yOf(L[0]);
+                s += dgLine(120, y, 400, y, i === 0 ? DG.muted : DG.ink, i === 0 ? 1.2 : 2, i === 0 ? '6 4' : null);
+                s += dgTxt(112, y + 4, L[1], { an: 'end', fs: 10.5 }) + dgTxt(408, y + 4, L[2], { an: 'start', fs: 10.5, fill: DG.muted });
+            });
+            const y3 = yOf(-1.51), y2 = yOf(-3.4);
+            s += dgArrow(230, y3, 230, y2, DG.rose, 2.2);
+            let wav = '';
+            for (let x = 246; x <= 344; x += 3) wav += dgR(x) + ',' + dgR((y3 + y2) / 2 + 7 * Math.sin((x - 246) / 7)) + ' ';
+            s += dgPoly(wav, DG.green, 2) + dgArrow(344, (y3 + y2) / 2 + 7 * Math.sin(98 / 7), 358, (y3 + y2) / 2, DG.green, 2);
+            s += dgTxt(322, (y3 + y2) / 2 + 27, '發射光子 ΔE ＝ hf', { fs: 11, fill: DG.green, b: 1 });
+            return dgCard('氫原子能階圖（依實際能量比例繪製）', dgSvg(520, 268, s),
+                '能階不連續（量子化）且越往高處越密集。電子「向下」躍遷放出光子、「向上」躍遷須吸收恰等於能階差的能量：ΔE = hf = hc/λ——這正是原子光譜為線光譜的原因。');
+        }
+
+        function diagN26() {
+            const ox = 65, oy = 205, T = 95, N0 = 155;
+            let s = dgArrow(ox, oy, 498, oy, DG.ink, 1.5) + dgArrow(ox, oy, ox, 28, DG.ink, 1.5);
+            s += dgTxt(178, 40, '未衰變的原子核數 N/N₀', { fs: 11.5 }) + dgTxt(470, 226, '時間', { fs: 11.5 });
+            let pts = '';
+            for (let t = 0; t <= 415; t += 4) pts += dgR(ox + t) + ',' + dgR(oy - N0 * Math.exp(-Math.LN2 * t / T)) + ' ';
+            s += dgPoly(pts, DG.blue, 2.5);
+            s += dgTxt(52, oy - N0 + 5, '1', { fs: 11, fill: DG.muted });
+            [[1, '1/2'], [2, '1/4'], [3, '1/8']].forEach(g => {
+                const x = ox + g[0] * T, y = oy - N0 * Math.pow(0.5, g[0]);
+                s += dgLine(x, oy, x, y, DG.grid, 1, '4 3') + dgLine(ox, y, x, y, DG.grid, 1, '4 3');
+                s += dgTxt(50, y + 4, g[1], { fs: 11, fill: DG.rose, b: 1 });
+                s += dgTxt(x, 222, g[0] === 1 ? 'T½' : g[0] + 'T½', { fs: 11, fill: DG.muted });
+            });
+            return dgCard('放射性衰變：半衰期曲線（指數函數取點繪製）', dgSvg(520, 240, s),
+                '每經過一個半衰期 T½，尚未衰變的核數減半：1 → 1/2 → 1/4 → 1/8……。半衰期由核種本身決定，不受溫度、壓力等外在環境影響。');
+        }
+
+        function nodeDiagramsHtml(nodeId) {
+            const makers = { N04: diagN04, N05: diagN05, N07: diagN07, N14: diagN14, N15: diagN15, N16: diagN16, N17: diagN17, N19: diagN19, N21: diagN21, N23: diagN23, N24: diagN24, N26: diagN26 };
+            if (!makers[nodeId]) return '';
+            return '<div class="handout-section-title">📐 圖解教學</div><div class="formulas-grid">' + makers[nodeId]() + '</div>';
         }
 
         function toggleQCard(card) {
