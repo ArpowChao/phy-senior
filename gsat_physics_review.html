@@ -1862,8 +1862,406 @@
             border-radius: 6px;
             font-size: 0.78rem;
         }
+        /* 2026 visual refinement: quiet scientific instrument palette */
+        :root {
+            --bg-body: #f3f6f7;
+            --bg-sidebar: #102633;
+            --bg-card: #ffffff;
+            --text-main: #172b38;
+            --text-muted: #627581;
+            --border-color: #dce5e8;
+            --primary-blue: #2368d5;
+            --primary-blue-light: #e9f1fc;
+            --accent-cyan: #0b9298;
+            --accent-green: #18845c;
+            --accent-green-light: #e9f7f1;
+            --accent-orange: #ba7216;
+            --accent-orange-light: #fff5e5;
+            --accent-rose: #c44052;
+            --accent-rose-light: #fff0f2;
+            --transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --blur: none;
+            --shadow-neon: 0 1px 2px rgba(18, 38, 50, 0.04), 0 8px 24px rgba(18, 38, 50, 0.045);
+            --shadow-neon-hover: 0 2px 4px rgba(18, 38, 50, 0.05), 0 14px 34px rgba(18, 38, 50, 0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.42)),
+                repeating-linear-gradient(90deg, transparent 0, transparent 79px, rgba(16, 38, 51, 0.025) 80px),
+                var(--bg-body);
+            font-family: 'Noto Sans TC', system-ui, sans-serif;
+            line-height: 1.72;
+        }
+
+        #sidebar {
+            width: 304px;
+            padding: 1.75rem 1.15rem 2rem;
+            background: var(--bg-sidebar);
+            border-right: 0;
+            box-shadow: 10px 0 30px rgba(16, 38, 51, 0.08);
+            backdrop-filter: none;
+            scrollbar-width: thin;
+            scrollbar-color: #36505d transparent;
+        }
+
+        .sidebar-brand {
+            position: relative;
+            margin: 0 0 1.7rem;
+            padding: 0.35rem 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar-brand::before {
+            content: '';
+            display: block;
+            width: 34px;
+            height: 3px;
+            margin-bottom: 0.8rem;
+            border-radius: 99px;
+            background: #55c3c3;
+            box-shadow: 12px 0 0 rgba(85, 195, 195, 0.35);
+        }
+
+        .sidebar-brand h1 {
+            color: #f5fbfc;
+            background: none;
+            -webkit-text-fill-color: currentColor;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: -0.025em;
+        }
+
+        .sidebar-brand p {
+            margin-top: 0.4rem;
+            color: #9eb0b9;
+            line-height: 1.55;
+        }
+
+        .nav-section-title {
+            margin: 1.5rem 0.75rem 0.65rem;
+            color: #70d2d0;
+            font-size: 0.69rem;
+            letter-spacing: 0.12em;
+        }
+
+        .nav-list { gap: 0.18rem; }
+
+        .nav-item {
+            min-height: 42px;
+            padding: 0.62rem 0.72rem;
+            border: 1px solid transparent;
+            border-left-width: 1px;
+            border-radius: 8px;
+            color: #b8c6cc;
+            font-size: 0.86rem;
+            line-height: 1.5;
+        }
+
+        .nav-item:hover {
+            color: #f5fbfc;
+            background: rgba(255, 255, 255, 0.055);
+            transform: none;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+            background: rgba(76, 179, 184, 0.15);
+            border-color: rgba(112, 210, 208, 0.22);
+            border-left: 3px solid #58c5c4;
+            box-shadow: none;
+        }
+
+        .nav-module-header { color: #8299a4; font-size: 0.75rem; }
+        .nav-module-header:hover, .nav-module-header.active { color: #70d2d0; }
+
+        .node-code-badge {
+            min-width: 35px;
+            padding: 0.13rem 0.38rem;
+            color: #8edbd9;
+            background: rgba(85, 195, 195, 0.1);
+            border: 1px solid rgba(85, 195, 195, 0.14);
+            border-radius: 4px;
+            font-family: 'Outfit', sans-serif;
+            text-align: center;
+        }
+
+        .nav-item-node.active .node-code-badge { color: #102633; background: #70d2d0; }
+
+        #main-content {
+            max-width: 1500px;
+            padding: 2.6rem clamp(2rem, 4vw, 4.75rem) 5rem;
+        }
+
+        .content-header {
+            position: relative;
+            margin-bottom: 2.25rem;
+            padding: 0 0 1.8rem;
+            border-bottom: 0;
+        }
+
+        .content-header::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 7px;
+            background:
+                linear-gradient(var(--border-color), var(--border-color)) left bottom / 100% 1px no-repeat,
+                repeating-linear-gradient(90deg, var(--border-color) 0 1px, transparent 1px 12px) left bottom / 100% 5px no-repeat;
+        }
+
+        .content-badge {
+            margin-bottom: 0.9rem;
+            padding: 0.3rem 0.68rem;
+            color: #176065;
+            background: #e5f3f3;
+            border: 1px solid #c8e5e5;
+            border-radius: 5px;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        .content-title {
+            color: var(--text-main);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            font-size: clamp(1.85rem, 3vw, 2.55rem);
+            line-height: 1.23;
+            letter-spacing: -0.045em;
+        }
+
+        .content-subtitle {
+            max-width: 860px;
+            margin-top: 0.65rem;
+            font-size: 0.96rem;
+            line-height: 1.75;
+        }
+
+        .edu-card, .formula-card, .quiz-card, .q-card,
+        .tracker-week-card, .tracker-progress-card, .bank-filter-bar,
+        .exam-item, .concept-map-container, .feature-guide-box {
+            background: #ffffff;
+            border-color: var(--border-color);
+            border-radius: 10px;
+            box-shadow: var(--shadow-neon);
+            backdrop-filter: none;
+        }
+
+        .edu-card:hover, .formula-card:hover, .quiz-card:hover, .q-card:hover {
+            border-color: #b7d2d5;
+            box-shadow: var(--shadow-neon-hover);
+            transform: translateY(-2px);
+        }
+
+        .edu-card-title { border-left: 3px solid var(--accent-cyan); text-shadow: none; }
+
+        .handout-section-title {
+            padding-bottom: 0.65rem;
+            border-bottom-color: #d8e2e5;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            letter-spacing: -0.018em;
+        }
+
+        .formula-display { background: #f7f9fa; border-color: #e5ecee; }
+        .soil-tabs, .bank-filter-bar { background-color: #eaf0f2; border-color: #d7e2e5; }
+
+        .soil-tab-btn.active, .bank-chip-btn.active, .quiz-btn-primary,
+        .print-btn, .exam-sol-btn {
+            background: #2368d5;
+            box-shadow: 0 5px 14px rgba(35, 104, 213, 0.2);
+        }
+
+        .edu-table th { color: #314b58; background: #edf3f4; }
+        button, select, input, a { font: inherit; }
+
+        button:focus-visible, select:focus-visible, input:focus-visible,
+        a:focus-visible, [tabindex]:focus-visible {
+            outline: 3px solid rgba(85, 195, 195, 0.38);
+            outline-offset: 3px;
+        }
+
+        .mobile-nav-toggle { display: none; }
+
+        .summary-jump-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.65rem;
+            margin: 0 0 2rem;
+        }
+
+        .summary-jump {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 0.9rem;
+            color: #31515e;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: var(--shadow-neon);
+            transition: var(--transition);
+        }
+
+        .summary-jump:hover {
+            color: #176065;
+            border-color: #9fcfd1;
+            transform: translateY(-2px);
+        }
+
+        .summary-jump-code {
+            color: var(--accent-cyan);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-section {
+            scroll-margin-top: 5.5rem;
+            margin: 0 0 2.25rem;
+        }
+
+        .summary-section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .summary-section-head h3 {
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: -0.025em;
+        }
+
+        .summary-section-head span {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 0.9rem;
+        }
+
+        .summary-note {
+            padding: 1.15rem 1.2rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-top: 3px solid #78c7c7;
+            border-radius: 8px;
+            box-shadow: var(--shadow-neon);
+        }
+
+        .summary-note h4 {
+            margin-bottom: 0.45rem;
+            color: #183744;
+            font-size: 1rem;
+        }
+
+        .summary-note p,
+        .summary-note li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+        .summary-note ul { padding-left: 1.15rem; }
+
+        .summary-source {
+            padding: 1rem 1.15rem;
+            color: #526b76;
+            background: #eaf3f3;
+            border: 1px solid #cde2e3;
+            border-radius: 8px;
+            font-size: 0.84rem;
+        }
+
+        .summary-source a { color: #176b70; font-weight: 700; }
+
+        @media (max-width: 1024px) {
+            body { display: block; }
+
+            #sidebar {
+                position: sticky;
+                z-index: 100;
+                top: 0;
+                width: 100%;
+                height: auto;
+                max-height: 100vh;
+                padding: 0.75rem 1rem;
+                border: 0;
+                overflow-y: auto;
+                box-shadow: 0 10px 25px rgba(16, 38, 51, 0.16);
+            }
+
+            .sidebar-brand {
+                margin: 0;
+                padding: 0.25rem 3.5rem 0.3rem 0.15rem;
+                border: 0;
+            }
+
+            .sidebar-brand::before, .sidebar-brand p { display: none; }
+            .sidebar-brand h1 { font-size: 1rem; line-height: 2rem; }
+
+            .mobile-nav-toggle {
+                position: absolute;
+                top: 0.78rem;
+                right: 1rem;
+                display: grid;
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                place-items: center;
+                color: #eefafa;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 8px;
+                cursor: pointer;
+            }
+
+            #sidebar > .nav-section-title, #sidebar > .nav-list { display: none; }
+            #sidebar.mobile-open > .nav-section-title, #sidebar.mobile-open > .nav-list { display: flex; }
+            #sidebar.mobile-open > .nav-section-title { display: block; }
+            #sidebar.mobile-open { padding-bottom: 1.25rem; }
+
+            #main-content { padding: 2rem clamp(1rem, 4vw, 2rem) 4rem; }
+        }
+
+        @media (max-width: 640px) {
+            #main-content { padding-top: 1.5rem; }
+            .content-header {
+                flex-direction: column;
+                align-items: stretch !important;
+                margin-bottom: 1.6rem;
+                padding-bottom: 1.35rem;
+            }
+            .content-title { font-size: 1.75rem; }
+            .content-header .print-btn { align-self: flex-start; }
+            .formulas-grid, .features-grid, .tracker-grid { grid-template-columns: minmax(0, 1fr); }
+            .edu-card, .formula-card, .quiz-card, .q-card { padding: 1.15rem; }
+            .summary-jump-list { grid-template-columns: 1fr 1fr; }
+            .summary-section-head { display: block; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
-</style>
 </head>
 <body>
 
@@ -1874,11 +2272,16 @@
             <p>108課綱 • 必修物理知識節點導航</p>
         </div>
 
-        <div class="nav-section-title">複習節點（依 26 個知識節點導航）</div>
+        <button class="mobile-nav-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false" onclick="toggleMobileNav(this)">
+            <span aria-hidden="true">☰</span>
+        </button>
+
+        <div class="nav-section-title">複習節點（依 27 個知識節點導航）</div>
         <ul class="nav-list" id="node-nav-list"></ul>
 
         <div class="nav-section-title">複習工具箱</div>
         <ul class="nav-list">
+            <li><a class="nav-item" onclick="switchMainView(this, 'tool-summary')"><span class="nav-icon">🧭</span> 物理核心總整理</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-quiz')"><span class="nav-icon">✏️</span> 知識節點分級題庫</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-exams')"><span class="nav-icon">📚</span> 歷屆試題練習</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-stats')"><span class="nav-icon">📊</span> 五年命題矩陣（節點層級）</a></li>
@@ -1900,6 +2303,15 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             navEl.classList.add('active');
 
+            if (window.matchMedia('(max-width: 1024px)').matches) {
+                const sidebar = document.getElementById('sidebar');
+                const toggle = sidebar.querySelector('.mobile-nav-toggle');
+                sidebar.classList.remove('mobile-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', '開啟導覽選單');
+                toggle.querySelector('span').textContent = '☰';
+            }
+
             // Pause all running videos
             document.querySelectorAll('video').forEach(vid => vid.pause());
 
@@ -1915,6 +2327,8 @@
             } else if (targetId.startsWith('module-')) {
                 const moduleNum = parseInt(targetId.split('-')[1]);
                 renderModuleView(moduleNum);
+            } else if (targetId === 'tool-summary') {
+                renderSummaryView();
             } else if (targetId === 'tool-stats') {
                 renderStatsView();
             } else if (targetId === 'tool-buster') {
@@ -1929,6 +2343,14 @@
             } else if (targetId === 'tool-videos') {
                 renderVideosView();
             }
+        }
+
+        function toggleMobileNav(button) {
+            const sidebar = document.getElementById('sidebar');
+            const isOpen = sidebar.classList.toggle('mobile-open');
+            button.setAttribute('aria-expanded', String(isOpen));
+            button.setAttribute('aria-label', isOpen ? '關閉導覽選單' : '開啟導覽選單');
+            button.querySelector('span').textContent = isOpen ? '×' : '☰';
         }
 
         // 從節點頁點回模組總覽（renderModuleView）：清掉側欄 active、改標對應的模組標題
@@ -2093,6 +2515,7 @@
         const knowledgeNodes = [
             { id: "N01", module: 1, code: "Ea", name: "SI 單位制與因次分析", exam5y: 3, detail: "基本量與導出量辨識（111 Q58 電磁天平題組）、能量單位因次判斷（114 Q47 細胞膜題組）、電場 SI 單位（115 Q15）" },
             { id: "N02", module: 1, code: "Ea", name: "自然界的尺度與數量級", exam5y: 2, detail: "原子 $10^{-10}$ m 與原子核 $10^{-15}$ m 數量級、奈米/飛米換算、微觀到宇宙的尺度排序" },
+            { id: "N06", module: 1, code: "Ja/Ke", name: "物質的組成與基本粒子", exam5y: 2, detail: "原子、原子核與核子的層次；質子與中子由夸克組成，電子屬輕子；以尺度與交互作用理解物質結構" },
             { id: "N03", module: 2, code: "Eb", name: "直線運動與運動圖形", exam5y: 3, detail: "$v-t$ 圖斜率與面積判讀、平均速度與位移向量（111 颱風）、等加速度運動" },
             { id: "N04", module: 2, code: "Eb", name: "牛頓三大運動定律", exam5y: 3, detail: "慣性、$F=ma$ 受力分析（115 起重機）、作用力與反作用力成對性、緩衝與安全氣囊（延長時間降低加速度）" },
             { id: "N05", module: 2, code: "Eb", name: "摩擦力、彈力與力的平衡", exam5y: 1, detail: "靜摩擦與動摩擦轉換、虎克定律 $F=kx$、共點力平衡" },
@@ -2124,7 +2547,7 @@
             1: {
                 title: "模組一：尺度、單位與測量",
                 badge: "課綱主題 Ea",
-                subtitle: "涵蓋 108 課綱核心：Ea（自然界的尺度與單位）——SI 單位制、因次分析、數量級與測量。",
+                subtitle: "涵蓋 108 課綱核心：Ea、Ja、Ke——SI 單位制、因次分析、自然尺度、測量與物質的組成層次。",
                 formulas: [
                     {node: 'N01', 
                         name: "SI 七個基本物理量",
@@ -2136,10 +2559,15 @@
                         formula: "a \\times 10^{n} \\quad (1 \\le a < 10)",
                         desc: "極大或極小的數以科學記號 $a\\times10^{n}$ 表示。常用 SI 前綴詞：奈 n ($10^{-9}$)、微 μ ($10^{-6}$)、毫 m ($10^{-3}$)、千 k ($10^{3}$)、百萬 M ($10^{6}$)、十億 G ($10^{9}$)。例：$1\\text{ nm}=10^{-9}\\text{ m}$、原子直徑約 $10^{-10}\\text{ m}$、原子核約 $10^{-15}\\text{ m}$。"
                     },
-                    {node: 'N01', 
+                    {node: 'N01',
                         name: "因次分析（導出單位分解）",
                         formula: "\\text{N} = \\text{kg}\\cdot\\text{m}\\cdot\\text{s}^{-2} \\;,\\; \\text{J} = \\text{kg}\\cdot\\text{m}^2\\cdot\\text{s}^{-2}",
                         desc: "任何物理公式等號兩側的因次必須一致。由公式移項即可分解常數的基本單位組合，例如由 $h = E/f$ 得 $h$ 的單位為 $\\text{kg}\\cdot\\text{m}^2\\cdot\\text{s}^{-1}$。"
+                    },
+                    {node: 'N06',
+                        name: "物質結構的層次",
+                        formula: "物質 → 分子 → 原子 → 原子核與電子 → 質子、中子 → 夸克",
+                        desc: "原子尺度約 $10^{-10}$ m，原子核尺度約 $10^{-15}$ m。質子與中子合稱核子，皆由夸克組成；電子目前視為不具內部結構的基本粒子，屬於輕子。"
                     }
                 ],
                 conceptMap: `
@@ -2163,6 +2591,11 @@
                             <div class="map-node-title">4. 科學記號與單位前綴詞 (Ea)</div>
                             <div class="map-node-desc">極大或極小的量以科學記號 $a\\times10^{n}$ 與 SI 前綴詞（n、μ、m、k、M、G）簡潔表示，方便跨尺度換算與比較。</div>
                         </div>
+                        <div class="map-connector">↓ 進入微觀結構</div>
+                        <div class="map-node">
+                            <div class="map-node-title">5. 物質的組成層次 (Ja/Ke)</div>
+                            <div class="map-node-desc">原子由原子核與電子構成；原子核中的質子、中子由夸克構成。以 $10^{-10}$ m 到 $10^{-15}$ m 的尺度差連結物質結構與基本交互作用。</div>
+                        </div>
                     </div>
                 `,
                 keyFeatures: [
@@ -2176,10 +2609,15 @@
                         bridge: "數量級快速鏈 ➔ 原子核 $10^{-15}$ m ＜ 原子 $10^{-10}$ m ＜ 病毒 $10^{-7}$ m ＜ 細胞 $10^{-5}$ m。相鄰等級相差以 10 的整數次方計。",
                         trap: "⚡ 避坑指南：原子核與原子相差 5 個數量級（十萬倍），不是 10 倍！若把原子放大成操場，原子核只有一顆彈珠大。"
                     },
-                    {node: 'N02', 
+                    {node: 'N02',
                         feature: "當你看到題目提到：「多次測量取平均」或「儀器最小刻度」的數據分析（探究與實作題型）。",
                         bridge: "多次測量 ➔ 平均值作為最佳估計值，數據的分散程度反映 A 類（統計）不確定度；單次讀值 ➔ 不確定度受限於儀器最小刻度（B 類）。",
                         trap: "⚡ 避坑指南：增加測量次數只能降低「隨機誤差」，無法修正儀器本身的「系統誤差」（如尺規刻度不準）——兩者概念必須分清。"
+                    },
+                    {node: 'N06',
+                        feature: "當題目要求排列「分子、原子、原子核、質子、夸克」的結構層次，或判斷粒子是否為基本粒子。",
+                        bridge: "先分清包含關係：原子含原子核與電子；原子核含質子與中子；質子、中子再由夸克組成。電子與夸克在標準模型中都屬基本粒子。",
+                        trap: "⚡ 避坑指南：質子與中子不是基本粒子；原子大部分體積是電子分布的空間，幾乎全部質量則集中在極小的原子核。"
                     }
                 ],
                 extensions: `
@@ -3800,6 +4238,176 @@
 
         // Render tool-stats View（知識節點層級統計——由 knowledgeNodes 單一資料來源導出）
         const STATS_TOTAL_SUBQ = 71; // 近五年（111-115）學測物理子題總數
+
+        function renderSummaryView() {
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
+                <div class="content-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
+                    <div>
+                        <span class="content-badge">新增內容｜全範圍概念串聯</span>
+                        <h2 class="content-title">高中物理核心總整理</h2>
+                        <p class="content-subtitle">從科學史、物質結構與基本常數出發，串聯運動、場、波動、能量與近代物理。適合第一次建立全貌，也適合考前快速查漏。</p>
+                    </div>
+                    <button class="print-btn print-hide" onclick="window.print()"><span>🖨️</span> 列印總整理</button>
+                </div>
+
+                <nav class="summary-jump-list" aria-label="總整理章節">
+                    <a class="summary-jump" href="#summary-history"><span class="summary-jump-code">01</span>科學史脈絡</a>
+                    <a class="summary-jump" href="#summary-constants"><span class="summary-jump-code">02</span>常數與單位</a>
+                    <a class="summary-jump" href="#summary-matter"><span class="summary-jump-code">03</span>物質與基本力</a>
+                    <a class="summary-jump" href="#summary-fields"><span class="summary-jump-code">04</span>運動與場</a>
+                    <a class="summary-jump" href="#summary-waves"><span class="summary-jump-code">05</span>波動統整</a>
+                    <a class="summary-jump" href="#summary-energy"><span class="summary-jump-code">06</span>能量統整</a>
+                    <a class="summary-jump" href="#summary-modern"><span class="summary-jump-code">07</span>近代物理</a>
+                </nav>
+
+                <section class="summary-section" id="summary-history">
+                    <div class="summary-section-head"><h3>科學史不是人名表，而是問題如何被解決</h3><span>觀察 → 定律 → 統整 → 新理論</span></div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>時代／領域</th><th>關鍵人物</th><th>核心貢獻</th><th>要連結的考點</th></tr></thead>
+                            <tbody>
+                                <tr><td>天體運動</td><td>克卜勒</td><td>由觀測資料歸納行星三定律</td><td>橢圓軌道、等面積律、$T^2\\propto r^3$</td></tr>
+                                <tr><td>古典力學</td><td>牛頓</td><td>以運動定律與萬有引力統一天上、地上的運動</td><td>$\\Sigma F=ma$、$F_g=GMm/r^2$</td></tr>
+                                <tr><td>電磁學</td><td>庫侖、厄斯特、安培</td><td>建立靜電力，發現電流與磁場的關係</td><td>平方反比、右手定則、電磁鐵</td></tr>
+                                <tr><td>電磁學</td><td>法拉第、冷次</td><td>變動磁場產生感應電流，方向阻礙磁通量變化</td><td>發電機、變壓器、感應卡</td></tr>
+                                <tr><td>電磁統合</td><td>馬克士威、赫茲</td><td>預測並實驗證實電磁波，光也屬電磁波</td><td>電磁波譜、真空波速 $c$</td></tr>
+                                <tr><td>能量</td><td>焦耳</td><td>證明機械功可轉換成熱，確立能量守恆</td><td>$1\\text{ cal}\\approx4.186\\text{ J}$、能量退化</td></tr>
+                                <tr><td>原子結構</td><td>湯木生、拉塞福、波耳</td><td>電子 → 原子核 → 量子化能階模型</td><td>金箔散射、能階躍遷、線光譜</td></tr>
+                                <tr><td>量子物理</td><td>普朗克、愛因斯坦</td><td>能量量子化與光量子說</td><td>$E=hf$、光電效應</td></tr>
+                                <tr><td>物質波</td><td>德布羅意、戴維森與革末</td><td>提出並以電子繞射證實物質具有波動性</td><td>$\\lambda=h/p$、波粒二象性</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-constants">
+                    <div class="summary-section-head"><h3>常用物理常數與換算</h3><span>題目未提供時仍應認得數量級</span></div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>名稱</th><th>符號與近似值</th><th>出現情境</th><th>單位提醒</th></tr></thead>
+                            <tbody>
+                                <tr><td>真空光速</td><td>$c=3.00\\times10^8\\text{ m/s}$</td><td>電磁波、質能互換、光子</td><td>$c=f\\lambda$</td></tr>
+                                <tr><td>萬有引力常數</td><td>$G=6.67\\times10^{-11}$</td><td>天體引力與重力場</td><td>$\\text{N·m}^2/\\text{kg}^2$</td></tr>
+                                <tr><td>庫侖常數</td><td>$k=9.0\\times10^9$</td><td>點電荷間靜電力</td><td>$\\text{N·m}^2/\\text{C}^2$</td></tr>
+                                <tr><td>普朗克常數</td><td>$h=6.626\\times10^{-34}$</td><td>光子能量、物質波</td><td>$\\text{J·s}$</td></tr>
+                                <tr><td>基本電荷</td><td>$e=1.60\\times10^{-19}\\text{ C}$</td><td>電子電量、電子伏特</td><td>電子帶電量為 $-e$</td></tr>
+                                <tr><td>重力加速度</td><td>$g\\approx9.8\\text{ m/s}^2$</td><td>近地面落體、重量、位能</td><td>估算常取 $10\\text{ m/s}^2$</td></tr>
+                                <tr><td>電子伏特</td><td>$1\\text{ eV}=1.60\\times10^{-19}\\text{ J}$</td><td>原子能階、光子能量</td><td>是能量單位，不是電壓</td></tr>
+                                <tr><td>熱功當量</td><td>$1\\text{ cal}\\approx4.186\\text{ J}$</td><td>熱量與機械能換算</td><td>$1\\text{ kcal}=4186\\text{ J}$</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-matter">
+                    <div class="summary-section-head"><h3>物質的組成與四大基本交互作用</h3><span>新補 N06｜從結構層次看作用力</span></div>
+                    <div class="summary-grid" style="margin-bottom:0.9rem;">
+                        <article class="summary-note">
+                            <h4>物質結構的包含關係</h4>
+                            <p><strong>物質 → 分子 → 原子 → 原子核＋電子 → 質子、中子 → 夸克</strong></p>
+                            <p>原子約 $10^{-10}$ m，原子核約 $10^{-15}$ m；原子核半徑小十萬倍，卻集中了原子幾乎全部質量。</p>
+                        </article>
+                        <article class="summary-note">
+                            <h4>哪些是基本粒子？</h4>
+                            <ul><li><strong>夸克：</strong>組成質子與中子。</li><li><strong>輕子：</strong>電子與微中子屬此類。</li><li><strong>媒介粒子：</strong>光子、膠子、W/Z 玻色子傳遞交互作用。</li></ul>
+                        </article>
+                    </div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>交互作用</th><th>作用對象／範圍</th><th>相對強度</th><th>典型現象</th></tr></thead>
+                            <tbody>
+                                <tr><td>強作用</td><td>夸克、核子；約 $10^{-15}$ m</td><td>最強</td><td>束縛夸克並維持原子核穩定</td></tr>
+                                <tr><td>電磁作用</td><td>帶電粒子；長程</td><td>次強</td><td>庫侖力、化學鍵、摩擦力、彈力</td></tr>
+                                <tr><td>弱作用</td><td>基本粒子；約 $10^{-18}$ m</td><td>很弱</td><td>$\\beta$ 衰變、中子轉變</td></tr>
+                                <tr><td>重力</td><td>所有有能量與質量者；長程</td><td>最弱</td><td>落體、行星與星系運動</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-fields">
+                    <div class="summary-section-head"><h3>運動與「場」的共同語言</h3><span>先畫狀態，再選公式</span></div>
+                    <div class="summary-grid">
+                        <article class="summary-note"><h4>運動學：描述，不追原因</h4><p>位置變化形成位移，位移的時變率是速度，速度的時變率是加速度：$v=\\Delta x/\\Delta t$、$a=\\Delta v/\\Delta t$。$v-t$ 圖斜率代表加速度、面積代表位移。</p></article>
+                        <article class="summary-note"><h4>動力學：合力造成加速度</h4><p>$\\Sigma F=ma$ 的方向關係比代數更重要。先畫受力圖、定正方向，再列分量式；作用力與反作用力作用在不同物體上，不能互相抵消。</p></article>
+                        <article class="summary-note"><h4>重力場</h4><p>質量 $M$ 在空間建立重力場 $g=GM/r^2$，另一質量 $m$ 放入後受力 $F=mg$。場描述「該位置每單位質量受到的力」。</p></article>
+                        <article class="summary-note"><h4>電場與磁場</h4><p>電荷建立電場，電荷在電場受力；電流建立磁場，變動磁場又可建立感應電場。法拉第與馬克士威把電、磁與光串成同一套架構。</p></article>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-waves">
+                    <div class="summary-section-head"><h3>波動統整：先分類，再判斷不變量</h3><span>$v=f\\lambda$ 是關係，不代表波速由頻率決定</span></div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>主題</th><th>判斷核心</th><th>常見實例</th><th>容易混淆處</th></tr></thead>
+                            <tbody>
+                                <tr><td>力學波／電磁波</td><td>力學波需介質；電磁波可在真空傳播</td><td>聲波、水波／光、無線電波</td><td>波傳遞能量，不把介質整體搬走</td></tr>
+                                <tr><td>橫波／縱波</td><td>介質振動方向垂直／平行於傳播方向</td><td>繩波／空氣中的聲波</td><td>水面波不是單純的橫波</td></tr>
+                                <tr><td>反射</td><td>同一介質內入射角等於反射角</td><td>回音、鏡面反射</td><td>頻率、波速、波長皆不變</td></tr>
+                                <tr><td>折射</td><td>跨介質時頻率不變，波速與波長改變</td><td>光偏折、地震波路徑</td><td>慢介質偏向法線；快介質偏離法線</td></tr>
+                                <tr><td>干涉</td><td>同相加強、反相相消</td><td>雙狹縫、薄膜鍍膜</td><td>暗紋仍有波到達，只是疊加相消</td></tr>
+                                <tr><td>繞射</td><td>孔寬或障礙物與波長接近時最明顯</td><td>聲音繞牆、X 光晶體繞射</td><td>不是波「轉彎」，而是波前展開</td></tr>
+                                <tr><td>都卜勒效應</td><td>接近時接收頻率升高，遠離時降低</td><td>救護車、血流測速、星系紅移</td><td>波源本身頻率不一定改變</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-energy">
+                    <div class="summary-section-head"><h3>能量統整：追蹤轉移，而不是背形式</h3><span>總量守恆，但可用程度會下降</span></div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>能量／速率</th><th>關係式</th><th>系統觀點</th><th>常見情境</th></tr></thead>
+                            <tbody>
+                                <tr><td>動能</td><td>$K=\\frac12mv^2$</td><td>與運動狀態有關</td><td>煞車、碰撞、滑行</td></tr>
+                                <tr><td>重力位能</td><td>$U_g=mgh$</td><td>近地表、選定零位面</td><td>水力發電、拋體</td></tr>
+                                <tr><td>彈性位能</td><td>$U_s=\\frac12kx^2$</td><td>儲存在形變的彈性體</td><td>彈簧、弓箭</td></tr>
+                                <tr><td>熱量</td><td>$Q=ms\\Delta T$</td><td>因溫差傳遞的能量</td><td>混合熱平衡、加熱</td></tr>
+                                <tr><td>功</td><td>$W=F\\Delta x\\cos\\theta$</td><td>力透過位移轉移能量</td><td>起重機、摩擦耗散</td></tr>
+                                <tr><td>功率</td><td>$P=W/\\Delta t$、$P_E=IV$</td><td>能量轉換的快慢</td><td>電器額定功率、馬達</td></tr>
+                                <tr><td>質能</td><td>$E=\\Delta mc^2$</td><td>核反應的質量虧損轉為能量</td><td>核分裂、太陽核融合</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="summary-grid" style="margin-top:0.9rem;">
+                        <article class="summary-note"><h4>守恆不等於「都能再利用」</h4><p>摩擦使機械能轉為分散的內能，總能量仍守恆，但能量品質下降。這是能源效率、廢熱與熱力學第二定律的共同核心。</p></article>
+                        <article class="summary-note"><h4>核分裂與核融合</h4><p>分裂是重核裂成中等質量原子核；融合是輕核結合。兩者皆由反應前後的質量差釋能，不是把燃料全部質量轉成能量。</p></article>
+                    </div>
+                </section>
+
+                <section class="summary-section" id="summary-modern">
+                    <div class="summary-section-head"><h3>近代物理：每個實驗各證明什麼？</h3><span>現象、控制變因、結論要分開</span></div>
+                    <div class="edu-table-container">
+                        <table class="edu-table">
+                            <thead><tr><th>現象／實驗</th><th>關鍵觀察</th><th>支持的模型</th><th>核心關係式</th></tr></thead>
+                            <tbody>
+                                <tr><td>黑體輻射</td><td>能量交換並非連續</td><td>普朗克能量量子化</td><td>$E=nhf$</td></tr>
+                                <tr><td>光電效應</td><td>存在底限頻率；提高強度只增光電子數</td><td>光具有粒子性</td><td>$hf=W+K_{\\max}$</td></tr>
+                                <tr><td>雙狹縫與繞射</td><td>出現明暗相間條紋</td><td>光或物質具有波動性</td><td>$\\Delta=n\\lambda$</td></tr>
+                                <tr><td>電子晶體繞射</td><td>電子束產生繞射圖樣</td><td>德布羅意物質波</td><td>$\\lambda=h/p$</td></tr>
+                                <tr><td>原子線光譜</td><td>只出現特定離散波長</td><td>電子能階量子化</td><td>$\\Delta E=hf$</td></tr>
+                                <tr><td>拉塞福散射</td><td>少數 $\\alpha$ 粒子大角度偏折</td><td>正電與質量集中於極小原子核</td><td>庫侖斥力與尺度判斷</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="summary-grid" style="margin-top:0.9rem;">
+                        <article class="summary-note"><h4>光電效應兩組變因</h4><ul><li>提高頻率：光電子最大動能增加。</li><li>提高強度：單位時間光子數增加，光電流變大。</li><li>低於底限頻率：再強、照再久都沒有光電子。</li></ul></article>
+                        <article class="summary-note"><h4>波粒二象性</h4><p>不是物體有時「變成」波、有時「變成」粒子，而是同一量子系統在不同實驗安排下呈現不同可觀察特徵；物質波描述位置機率分布。</p></article>
+                    </div>
+                </section>
+
+                <div class="summary-source">
+                    本頁依現有 108 課綱節點重新整理，補充架構參考自
+                    <a href="https://arpowchao.github.io/posts/physics-summary/" target="_blank" rel="noopener">高中物理學測知識總整理</a>（CC BY 4.0）。內容已重新編排並與本站題庫節點對照。
+                </div>
+            `;
+
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([main]);
+            }
+            window.scrollTo(0, 0);
+        }
 
         function renderStatsView() {
             currentView = 'stats';
