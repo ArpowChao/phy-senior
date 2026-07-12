@@ -3375,7 +3375,7 @@
             `;
         }
 
-                        // 物質的組成與基本粒子專題（併入模組一：N06）
+                                // 物質的組成與基本粒子專題（併入模組一：N06）
         function matterSectionHtml() {
             return `
                 <div class="handout-section-title">💡 核心觀念解析</div>
@@ -3462,7 +3462,7 @@
 
                 <div class="handout-section-title">📐 實驗方法圖解一（拉塞福金箔散射模擬）</div>
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <svg id="rutherford-svg" viewBox="0 0 520 280" style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); width: 100%; max-width: 520px; display: block; margin: 0 auto;"></svg>
+                    <svg id="rutherford-svg" viewBox="0 0 520 280" style="background: #0f172a; border-radius: 8px; border: 1px solid #1e293b; width: 100%; max-width: 520px; display: block; margin: 0 auto;"></svg>
                     
                     <div style="display: flex; flex-direction: column; gap: 0.8rem; max-width: 520px; margin: 1rem auto 0 auto; padding: 1rem; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); text-align: left;">
                         <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
@@ -3481,7 +3481,7 @@
 
                 <div class="handout-section-title">📐 實驗方法圖解二（陰極射線實驗與電子的普適性驗證）</div>
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <svg id="crt-svg" viewBox="0 0 520 200" style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); width: 100%; max-width: 520px; display: block; margin: 0 auto;"></svg>
+                    <svg id="crt-svg" viewBox="0 0 520 200" style="background: #0f172a; border-radius: 8px; border: 1px solid #1e293b; width: 100%; max-width: 520px; display: block; margin: 0 auto;"></svg>
                     
                     <div style="display: flex; flex-direction: column; gap: 0.8rem; max-width: 520px; margin: 1rem auto 0 auto; padding: 1rem; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); text-align: left;">
                         <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center;">
@@ -3503,8 +3503,11 @@
                         </div>
                         
                         <!-- Educational Tip Card -->
-                        <div id="crt-tip-card" class="info-alert" style="margin-top:0.5rem; padding: 0.6rem 0.8rem; font-size: 0.9rem; border-left-color: var(--primary-blue); background: rgba(59, 130, 246, 0.05); margin-bottom: 0;">
-                            💡 陰極射線直進打在螢幕中央。請點選上方按鈕施加場，或更換材料進行探究！
+                        <div id="crt-tip-card" class="info-alert" style="margin-top:0.5rem; border-left-color: var(--primary-blue); background: rgba(59, 130, 246, 0.05); margin-bottom: 0;">
+                            <span class="info-alert-icon">💡</span>
+                            <div>
+                                💡 陰極射線直進打在螢幕中央。請點選上方按鈕施加場，或更換材料進行探究！
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3518,7 +3521,7 @@
                         <br>• <strong>證實電子存在於所有物質中（普適性）</strong>：
                         <br>&nbsp;&nbsp;- 湯姆森在實驗中嘗試了<strong>不同的陰極金屬材料</strong>（如鋁、銅、金等），並在管中填充了<strong>不同的殘留氣體</strong>（如空氣、氫氣、氦氣等）。
                         <br>&nbsp;&nbsp;- 實驗發現：無論如何更換材料或氣體，射線在電磁場中的偏折行為與軌跡<strong>完全一致，沒有任何改變</strong>。
-                        <br>&nbsp;&nbsp;- <strong>結論</strong>：這證明了電子並非特定金屬或氣體所獨有，而是<strong>普遍存在於所有物質中的共同基本粒子</strong>。
+                        <br>&nbsp;&nbsp;- <strong>結論</strong>：這證明了電子並非特定金屬 or 氣體所獨有，而是<strong>普遍存在於所有物質中的共同基本粒子</strong>。
                     </div>
                 </div>
                 <div class="info-alert" style="margin-top:0.8rem; border-left-color: var(--primary-blue);">
@@ -3558,8 +3561,8 @@
                     </filter>
                 </defs>
                 <!-- Gold Foil Thin Layer representation -->
-                <line x1="320" y1="10" x2="320" y2="270" stroke="rgba(251, 191, 36, 0.12)" stroke-width="24" stroke-linecap="round" />
-                <text x="320" y="25" fill="rgba(251, 191, 36, 0.4)" font-size="9" font-weight="bold" text-anchor="middle">金箔靶區 Thin Gold Foil</text>
+                <line x1="320" y1="10" x2="320" y2="270" stroke="rgba(251, 191, 36, 0.2)" stroke-width="24" stroke-linecap="round" />
+                <text x="320" y="25" fill="rgba(251, 191, 36, 0.7)" font-size="9" font-weight="bold" text-anchor="middle">金箔靶區 Thin Gold Foil</text>
                 
                 <!-- Trails group -->
                 <g id="rutherford-trails-group"></g>
@@ -3737,35 +3740,35 @@
                     </defs>
                     
                     <!-- Glass Tube Outline -->
-                    <path d="M 45 80 L 180 80 L 320 30 L 440 30 L 440 170 L 320 170 L 180 120 L 45 120 Z" fill="url(#glass-grad)" stroke="#64748b" stroke-width="2.5" />
+                    <path d="M 45 80 L 180 80 L 320 30 L 440 30 L 440 170 L 320 170 L 180 120 L 45 120 Z" fill="rgba(14, 165, 233, 0.04)" stroke="#334155" stroke-width="2.5" />
                     
                     <!-- Cathode (-) on the left -->
                     <rect x="55" y="90" width="10" height="20" fill="#f43f5e" rx="1" />
                     <line x1="30" y1="100" x2="55" y2="100" stroke="#f43f5e" stroke-width="2" />
-                    <text x="50" y="75" fill="#f43f5e" font-size="9" text-anchor="middle" font-weight="bold">${info.metal}</text>
+                    <text x="55" y="75" fill="#f43f5e" font-size="9" font-weight="bold">${info.metal}</text>
                     
                     <!-- Anode (+) collimator -->
                     <rect x="140" y="85" width="8" height="30" fill="#38bdf8" />
                     <line x1="144" y1="100" x2="144" y2="140" stroke="#38bdf8" stroke-width="1.5" />
-                    <text x="144" y="72" fill="#38bdf8" font-size="9" text-anchor="middle" font-weight="bold">陽極 A (+)</text>
+                    <text x="144" y="72" fill="#38bdf8" font-size="9" font-weight="bold">陽極 A (+)</text>
                     
                     <!-- Residual Gas Label -->
-                    <text x="110" y="112" fill="rgba(148, 163, 184, 0.6)" font-size="8" text-anchor="middle">管內氣體: ${info.gas}</text>
+                    <text x="110" y="112" fill="#64748b" font-size="8" text-anchor="middle">管內氣體: ${info.gas}</text>
                     
                     <!-- Phosphor Screen Glow -->
-                    <path d="M 440 30 A 10 140 0 0 1 440 170" stroke="#10b981" stroke-width="8" fill="none" opacity="0.15" />
-                    <path d="M 440 35 A 10 130 0 0 1 440 165" stroke="#10b981" stroke-width="3" fill="none" opacity="0.6" />
+                    <path d="M 440 30 A 10 140 0 0 1 440 170" stroke="#10b981" stroke-width="8" fill="none" opacity="0.1" />
+                    <path d="M 440 35 A 10 130 0 0 1 440 165" stroke="#10b981" stroke-width="3" fill="none" opacity="0.5" />
                     <text x="455" y="104" fill="#10b981" font-size="10" font-weight="bold" writing-mode="vertical-rl">螢光幕</text>
                     
                     <!-- Electric Plates -->
-                    <rect id="crt-plate-top" x="200" y="55" width="80" height="8" fill="#64748b" rx="2" />
-                    <rect id="crt-plate-bottom" x="200" y="137" width="80" height="8" fill="#64748b" rx="2" />
+                    <rect id="crt-plate-top" x="200" y="55" width="80" height="8" fill="#475569" rx="2" />
+                    <rect id="crt-plate-bottom" x="200" y="137" width="80" height="8" fill="#475569" rx="2" />
                     <text id="crt-plate-top-txt" x="240" y="50" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
                     <text id="crt-plate-bottom-txt" x="240" y="155" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
                     
                     <!-- Magnetic Field Region Indicator Box -->
-                    <rect x="200" y="70" width="80" height="60" fill="none" stroke="rgba(148, 163, 184, 0.2)" stroke-dasharray="3 3" />
-                    <text x="240" y="125" fill="rgba(148, 163, 184, 0.3)" font-size="8" text-anchor="middle">橫向偏折場區域</text>
+                    <rect x="200" y="70" width="80" height="60" fill="none" stroke="rgba(148, 163, 184, 0.15)" stroke-dasharray="3 3" />
+                    <text x="240" y="125" fill="#475569" font-size="8" text-anchor="middle">橫向偏折場區域</text>
                     
                     <!-- Magnetic Field Symbols Group -->
                     <g id="crt-mag-symbols"></g>
@@ -3774,7 +3777,7 @@
                     <path id="crt-beam" d="" stroke="#10b981" stroke-width="4.5" fill="none" filter="url(#green-glow)" opacity="0.85" />
                     <path id="crt-beam-core" d="" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.95" />
                     
-                    <!-- Glowing spot on screen -->
+                    <!-- Glowing point on screen -->
                     <circle id="crt-spot" cx="440" cy="100" r="5" fill="#ffffff" filter="url(#green-glow)" />
                 `;
             }
@@ -3790,7 +3793,6 @@
                 
                 let E = 0, B = 0;
                 
-                // Update Button styles
                 btnNone.style.background = crtMode === 'none' ? 'var(--primary-blue)' : 'var(--border-color)';
                 btnNone.style.color = crtMode === 'none' ? 'white' : 'var(--text-main)';
                 btnE.style.background = crtMode === 'e' ? 'var(--primary-blue)' : 'var(--border-color)';
@@ -3808,7 +3810,6 @@
                     plateBottomTxt.setAttribute('fill', '#3b82f6');
                 } else if (crtMode === 'b') {
                     B = 35;
-                    // Draw ⊗ symbols (magnetic field points into screen, pulling electrons down)
                     const positions = [
                         {x: 220, y: 88}, {x: 260, y: 88},
                         {x: 220, y: 118}, {x: 260, y: 118}
@@ -3817,7 +3818,7 @@
                         const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                         txt.setAttribute('x', pos.x);
                         txt.setAttribute('y', pos.y);
-                        txt.setAttribute('fill', 'rgba(239, 68, 68, 0.4)');
+                        txt.setAttribute('fill', 'rgba(56, 189, 248, 0.5)');
                         txt.setAttribute('font-size', '14');
                         txt.setAttribute('font-weight', 'bold');
                         txt.setAttribute('text-anchor', 'middle');
@@ -3826,9 +3827,6 @@
                     });
                 }
                 
-                // Calculate Beam Path
-                // E > 0 pulls electron UPWARDS (ay < 0).
-                // B > 0 pulls electron DOWNWARDS (ay > 0).
                 const ay = -0.0006 * E + 0.0006 * B;
                 const x1 = 180, x2 = 300, x3 = 438;
                 const y1 = 100;
@@ -3851,17 +3849,19 @@
                     spot.setAttribute('display', 'none');
                 }
 
-                // Update Tip card text
-                const mat = selectMat.value;
                 const matText = selectMat.options[selectMat.selectedIndex].text;
                 let modeText = '直進打在螢幕中央';
                 if (crtMode === 'e') modeText = '受到電場力吸引，朝正極板向上偏折';
-                if (crtMode === 'b') modeText = '受到磁場力（洛倫茲力）作用，向下偏折';
+                if (crtMode === 'b') modeText = '受到磁場力作用，向下偏折';
 
-                tipCard.innerHTML = `<strong>💡 實驗觀察：</strong>
-                    當前為 <strong>【${matText}】</strong>。
-                    <br>• 在此配置下，施加橫向場時，陰極射線 <strong>${modeText}</strong>。
-                    <br>• <span style="color: var(--success-green, #10b981); font-weight: bold;">核心發現：</span>試試看更換其他陰極材料與管內氣體！你會發現無論材料與氣體如何改變，<strong>偏折的軌跡與行為完全一致</strong>！這證實了電子是不隨材料改變而普遍存在於所有物質中的基本粒子。`;
+                tipCard.innerHTML = `
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <strong>實驗觀察：</strong> 當前為 <strong>【${matText}】</strong>。
+                        <br>• 在此配置下，施加橫向場時，陰極射線 <strong>${modeText}</strong>。
+                        <br>• <span style="color: var(--success-green, #10b981); font-weight: bold;">核心發現：</span>更換其他陰極材料與氣體後，<strong>偏折的軌跡與行為完全一致</strong>！這證實了電子是不隨材料與氣體改變、普遍存在於所有物質中的共同基本粒子。
+                    </div>
+                `;
             }
 
             selectMat.onchange = updateSimulation;
