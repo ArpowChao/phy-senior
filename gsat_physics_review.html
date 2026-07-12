@@ -5273,7 +5273,7 @@
             const lambdaLabel = document.getElementById('wave-lambda2-label');
             const stateLabel = document.getElementById('wave-state-label');
             modeLabel.textContent = '目前現象'; angleLabel.textContent = '反射／折射角'; lambdaLabel.textContent = '介質二波長'; stateLabel.textContent = '狀態';
-            let modeText = names[mode], angleText = '—', lambdaText = `${(lambda * n1 / n2).toFixed(1)} px`, state = '', explain = '';
+            let modeText = names[mode], angleText = '—', lambdaText = '—', state = '', explain = '';
             if (mode === 'doppler') {
                 if (d.scenario === 'both') {
                     const b = d.both, freq = value => value === null ? '無穩態值' : `${value.toFixed(1)} Hz`;
@@ -5298,6 +5298,7 @@
                 angleText = `θᵣ = ${angle}°`; state = '反射角等於入射角';
                 explain = '上方入射波前先由前一代波前的次波包絡逐代向介面推進；抵達後，介面上較早被掃到的點會產生半徑較大的反射次波。這些介面次波的共同切線形成反射波前，由幾何可得 θᵢ = θᵣ。';
             } else if (mode === 'refraction') {
+                lambdaText = `${(lambda * n1 / n2).toFixed(1)} px`;
                 const s = n1 / n2 * Math.sin(angle * Math.PI / 180);
                 if (Math.abs(s) > 1) { angleText = '無折射線'; state = '超過臨界角，發生全反射'; }
                 else { const t2 = Math.asin(s) * 180 / Math.PI; angleText = `θ₂ = ${t2.toFixed(1)}°`; state = n2 > n1 ? '進入慢介質，偏向法線' : '進入快介質，偏離法線'; }
