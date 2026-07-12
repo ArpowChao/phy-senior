@@ -11,9 +11,8 @@ const modulesData = {
             },
             {node: 'N02',
                 name: "自然界的尺度與數量級",
-                formula: "a \times 10^{n} \quad (1 \le a < 10) \quad \text{臨界值 } \sqrt{10} \approx 3.16",
-                desc: "<strong>📌 核心資訊（原理原則）</strong>：以對數中點 $10^{0.5} = \\sqrt{10} \\approx 3.16$ 作為數量級進位的臨界判準。科學記號 $a \\times 10^n$ 中，當係數 $a \\ge 3.16$ 時，數量級為 $10^{n+1}$；當 $a < 3.16$ 時，數量級為 $10^n$。<br>" +
-                      "<strong>📘 輔助資訊（說明原理原則）</strong>：數量級是衡量物理量規模的對數尺度，本質上是取對數（以 10 為底）進行進位。在對數尺度下，因 $\\log_{10}(3.16) \\approx 0.5$ 恰在 0 與 1 之間，故進位中點為 $\\sqrt{10}$，而非算術平分的 5。<br>" +
+                formula: "a \\times 10^{n} \\quad (1 \\le a < 10) \\quad \\text{臨界值 } \\sqrt{10} \\approx 3.16",
+                desc: "<strong>📘 輔助資訊（說明原理原則）</strong>：數量級是衡量物理量規模的對數尺度，以對數中點 $10^{0.5} = \\sqrt{10} \\approx 3.16$ 作為進位的臨界判準。科學記號 $a \\times 10^n$ 中，當係數 $a \\ge 3.16$ 時，數量級為 $10^{n+1}$；當 $a < 3.16$ 時，數量級為 $10^n$。<br>" +
                       "<strong>🔍 細節資訊（闡述細節以利理解）</strong>：<br>" +
                       "• $4.2 \\times 10^5 \\implies 10^6$（因 $4.2 \\ge 3.16$）；而 $2.8 \\times 10^5 \\implies 10^5$（因 $2.8 < 3.16$）。<br>" +
                       "• 自然界典型尺度：原子核 $\\approx 10^{-15}\\text{ m}$（飛米）、原子 $\\approx 10^{-10}\\text{ m}$（埃）、病毒 $\\approx 10^{-7}\\text{ m}$、細胞 $\\approx 10^{-5}\\text{ m}$。<br>" +
