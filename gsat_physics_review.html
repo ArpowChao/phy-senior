@@ -3569,9 +3569,9 @@
                                 p.circleEl.setAttribute('cy', pt.y);
                                 
                                 if (p.index === 0) {
-                                    p.pathD = \`M \${pt.x} \${pt.y}\`;
+                                    p.pathD = `M ${pt.x} ${pt.y}`;
                                 } else {
-                                    p.pathD += \` L \${pt.x} \${pt.y}\`;
+                                    p.pathD += ` L ${pt.x} ${pt.y}`;
                                 }
                                 p.pathEl.setAttribute('d', p.pathD);
                                 
