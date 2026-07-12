@@ -2419,6 +2419,9 @@
 
         .wave-mode-btn.active { color: #10282f; background: #85c2bf; border-color: #9bcfcd; box-shadow: 0 5px 14px rgba(75, 151, 149, 0.2); }
 
+        .doppler-control { display: none; }
+        .doppler-both-control { display: none; }
+
         .lab-readouts {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2733,6 +2736,7 @@
 
         const nodeInteractiveLabs = {
             N14: { lab: 'wave', mode: 'huygens', title: '波動傳播與惠更斯原理' },
+            N15: { lab: 'wave', mode: 'doppler', title: '聲波與都卜勒效應' },
             N16: { lab: 'wave', mode: 'refraction', title: '光的反射與折射' },
             N17: { lab: 'wave', mode: 'interference', title: '干涉、繞射與波動性' },
             N21: { lab: 'induction', title: '電磁感應與磁場變化' },
@@ -3581,8 +3585,8 @@
                         * <strong>古典論的失敗（紫外災難）</strong>：任何溫度下的黑體都會在紫外光區釋放無限能量，這顯然是荒謬的。實驗結果表明，在高頻短波處，輻射能量密度其實急遽衰退至零。<br><br>
                         <strong>2. 普朗克的量子假說（不連續能量包）：</strong><br>
                         普朗克在 1900 年放棄了古典物理中能量是連續的假設，大膽提出能量的「量子化假設」：<br>
-                        * <strong>能量量子化</strong>：器壁原子諧振子在吸收或放出能量時，不能是連續的，只能以 $E = hf$ 的整數倍（即 $E_n = n h f$）為單位交換。由於高頻短波（$f$ 極高）的單個能量包 $hf$ 太大，遠超過熱運動的平均能量 $kT$，導致這些高頻模式極難被激發，因此短波處的能量密度急遽下降為零，成功消成了紫外災難。<br>
-                        * <strong>普朗克常數 $h$</strong>：此常數的引入標誌著現代物理（量子論）的誕生，其數值為 $6.626 \times 10^{-34} \text{ J}\cdot\text{s}$。
+                        * <strong>能量量子化</strong>：器壁原子諧振子在吸收或放出能量時，不能是連續的，只能以 $E = hf$ 的整數倍（即 $E_n = n h f$）為單位交換。由於高頻短波（$f$ 極高）的單個能量包 $hf$ 太大，遠超過熱運動的平均能量 $kT$，導致這些高頻模式極難被激發，因此短波處的能量密度急遽下降為零，成功消除了紫外災難。<br>
+                        * <strong>普朗克常數 $h$</strong>：此常數的引入標誌著現代物理（量子論）的誕生，其數值為 $6.626 \\times 10^{-34} \\text{ J}\\cdot\\text{s}$。
                     </div>
                 </div>
 
@@ -4347,24 +4351,33 @@
                         <button class="wave-mode-btn" data-mode="interference" onclick="setWaveMode('interference', this)">干涉</button>
                         <button class="wave-mode-btn" data-mode="diffraction" onclick="setWaveMode('diffraction', this)">繞射</button>
                         <button class="wave-mode-btn" data-mode="huygens" onclick="setWaveMode('huygens', this)">惠更斯原理</button>
+                        <button class="wave-mode-btn" data-mode="doppler" onclick="setWaveMode('doppler', this)">都卜勒效應</button>
                     </div>
                     <div class="lab-stage-grid">
                         <div class="lab-stage"><canvas class="lab-canvas" id="wave-canvas" width="960" height="540" aria-label="波動現象動畫"></canvas></div>
                         <div class="lab-controls">
                             <h3>波動參數</h3>
-                            <label class="lab-control"><span class="lab-control-head">波長 λ <b class="lab-value" id="wave-length-out">58 px</b></span><input id="wave-length" type="range" min="28" max="105" value="58" step="1"></label>
+                            <label class="lab-control wave-phenomenon-control"><span class="lab-control-head">波長 λ <b class="lab-value" id="wave-length-out">58 px</b></span><input id="wave-length" type="range" min="28" max="105" value="58" step="1"></label>
                             <label class="lab-control"><span class="lab-control-head">動畫速率 <b class="lab-value" id="wave-speed-out">1.0×</b></span><input id="wave-speed" type="range" min="0.2" max="2.2" value="1" step="0.1"></label>
-                            <label class="lab-control"><span class="lab-control-head">入射角 θ₁ <b class="lab-value" id="wave-angle-out">35°</b></span><input id="wave-angle" type="range" min="0" max="75" value="35" step="1"></label>
-                            <label class="lab-control"><span class="lab-control-head">介質一折射率 n₁ <b class="lab-value" id="wave-n1-out">1.00</b></span><input id="wave-n1" type="range" min="1" max="2.2" value="1" step="0.05"></label>
-                            <label class="lab-control"><span class="lab-control-head">介質二折射率 n₂ <b class="lab-value" id="wave-n2-out">1.50</b></span><input id="wave-n2" type="range" min="1" max="2.2" value="1.5" step="0.05"></label>
-                            <label class="lab-control"><span class="lab-control-head">狹縫／雙源間距 <b class="lab-value" id="wave-gap-out">90 px</b></span><input id="wave-gap" type="range" min="28" max="180" value="90" step="2"></label>
+                            <button id="wave-pause-btn" class="lab-btn" type="button" aria-pressed="false" onclick="toggleWavePause()">⏸ 暫停動畫</button>
+                            <label class="lab-control wave-phenomenon-control"><span class="lab-control-head">入射角 θ₁ <b class="lab-value" id="wave-angle-out">35°</b></span><input id="wave-angle" type="range" min="0" max="75" value="35" step="1"></label>
+                            <label class="lab-control wave-phenomenon-control"><span class="lab-control-head">介質一折射率 n₁ <b class="lab-value" id="wave-n1-out">1.00</b></span><input id="wave-n1" type="range" min="1" max="2.2" value="1" step="0.05"></label>
+                            <label class="lab-control wave-phenomenon-control"><span class="lab-control-head">介質二折射率 n₂ <b class="lab-value" id="wave-n2-out">1.50</b></span><input id="wave-n2" type="range" min="1" max="2.2" value="1.5" step="0.05"></label>
+                            <label class="lab-control wave-phenomenon-control"><span class="lab-control-head">狹縫／雙源間距 <b class="lab-value" id="wave-gap-out">90 px</b></span><input id="wave-gap" type="range" min="28" max="180" value="90" step="2"></label>
+                            <label class="lab-control doppler-control"><span class="lab-control-head">移動情境</span><select id="doppler-case"><option value="source" selected>波源移動、左右觀察者靜止</option><option value="observer">波源靜止、左右觀察者移動</option><option value="both">一個波源與一個觀察者都移動</option></select></label>
+                            <label class="lab-control doppler-control"><span class="lab-control-head">波源頻率 f₀ <b class="lab-value" id="doppler-frequency-out">500 Hz</b></span><input id="doppler-frequency" type="range" min="200" max="1000" value="500" step="10"></label>
+                            <label class="lab-control doppler-control"><span class="lab-control-head" id="doppler-direction-label">波源移動方向</span><select id="doppler-direction"><option value="right" selected>向右移動</option><option value="left">向左移動</option></select></label>
+                            <label class="lab-control doppler-control"><span class="lab-control-head"><span id="doppler-motion-label">波源速度</span> <b class="lab-value" id="doppler-motion-out">0.60v = 204 m/s</b></span><input id="doppler-motion" type="range" min="0" max="1.5" value="0.6" step="0.05"></label>
+                            <label class="lab-control doppler-control doppler-both-control"><span class="lab-control-head">觀察者移動方向</span><select id="doppler-observer-direction"><option value="right" selected>向右移動</option><option value="left">向左移動</option></select></label>
+                            <label class="lab-control doppler-control doppler-both-control"><span class="lab-control-head">觀察者速度 <b class="lab-value" id="doppler-observer-motion-out">0.30v = 102 m/s</b></span><input id="doppler-observer-motion" type="range" min="0" max="1.5" value="0.3" step="0.05"></label>
+                            <div class="lab-control doppler-control"><span class="lab-control-head">空氣中聲速（固定） <b class="lab-value">v = 340 m/s</b></span></div>
                         </div>
                     </div>
                     <div class="lab-readouts">
-                        <div class="lab-readout"><span class="lab-readout-label">目前現象</span><strong id="wave-mode-readout">反射</strong></div>
-                        <div class="lab-readout"><span class="lab-readout-label">反射／折射角</span><strong id="wave-angle-readout">θᵣ = 35°</strong></div>
-                        <div class="lab-readout"><span class="lab-readout-label">介質二波長</span><strong id="wave-lambda2-readout">38.7 px</strong></div>
-                        <div class="lab-readout"><span class="lab-readout-label">狀態</span><strong id="wave-state-readout">反射角等於入射角</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label" id="wave-mode-label">目前現象</span><strong id="wave-mode-readout">反射</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label" id="wave-angle-label">反射／折射角</span><strong id="wave-angle-readout">θᵣ = 35°</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label" id="wave-lambda2-label">介質二波長</span><strong id="wave-lambda2-readout">38.7 px</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label" id="wave-state-label">狀態</span><strong id="wave-state-readout">反射角等於入射角</strong></div>
                     </div>
                     <div class="lab-explain" id="wave-explain">反射時波仍在同一介質中，因此頻率、波速與波長不變；相對法線量角可得 θᵢ = θᵣ。</div>
                 </section>
@@ -4453,10 +4466,11 @@
 
         function initializeInteractiveLab(initialLab = 'wave', initialWaveMode = 'reflection') {
             if (window.labAnimationFrame) cancelAnimationFrame(window.labAnimationFrame);
-            window.physicsLab = { active: initialLab, waveMode: initialWaveMode, time: 0, inductionStep: 1, magnetVel: 0, lastMagnetX: 150 };
+            window.physicsLab = { active: initialLab, waveMode: initialWaveMode, time: 0, waveTime: 0, wavePaused: false, paused: false, inductionStep: 1, magnetVel: 0, lastMagnetX: 150 };
             document.querySelectorAll('.lab-switch-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lab === initialLab));
             document.querySelectorAll('.lab-panel').forEach(panel => panel.classList.toggle('active', panel.id === `lab-${initialLab}`));
             document.querySelectorAll('.wave-mode-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === initialWaveMode));
+            updateWaveControlVisibility();
             bindLabControls();
             drawBlackbodyLab();
             if (initialLab === 'wave') updateWaveReadouts();
@@ -4515,12 +4529,36 @@
             if (!window.physicsLab) return;
             window.physicsLab.waveMode = mode;
             document.querySelectorAll('.wave-mode-btn').forEach(btn => btn.classList.toggle('active', btn === button));
+            updateWaveControlVisibility();
             updateWaveReadouts();
+        }
+
+        function updateWaveControlVisibility() {
+            const isDoppler = window.physicsLab && window.physicsLab.waveMode === 'doppler';
+            const isBoth = isDoppler && document.getElementById('doppler-case') && document.getElementById('doppler-case').value === 'both';
+            document.querySelectorAll('.doppler-control').forEach(control => { control.style.display = isDoppler ? 'block' : 'none'; });
+            document.querySelectorAll('.doppler-both-control').forEach(control => { control.style.display = isBoth ? 'block' : 'none'; });
+            document.querySelectorAll('.wave-phenomenon-control').forEach(control => { control.style.display = isDoppler ? 'none' : 'block'; });
+        }
+
+        function toggleWavePause() {
+            if (!window.physicsLab) return;
+            window.physicsLab.wavePaused = !window.physicsLab.wavePaused;
+            const btn = document.getElementById('wave-pause-btn');
+            if (!btn) return;
+            btn.setAttribute('aria-pressed', String(window.physicsLab.wavePaused));
+            btn.textContent = window.physicsLab.wavePaused ? '▶ 繼續動畫' : '⏸ 暫停動畫';
+            btn.classList.toggle('active', window.physicsLab.wavePaused);
+            drawWaveLab();
         }
 
         function bindLabControls() {
             const ids = ['wave-length', 'wave-speed', 'wave-angle', 'wave-n1', 'wave-n2', 'wave-gap'];
             ids.forEach(id => document.getElementById(id).addEventListener('input', updateWaveReadouts));
+            ['doppler-case', 'doppler-frequency', 'doppler-direction', 'doppler-motion', 'doppler-observer-direction', 'doppler-observer-motion'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateWaveReadouts);
+                document.getElementById(id).addEventListener('change', updateWaveReadouts);
+            });
             ['photo-wave', 'photo-intensity', 'photo-material', 'photo-qe', 'photo-graph-mode'].forEach(id => {
                 document.getElementById(id).addEventListener('input', updatePhotoReadouts);
                 document.getElementById(id).addEventListener('change', updatePhotoReadouts);
@@ -4564,7 +4602,9 @@
         function startLabAnimation() {
             const loop = () => {
                 if (!window.physicsLab || !document.getElementById('wave-canvas')) return;
-                window.physicsLab.time += 0.035 * labNumber('wave-speed');
+                const dt = 0.035 * labNumber('wave-speed');
+                window.physicsLab.time += dt;
+                if (!window.physicsLab.wavePaused) window.physicsLab.waveTime += dt;
                 if (window.physicsLab.active === 'wave') drawWaveLab();
                 if (window.physicsLab.active === 'photo') drawPhotoLab();
                 if (window.physicsLab.active === 'induction') drawInductionLab();
@@ -4672,6 +4712,275 @@
             ctx.restore();
         }
 
+        function dopplerValues() {
+            const scenario = document.getElementById('doppler-case').value;
+            const emittedFrequency = labNumber('doppler-frequency');
+            const mediumSpeed = 340;
+            const speedRatio = labNumber('doppler-motion');
+            const direction = document.getElementById('doppler-direction').value;
+            const speedMagnitude = speedRatio * mediumSpeed;
+            const globalVelocity = direction === 'right' ? speedMagnitude : -speedMagnitude;
+            const observerSpeedRatio = labNumber('doppler-observer-motion');
+            const observerDirection = document.getElementById('doppler-observer-direction').value;
+            const observerSpeedMagnitude = observerSpeedRatio * mediumSpeed;
+            const observerVelocity = observerDirection === 'right' ? observerSpeedMagnitude : -observerSpeedMagnitude;
+            const emittedWavelength = mediumSpeed / emittedFrequency;
+            if (scenario === 'both') {
+                const wavelengthDenominator = mediumSpeed - globalVelocity;
+                const shock = wavelengthDenominator <= 0;
+                const observedWavelength = shock ? null : wavelengthDenominator / emittedFrequency;
+                const observerWaveSpeed = mediumSpeed - observerVelocity;
+                const outrunsWave = observerWaveSpeed <= 0;
+                const observedFrequency = shock ? null : outrunsWave ? 0 : observerWaveSpeed / observedWavelength;
+                const sourceOnlyFrequency = shock ? null : mediumSpeed / observedWavelength;
+                const observerOnlyFrequency = outrunsWave ? 0 : observerWaveSpeed / emittedWavelength;
+                const separationRate = observerVelocity - globalVelocity;
+                const relation = separationRate < 0 ? '距離縮短' : separationRate > 0 ? '距離增加' : '距離不變';
+                const both = { observedWavelength, observerWaveSpeed, observedFrequency, sourceOnlyFrequency, observerOnlyFrequency, shock, outrunsWave, relation };
+                return { scenario, direction, speedRatio, emittedFrequency, mediumSpeed, speedMagnitude, globalVelocity, emittedWavelength, observerSpeedRatio, observerDirection, observerSpeedMagnitude, observerVelocity, both };
+            }
+            const measurementFor = side => {
+                const sideSign = side === 'right' ? 1 : -1;
+                if (scenario === 'source') {
+                    const approachSpeed = globalVelocity * sideSign;
+                    const shock = approachSpeed >= mediumSpeed;
+                    const observedWavelength = shock ? null : (mediumSpeed - approachSpeed) / emittedFrequency;
+                    return {
+                        relation: approachSpeed > 0 ? '接近' : approachSpeed < 0 ? '遠離' : '無頻移',
+                        observedWavelength,
+                        observerWaveSpeed: mediumSpeed,
+                        observedFrequency: shock ? null : mediumSpeed / observedWavelength,
+                        shock,
+                        outrunsWave: false
+                    };
+                }
+                const approachSpeed = -globalVelocity * sideSign;
+                const observerWaveSpeed = mediumSpeed + approachSpeed;
+                const outrunsWave = observerWaveSpeed <= 0;
+                return {
+                    relation: approachSpeed > 0 ? '接近' : approachSpeed < 0 ? '遠離' : '無頻移',
+                    observedWavelength: emittedWavelength,
+                    observerWaveSpeed,
+                    observedFrequency: outrunsWave ? 0 : observerWaveSpeed / emittedWavelength,
+                    shock: false,
+                    outrunsWave
+                };
+            };
+            const left = measurementFor('left'), right = measurementFor('right');
+            return { scenario, direction, speedRatio, emittedFrequency, mediumSpeed, speedMagnitude, globalVelocity, emittedWavelength, observerSpeedRatio, observerDirection, observerSpeedMagnitude, observerVelocity, left, right };
+        }
+
+        function drawDopplerBothLab(ctx, w, h, t, d) {
+            const cy = 305, vScreen = 105, waveClock = t * 0.7;
+            const baseLambdaPx = Math.max(48, Math.min(108, d.emittedWavelength * 125));
+            const period = baseLambdaPx / vScreen, phaseAge = waveClock % period;
+            const sourceScreenVelocity = d.globalVelocity / d.mediumSpeed * vScreen;
+            const observerScreenVelocity = d.observerVelocity / d.mediumSpeed * vScreen;
+            const travel = 300;
+            const sourceDuration = Math.abs(sourceScreenVelocity) > 0 ? travel / Math.abs(sourceScreenVelocity) : Infinity;
+            const observerDuration = Math.abs(observerScreenVelocity) > 0 ? travel / Math.abs(observerScreenVelocity) : Infinity;
+            const sourceMoveTime = Number.isFinite(sourceDuration) ? waveClock % sourceDuration : 0;
+            const observerMoveTime = Number.isFinite(observerDuration) ? waveClock % observerDuration : 0;
+            const sourceStartX = d.direction === 'right' ? 140 : 440;
+            const observerStartX = d.observerDirection === 'right' ? 600 : 900;
+            const sourceX = sourceStartX + sourceScreenVelocity * sourceMoveTime;
+            const observerX = observerStartX + observerScreenVelocity * observerMoveTime;
+            const wavefronts = [];
+
+            ctx.fillStyle = 'rgba(94,162,255,.035)'; ctx.fillRect(0, 0, w, h);
+            labLine(ctx, 35, cy, w - 35, cy, 'rgba(145,167,173,.28)', 1.2, [8, 7]);
+            for (let k = 0; k < 20; k++) {
+                const age = phaseAge + k * period;
+                if (age < 0.02) continue;
+                const centerX = sourceX - sourceScreenVelocity * age;
+                const radius = vScreen * age;
+                if (centerX + radius < -20 || centerX - radius > w + 20) continue;
+                wavefronts.push({ centerX, radius });
+                ctx.save(); ctx.strokeStyle = `rgba(94,162,255,${Math.max(0.15, 0.68 - k * 0.032)})`; ctx.lineWidth = k < 3 ? 2.2 : 1.4;
+                ctx.beginPath(); ctx.arc(centerX, cy, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+            }
+
+            let nearestArrival = Infinity;
+            wavefronts.forEach(front => { nearestArrival = Math.min(nearestArrival, Math.abs(Math.abs(observerX - front.centerX) - front.radius)); });
+            const arrivalGlow = Math.max(0, 1 - nearestArrival / 15);
+
+            ctx.fillStyle = '#ff7f98'; ctx.beginPath(); ctx.arc(sourceX, cy, 11, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(255,127,152,.72)'; ctx.lineWidth = 2;
+            [20, 30].forEach(r => { ctx.beginPath(); ctx.arc(sourceX, cy, r, -0.65, 0.65); ctx.stroke(); });
+            labText(ctx, '移動波源 S', sourceX, cy + 52, '#ff7f98', 15, 'center');
+
+            ctx.save();
+            if (arrivalGlow > 0) { ctx.fillStyle = `rgba(247,210,30,${arrivalGlow * .22})`; ctx.beginPath(); ctx.arc(observerX, cy, 34 + arrivalGlow * 12, 0, Math.PI * 2); ctx.fill(); }
+            ctx.strokeStyle = '#ffc36b'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.arc(observerX, cy - 20, 9, 0, Math.PI * 2); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(observerX, cy - 11); ctx.lineTo(observerX, cy + 18); ctx.moveTo(observerX, cy); ctx.lineTo(observerX - 16, cy + 7); ctx.moveTo(observerX, cy); ctx.lineTo(observerX + 16, cy + 7); ctx.moveTo(observerX, cy + 18); ctx.lineTo(observerX - 13, cy + 38); ctx.moveTo(observerX, cy + 18); ctx.lineTo(observerX + 13, cy + 38); ctx.stroke(); ctx.restore();
+            labText(ctx, arrivalGlow > .3 ? '觀察者 O｜接收到波峰' : '移動觀察者 O', observerX, cy + 64, '#ffc36b', 14, 'center');
+
+            const drawArrow = (x, velocity, color) => {
+                if (Math.abs(velocity) < 1e-9) { labText(ctx, '靜止', x, cy - 70, '#bcd0d6', 13, 'center'); return; }
+                const direction = Math.sign(velocity), end = x + direction * 72;
+                labLine(ctx, x, cy - 68, end, cy - 68, color, 3);
+                labLine(ctx, end, cy - 68, end - direction * 11, cy - 75, color, 3); labLine(ctx, end, cy - 68, end - direction * 11, cy - 61, color, 3);
+            };
+            drawArrow(sourceX, d.globalVelocity, '#ff7f98'); drawArrow(observerX, d.observerVelocity, '#ffc36b');
+
+            if (d.speedRatio >= 1) {
+                const moveDirection = Math.sign(d.globalVelocity) || 1;
+                if (d.speedRatio > 1) {
+                    const mu = Math.asin(1 / d.speedRatio), length = 230;
+                    const dx = -moveDirection * length * Math.cos(mu), dy = length * Math.sin(mu);
+                    labLine(ctx, sourceX, cy, sourceX + dx, cy - dy, '#ff7f98', 2.6); labLine(ctx, sourceX, cy, sourceX + dx, cy + dy, '#ff7f98', 2.6);
+                } else labLine(ctx, sourceX, 205, sourceX, h - 58, '#ff7f98', 2.8);
+            }
+
+            const b = d.both;
+            const fmt = value => value === null ? '無穩態值' : `${value.toFixed(1)} Hz`;
+            ctx.fillStyle = 'rgba(7,24,33,.8)'; ctx.fillRect(22, 84, 390, 112); ctx.fillRect(w - 412, 84, 390, 112);
+            labText(ctx, '相同參數下的視頻率比較', 38, 108, '#bcd0d6', 15);
+            labText(ctx, `只有波源移動：${fmt(b.sourceOnlyFrequency)}`, 38, 134, '#ff7f98', 14);
+            labText(ctx, `只有觀察者移動：${fmt(b.observerOnlyFrequency)}`, 38, 159, '#ffc36b', 14);
+            labText(ctx, `兩者同時移動：${fmt(b.observedFrequency)}`, 38, 184, '#71d1cf', 14);
+            labText(ctx, `實際接收量｜${b.relation}`, w - 396, 108, '#bcd0d6', 15);
+            labText(ctx, `視波長 λ′：${b.observedWavelength === null ? '—（震波）' : `${b.observedWavelength.toFixed(3)} m`}`, w - 396, 134, '#71d1cf', 14);
+            labText(ctx, `波峰相對速度 v′：${b.observerWaveSpeed.toFixed(0)} m/s`, w - 396, 159, '#bcd0d6', 14);
+            labText(ctx, `視頻率 f′：${fmt(b.observedFrequency)}`, w - 396, 184, '#71d1cf', 14);
+
+            labText(ctx, '情境 C｜一個波源與一個觀察者同時移動', w / 2, 38, '#bcd0d6', 18, 'center');
+            labText(ctx, `S：向${d.direction === 'right' ? '右' : '左'} ${d.speedRatio.toFixed(2)}v　　O：向${d.observerDirection === 'right' ? '右' : '左'} ${d.observerSpeedRatio.toFixed(2)}v`, w / 2, 66, '#9fb7c0', 14, 'center');
+            labText(ctx, `右行聲波：f′ = f₀ (v − vₒ) / (v − vₛ)　｜　空氣聲速固定 ${d.mediumSpeed} m/s`, w / 2, h - 22, '#bcd0d6', 15, 'center');
+        }
+
+        function drawDopplerLab(ctx, w, h, t) {
+            const d = dopplerValues();
+            if (d.scenario === 'both') { drawDopplerBothLab(ctx, w, h, t, d); return; }
+            const cy = 285, vScreen = 105;
+            const baseLambdaPx = Math.max(48, Math.min(108, d.emittedWavelength * 125));
+            const period = baseLambdaPx / vScreen;
+            const waveClock = t * 0.7;
+            const phaseAge = waveClock % period;
+            const movingScreenSpeed = d.speedRatio * vScreen;
+            const moveDirection = d.direction === 'right' ? 1 : -1;
+            const signedSourceScreenSpeed = moveDirection * movingScreenSpeed;
+            const sourceTravel = 580;
+            const sourceMoveDuration = movingScreenSpeed > 0 ? sourceTravel / movingScreenSpeed : Infinity;
+            const sourceMoveTime = Number.isFinite(sourceMoveDuration) ? waveClock % sourceMoveDuration : 0;
+            const sourceStartX = d.direction === 'right' ? 190 : 770;
+            const sourceX = d.scenario === 'source' ? sourceStartX + signedSourceScreenSpeed * sourceMoveTime : 480;
+            const observerTravel = 340;
+            const observerMoveDuration = movingScreenSpeed > 0 ? observerTravel / movingScreenSpeed : Infinity;
+            const observerMoveTime = Number.isFinite(observerMoveDuration) ? waveClock % observerMoveDuration : 0;
+            let leftObserverX = 70, rightObserverX = 890;
+            if (d.scenario === 'observer' && movingScreenSpeed > 0) {
+                if (d.direction === 'right') {
+                    leftObserverX = 70 + movingScreenSpeed * observerMoveTime;
+                    rightObserverX = 550 + movingScreenSpeed * observerMoveTime;
+                } else {
+                    leftObserverX = 410 - movingScreenSpeed * observerMoveTime;
+                    rightObserverX = 890 - movingScreenSpeed * observerMoveTime;
+                }
+            }
+            const wavefronts = [];
+
+            ctx.fillStyle = 'rgba(94,162,255,.035)'; ctx.fillRect(0, 0, w, h);
+            labLine(ctx, 35, cy, w - 35, cy, 'rgba(145,167,173,.28)', 1.2, [8, 7]);
+
+            for (let k = 0; k < 18; k++) {
+                const age = phaseAge + k * period;
+                if (age < 0.02) continue;
+                const centerX = d.scenario === 'source' ? sourceX - signedSourceScreenSpeed * age : sourceX;
+                const radius = vScreen * age;
+                if (centerX + radius < -20 || centerX - radius > w + 20) continue;
+                wavefronts.push({ centerX, radius });
+                const alpha = Math.max(0.16, 0.68 - k * 0.035);
+                ctx.save(); ctx.strokeStyle = `rgba(94,162,255,${alpha})`; ctx.lineWidth = k < 3 ? 2.2 : 1.45;
+                ctx.beginPath(); ctx.arc(centerX, cy, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+            }
+
+            const arrivalGlowAt = observerX => {
+                let nearestArrival = Infinity;
+                wavefronts.forEach(front => {
+                    nearestArrival = Math.min(nearestArrival, Math.abs(Math.abs(observerX - front.centerX) - front.radius));
+                });
+                return Math.max(0, 1 - nearestArrival / 15);
+            };
+            const leftGlow = arrivalGlowAt(leftObserverX), rightGlow = arrivalGlowAt(rightObserverX);
+
+            // 波源
+            ctx.save();
+            ctx.fillStyle = '#ff7f98'; ctx.beginPath(); ctx.arc(sourceX, cy, 11, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(255,127,152,.72)'; ctx.lineWidth = 2;
+            [20, 30].forEach(r => { ctx.beginPath(); ctx.arc(sourceX, cy, r, -0.65, 0.65); ctx.stroke(); });
+            ctx.restore();
+            labText(ctx, '波源 S', sourceX, cy + 52, '#ff7f98', 16, 'center');
+            labText(ctx, `f₀ = ${d.emittedFrequency.toFixed(0)} Hz`, sourceX, cy + 73, '#bcd0d6', 14, 'center');
+
+            if (d.scenario === 'source' && d.speedRatio >= 1) {
+                if (d.speedRatio > 1) {
+                    const machAngle = Math.asin(1 / d.speedRatio);
+                    const coneLength = 255;
+                    const coneDx = -moveDirection * coneLength * Math.cos(machAngle);
+                    const coneDy = coneLength * Math.sin(machAngle);
+                    labLine(ctx, sourceX, cy, sourceX + coneDx, cy - coneDy, '#ff7f98', 2.8);
+                    labLine(ctx, sourceX, cy, sourceX + coneDx, cy + coneDy, '#ff7f98', 2.8);
+                    labText(ctx, `馬赫錐 μ = ${(machAngle * 180 / Math.PI).toFixed(1)}°`, sourceX - moveDirection * 92, cy - 105, '#ff7f98', 14, 'center');
+                } else {
+                    labLine(ctx, sourceX, 95, sourceX, h - 82, '#ff7f98', 3);
+                    labText(ctx, '音速臨界：波前在波源位置堆疊', sourceX, 82, '#ff7f98', 14, 'center');
+                }
+            }
+
+            const drawObserver = (x, side, measurement, glow) => {
+                ctx.save();
+                if (glow > 0) {
+                    ctx.fillStyle = `rgba(247,210,30,${glow * 0.22})`;
+                    ctx.beginPath(); ctx.arc(x, cy, 34 + glow * 12, 0, Math.PI * 2); ctx.fill();
+                }
+                ctx.strokeStyle = '#ffc36b'; ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.arc(x, cy - 20, 9, 0, Math.PI * 2); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(x, cy - 11); ctx.lineTo(x, cy + 18); ctx.moveTo(x, cy); ctx.lineTo(x - 16, cy + 7); ctx.moveTo(x, cy); ctx.lineTo(x + 16, cy + 7); ctx.moveTo(x, cy + 18); ctx.lineTo(x - 13, cy + 38); ctx.moveTo(x, cy + 18); ctx.lineTo(x + 13, cy + 38); ctx.stroke();
+                ctx.restore();
+                labText(ctx, glow > 0.3 ? `O${side} 接收到波峰` : `觀察者 O${side}`, x, cy + 68, '#ffc36b', 14, 'center');
+                labText(ctx, measurement.relation, x, cy + 89, measurement.relation === '接近' ? '#71d1cf' : measurement.relation === '遠離' ? '#ff7f98' : '#bcd0d6', 14, 'center');
+            };
+            drawObserver(leftObserverX, 'L', d.left, leftGlow);
+            drawObserver(rightObserverX, 'R', d.right, rightGlow);
+
+            const drawMotionArrow = x => {
+                if (movingScreenSpeed <= 0) { labText(ctx, '靜止', x, cy - 72, '#bcd0d6', 14, 'center'); return; }
+                const arrowEnd = x + moveDirection * 74;
+                labLine(ctx, x, cy - 70, arrowEnd, cy - 70, '#ff7f98', 3);
+                labLine(ctx, arrowEnd, cy - 70, arrowEnd - moveDirection * 11, cy - 77, '#ff7f98', 3);
+                labLine(ctx, arrowEnd, cy - 70, arrowEnd - moveDirection * 11, cy - 63, '#ff7f98', 3);
+            };
+            if (d.scenario === 'source') drawMotionArrow(sourceX);
+            else { drawMotionArrow(leftObserverX); drawMotionArrow(rightObserverX); }
+
+            const formatFrequency = m => m.observedFrequency === null ? '震波／無穩態值' : m.outrunsWave ? '0 Hz（追不上）' : `${m.observedFrequency.toFixed(1)} Hz`;
+            const formatLambda = m => m.observedWavelength === null ? '—（震波）' : `${m.observedWavelength.toFixed(3)} m`;
+            const drawComparison = (x, side, m) => {
+                ctx.save(); ctx.fillStyle = 'rgba(7,24,33,.78)'; ctx.fillRect(x, 112, 245, 100); ctx.restore();
+                labText(ctx, `${side === 'L' ? '左側' : '右側'} O${side}｜${m.relation}`, x + 12, 135, '#bcd0d6', 15);
+                labText(ctx, `視波長 λ′：${formatLambda(m)}`, x + 12, 158, '#71d1cf', 13);
+                labText(ctx, `視波速 v′：${m.observerWaveSpeed.toFixed(0)} m/s`, x + 12, 181, '#bcd0d6', 13);
+                labText(ctx, `視頻率 f′：${formatFrequency(m)}`, x + 12, 204, m.relation === '接近' ? '#71d1cf' : '#ff7f98', 13);
+            };
+            drawComparison(18, 'L', d.left);
+            drawComparison(w - 263, 'R', d.right);
+
+            const drawWavelengthBracket = (side, m) => {
+                if (m.observedWavelength === null) return;
+                const px = Math.min(165, baseLambdaPx * m.observedWavelength / d.emittedWavelength);
+                const x1 = side === 'L' ? 78 : w - 78 - px, x2 = x1 + px;
+                labLine(ctx, x1, 475, x2, 475, '#71d1cf', 2.2);
+                labLine(ctx, x1, 467, x1, 483, '#71d1cf', 2.2); labLine(ctx, x2, 467, x2, 483, '#71d1cf', 2.2);
+                labText(ctx, `λ′ ${m.observedWavelength.toFixed(3)} m`, (x1 + x2) / 2, 503, '#71d1cf', 13, 'center');
+            };
+            drawWavelengthBracket('L', d.left); drawWavelengthBracket('R', d.right);
+
+            labText(ctx, d.scenario === 'source' ? '情境 A｜波源移動；左右觀察者同時比較' : '情境 B｜兩側觀察者同向移動；一側接近、一側遠離', w / 2, 38, '#bcd0d6', 18, 'center');
+            labText(ctx, `移動方向：向${d.direction === 'right' ? '右' : '左'}　速度 ${d.speedRatio.toFixed(2)}v　｜　空氣聲速固定 ${d.mediumSpeed} m/s`, w / 2, 68, '#9fb7c0', 14, 'center');
+        }
+
         function drawWaveLab() {
             const setup = prepLabCanvas('wave-canvas');
             if (!setup) return;
@@ -4680,29 +4989,62 @@
             const lambda = labNumber('wave-length');
             const angle = labNumber('wave-angle') * Math.PI / 180;
             const n1 = labNumber('wave-n1'), n2 = labNumber('wave-n2');
-            const gap = labNumber('wave-gap'), t = window.physicsLab.time;
+            const gap = labNumber('wave-gap'), t = window.physicsLab.waveTime ?? window.physicsLab.time;
             const cyan = '#71d1cf', blue = '#5ea2ff', amber = '#ffc36b', rose = '#ff7f98';
 
-            if (mode === 'reflection' || mode === 'refraction') {
+            if (mode === 'doppler') {
+                drawDopplerLab(ctx, w, h, t);
+            } else if (mode === 'reflection' || mode === 'refraction') {
                 const by = 280, xMin = 315, span = 330, xMax = xMin + span;
                 const v1 = 155 / n1, v2 = 155 / n2;
                 const hitLast = span * Math.sin(angle) / v1;
-                const startTime = -125 / v1;
-                const endTime = hitLast + 155 / Math.min(v1, v2);
-                const progress = (t * 0.12) % 1;
+                const startTime = -190 / v1;
+                const isTotalReflection = mode === 'refraction' && Math.abs(n1 / n2 * Math.sin(angle)) > 1;
+                const outgoingSpeed = mode === 'reflection' || isTotalReflection ? v1 : v2;
+                const endTime = hitLast + 190 / outgoingSpeed;
+                const progress = (t * 0.08) % 1;
                 const constructionTime = startTime + progress * (endTime - startTime);
                 ctx.fillStyle = 'rgba(94, 162, 255, 0.06)'; ctx.fillRect(0, 0, w, by);
                 ctx.fillStyle = 'rgba(113, 209, 207, 0.045)'; ctx.fillRect(0, by, w, h - by);
                 labLine(ctx, 0, by, w, by, '#b8d2d9', 3);
                 labLine(ctx, xMin, 35, xMin, h - 35, 'rgba(190,220,226,.32)', 1, [8, 7]);
 
-                // 入射波前：sinθ·u + cosθ·Y = v₁t。每條藍線皆與入射方向垂直。
+                // 入射波本身也逐代依惠更斯原理形成：舊波前上的次波包絡成下一個波前。
                 ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, by - 2); ctx.clip();
-                ctx.strokeStyle = '#2368d5'; ctx.lineWidth = 3;
-                for (let k = 0; k < 6; k++) {
-                    const phaseDistance = v1 * constructionTime - k * lambda;
-                    const yAt = u => by + (phaseDistance - Math.sin(angle) * u) / Math.max(0.001, Math.cos(angle));
-                    ctx.beginPath(); ctx.moveTo(xMin - 170, yAt(-170)); ctx.lineTo(xMax + 170, yAt(span + 170)); ctx.stroke();
+                const incidentDistance = v1 * constructionTime;
+                const oldIncidentDistance = Math.floor(incidentDistance / lambda) * lambda;
+                const incidentWaveletR = incidentDistance - oldIncidentDistance;
+                const yIncident = (u, distance) => by + (distance - Math.sin(angle) * u) / Math.max(0.001, Math.cos(angle));
+                const drawIncidentFront = (distance, color, width, dash = []) => {
+                    ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash);
+                    ctx.beginPath();
+                    ctx.moveTo(xMin - 190, yIncident(-190, distance));
+                    ctx.lineTo(xMax + 190, yIncident(span + 190, distance));
+                    ctx.stroke(); ctx.restore();
+                };
+
+                // 保留數個已完成的入射波前，讓學生看見連續波列，而非只剩單一藍線。
+                for (let k = 4; k >= 1; k--) {
+                    drawIncidentFront(oldIncidentDistance - k * lambda, `rgba(94,162,255,${0.12 + (4 - k) * 0.055})`, 1.7);
+                }
+                drawIncidentFront(oldIncidentDistance, '#2368d5', 3.2);
+
+                // 當代舊波前上的次波只向傳播方向展開；共同包絡就是正在形成的下一波前。
+                const propagationAngle = Math.PI / 2 - angle;
+                ctx.save(); ctx.strokeStyle = 'rgba(113,209,207,.72)'; ctx.lineWidth = 1.45;
+                for (let u = -130; u <= span + 130; u += 48) {
+                    const sx = xMin + u, sy = yIncident(u, oldIncidentDistance);
+                    if (sx < 18 || sx > w - 18 || sy < 48 || sy > by - 8) continue;
+                    ctx.fillStyle = amber; ctx.beginPath(); ctx.arc(sx, sy, 4.2, 0, Math.PI * 2); ctx.fill();
+                    if (incidentWaveletR > 1) {
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, incidentWaveletR, propagationAngle - Math.PI / 2, propagationAngle + Math.PI / 2);
+                        ctx.stroke();
+                    }
+                }
+                ctx.restore();
+                if (incidentWaveletR > 4) {
+                    drawIncidentFront(incidentDistance, 'rgba(100,200,0,.92)', 3.3, incidentWaveletR < lambda * 0.78 ? [8, 5] : []);
                 }
                 ctx.restore();
 
@@ -4712,10 +5054,15 @@
                     return { x: xMin + u, y: by, u, hitTime: u * Math.sin(angle) / v1 };
                 });
                 const firstHit = sources.find(source => constructionTime >= source.hitTime);
-                sources.forEach(source => {
-                    const active = constructionTime >= source.hitTime;
-                    ctx.fillStyle = active ? '#f7d21e' : 'rgba(247,210,30,.24)';
-                    ctx.beginPath(); ctx.arc(source.x, source.y, 6, 0, Math.PI * 2); ctx.fill();
+                const constructionFade = constructionTime <= hitLast
+                    ? 1
+                    : Math.max(0, 1 - (constructionTime - hitLast) / (75 / outgoingSpeed));
+                const drawSources = () => sources.forEach(source => {
+                    if (constructionTime < source.hitTime || constructionFade <= 0) return;
+                    const age = constructionTime - source.hitTime;
+                    const sourceAlpha = Math.max(0.28, 1 - age / Math.max(0.01, hitLast + 0.35));
+                    ctx.fillStyle = `rgba(247,210,30,${sourceAlpha * constructionFade})`;
+                    ctx.beginPath(); ctx.arc(source.x, source.y, 5.5, 0, Math.PI * 2); ctx.fill();
                 });
 
                 const activeU = Math.max(0, Math.min(span, Math.sin(angle) > 0.001 ? v1 * constructionTime / Math.sin(angle) : (constructionTime >= 0 ? span : 0)));
@@ -4724,28 +5071,34 @@
                 if (mode === 'reflection') {
                     sources.forEach(source => {
                         const radius = v1 * (constructionTime - source.hitTime);
-                        if (radius <= 0) return;
-                        ctx.save(); ctx.strokeStyle = 'rgba(236,245,245,.7)'; ctx.lineWidth = 1.8;
+                        if (radius <= 0 || constructionFade <= 0) return;
+                        ctx.save(); ctx.globalAlpha = constructionFade; ctx.strokeStyle = 'rgba(236,245,245,.7)'; ctx.lineWidth = 1.8;
                         ctx.beginPath(); ctx.arc(source.x, by, radius, Math.PI, Math.PI * 2); ctx.stroke(); ctx.restore();
                     });
+                    drawSources();
                     if (firstHit && tangentEndU > 0) {
                         const yOf = u => by + (Math.sin(angle) * u - v1 * constructionTime) / Math.max(0.001, Math.cos(angle));
                         labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), '#64c800', 4);
                     }
-                    const rayX = xMin + span * 0.48;
-                    labLine(ctx, rayX - Math.sin(angle) * 185, by - Math.cos(angle) * 185, rayX, by, 'rgba(215,229,232,.7)', 2, [7, 6]);
-                    labLine(ctx, rayX, by, rayX + Math.sin(angle) * 185, by - Math.cos(angle) * 185, 'rgba(215,229,232,.7)', 2, [7, 6]);
-                    labText(ctx, `θᵢ = θᵣ = ${Math.round(angle * 180 / Math.PI)}°`, rayX + 18, by - 54, amber, 17);
+                    if (firstHit) {
+                        const rayX = xMin + span * 0.48;
+                        ctx.save(); ctx.globalAlpha = 0.25 + 0.55 * tangentEndU / span;
+                        labLine(ctx, rayX - Math.sin(angle) * 185, by - Math.cos(angle) * 185, rayX, by, 'rgba(215,229,232,.7)', 2, [7, 6]);
+                        labLine(ctx, rayX, by, rayX + Math.sin(angle) * 185, by - Math.cos(angle) * 185, 'rgba(215,229,232,.7)', 2, [7, 6]);
+                        labText(ctx, `θᵢ = θᵣ = ${Math.round(angle * 180 / Math.PI)}°`, rayX + 18, by - 54, amber, 17);
+                        ctx.restore();
+                    }
                     labText(ctx, '綠線由白色次波的共同切線得到，不是預先畫出的反射線', 25, h - 24, '#bcd0d6', 15);
                 } else {
                     const sin2 = n1 / n2 * Math.sin(angle);
                     if (Math.abs(sin2) > 1) {
                         sources.forEach(source => {
                             const radius = v1 * (constructionTime - source.hitTime);
-                            if (radius <= 0) return;
-                            ctx.save(); ctx.strokeStyle = 'rgba(236,245,245,.7)'; ctx.lineWidth = 1.8;
+                            if (radius <= 0 || constructionFade <= 0) return;
+                            ctx.save(); ctx.globalAlpha = constructionFade; ctx.strokeStyle = 'rgba(236,245,245,.7)'; ctx.lineWidth = 1.8;
                             ctx.beginPath(); ctx.arc(source.x, by, radius, Math.PI, Math.PI * 2); ctx.stroke(); ctx.restore();
                         });
+                        drawSources();
                         if (firstHit && tangentEndU > 0) {
                             const yOf = u => by + (Math.sin(angle) * u - v1 * constructionTime) / Math.max(0.001, Math.cos(angle));
                             labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), rose, 4);
@@ -4755,25 +5108,35 @@
                         const theta2 = Math.asin(sin2);
                         sources.forEach(source => {
                             const radius = v2 * (constructionTime - source.hitTime);
-                            if (radius <= 0) return;
-                            ctx.save(); ctx.strokeStyle = 'rgba(236,245,245,.72)'; ctx.lineWidth = 1.8;
+                            if (radius <= 0 || constructionFade <= 0) return;
+                            ctx.save(); ctx.globalAlpha = constructionFade; ctx.strokeStyle = 'rgba(236,245,245,.72)'; ctx.lineWidth = 1.8;
                             ctx.beginPath(); ctx.arc(source.x, by, radius, 0, Math.PI); ctx.stroke(); ctx.restore();
                         });
+                        drawSources();
                         if (firstHit && tangentEndU > 0) {
                             const yOf = u => by + (v2 * constructionTime - Math.sin(theta2) * u) / Math.max(0.001, Math.cos(theta2));
                             labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), '#64c800', 4);
                         }
-                        const rayX = xMin + span * 0.48;
-                        labLine(ctx, rayX - Math.sin(angle) * 185, by - Math.cos(angle) * 185, rayX, by, 'rgba(215,229,232,.7)', 2, [7, 6]);
-                        labLine(ctx, rayX, by, rayX + Math.sin(theta2) * 185, by + Math.cos(theta2) * 185, 'rgba(215,229,232,.7)', 2, [7, 6]);
-                        labText(ctx, `θ₁ ${Math.round(angle * 180 / Math.PI)}°`, rayX - 18, by - 48, blue, 16, 'right');
-                        labText(ctx, `θ₂ ${(theta2 * 180 / Math.PI).toFixed(1)}°`, rayX + 18, by + 56, cyan, 16);
+                        if (firstHit) {
+                            const rayX = xMin + span * 0.48;
+                            ctx.save(); ctx.globalAlpha = 0.25 + 0.55 * tangentEndU / span;
+                            labLine(ctx, rayX - Math.sin(angle) * 185, by - Math.cos(angle) * 185, rayX, by, 'rgba(215,229,232,.7)', 2, [7, 6]);
+                            labLine(ctx, rayX, by, rayX + Math.sin(theta2) * 185, by + Math.cos(theta2) * 185, 'rgba(215,229,232,.7)', 2, [7, 6]);
+                            labText(ctx, `θ₁ ${Math.round(angle * 180 / Math.PI)}°`, rayX - 18, by - 48, blue, 16, 'right');
+                            labText(ctx, `θ₂ ${(theta2 * 180 / Math.PI).toFixed(1)}°`, rayX + 18, by + 56, cyan, 16);
+                            ctx.restore();
+                        }
                         labText(ctx, '同一 Δt：白色半徑 = v₂Δt；綠線是所有次波的共同切線', 25, h - 24, '#bcd0d6', 15);
                     }
                     labText(ctx, `介質一  n₁=${n1.toFixed(2)}`, 25, 42, blue, 16);
                     labText(ctx, `介質二  n₂=${n2.toFixed(2)}`, 25, by + 38, cyan, 16);
                 }
-                labText(ctx, `建構時間 Δt = ${Math.max(0, constructionTime).toFixed(2)}`, 690, 68, '#bcd0d6', 14);
+                const stageText = constructionTime < 0
+                    ? '① 上方舊波前產生次波，包絡成下一代入射波前'
+                    : constructionTime <= hitLast
+                        ? '② 入射波前掃過介面，接觸點依序成為新的次波源'
+                        : `③ 介面次波的共同包絡形成${mode === 'reflection' ? '反射' : isTotalReflection ? '全反射' : '折射'}波前`;
+                labText(ctx, stageText, 25, 74, '#bcd0d6', 15);
                 drawHuygensLegend(ctx, 625, 35);
             } else if (mode === 'interference') {
                 const s1 = { x: 210, y: h / 2 - gap / 2 }, s2 = { x: 210, y: h / 2 + gap / 2 };
@@ -4849,19 +5212,39 @@
                 labText(ctx, gap > lambda ? `第一暗紋：a sinθ = λ，θ = ${(Math.asin(lambda / gap) * 180 / Math.PI).toFixed(1)}°` : 'a ≤ λ：前方沒有第一暗紋，波向廣角展開', 24, 42, gap <= lambda ? cyan : amber, 17);
                 labText(ctx, '白色次波等速擴張；青色亮暗由狹縫內所有次波的相位和得到', bx + 18, h - 24, '#bcd0d6', 15);
             } else {
-                const frontX = 430, waveletR = (t * lambda * 0.8) % lambda;
-                for (let x = (t * lambda) % lambda; x < w; x += lambda) labLine(ctx, x, 35, x, h - 35, 'rgba(94,162,255,.35)', 1.5);
-                labLine(ctx, frontX, 35, frontX, h - 35, blue, 4);
-                ctx.save(); ctx.strokeStyle = cyan; ctx.lineWidth = 1.5;
+                const stepDistance = Math.max(52, Math.min(90, lambda));
+                const stepDuration = 3.2;
+                const left = 145, right = w - 145;
+                const stepCount = Math.max(2, Math.floor((right - left) / stepDistance));
+                const cycleTime = stepCount * stepDuration;
+                const cyclePosition = ((t % cycleTime) + cycleTime) % cycleTime;
+                const generation = Math.floor(cyclePosition / stepDuration);
+                const phase = (cyclePosition % stepDuration) / stepDuration;
+                const growth = Math.min(1, phase / 0.76);
+                const settle = Math.max(0, (phase - 0.76) / 0.24);
+                const frontX = left + generation * stepDistance;
+                const waveletR = stepDistance * growth;
+                const newFrontX = frontX + waveletR;
+
+                // 每一輪只有當下的舊波前、由它產生的次波，以及正在形成的新波前。
+                ctx.save(); ctx.globalAlpha = 1 - settle;
+                labLine(ctx, frontX, 55, frontX, h - 55, blue, 4);
+                ctx.strokeStyle = cyan; ctx.lineWidth = 1.5;
                 for (let y = 70; y <= h - 70; y += 55) {
                     ctx.fillStyle = amber; ctx.beginPath(); ctx.arc(frontX, y, 5, 0, Math.PI * 2); ctx.fill();
                     ctx.beginPath(); ctx.arc(frontX, y, waveletR, -Math.PI / 2, Math.PI / 2); ctx.stroke();
                 }
                 ctx.restore();
-                labLine(ctx, frontX + waveletR, 45, frontX + waveletR, h - 45, cyan, 3, [8, 5]);
-                labText(ctx, '舊波前', frontX - 12, 28, blue, 16, 'right');
-                labText(ctx, '次波源', frontX, h - 18, amber, 16, 'center');
-                labText(ctx, `次波半徑 r = vΔt：${waveletR.toFixed(0)} px`, frontX + 22, 42, cyan, 17);
+                if (growth > 0.08) {
+                    labLine(ctx, newFrontX, 55, newFrontX, h - 55, '#64c800', 3.5, settle > 0.35 ? [] : [8, 5]);
+                    labText(ctx, settle > 0.35 ? '形成新波前' : '次波共同包絡', newFrontX + 12, 79, '#bcd0d6', 15);
+                }
+                labText(ctx, `第 ${generation + 1} 輪：${phase < 0.76 ? '次波向前展開' : '新波前形成，下一輪將成為次波源'}`, 25, 38, '#bcd0d6', 16);
+                labText(ctx, `r = vΔt = ${waveletR.toFixed(0)} px`, 25, 66, cyan, 15);
+                labLine(ctx, 110, h - 30, 225, h - 30, 'rgba(188,208,214,.7)', 2);
+                labLine(ctx, 225, h - 30, 213, h - 37, 'rgba(188,208,214,.7)', 2);
+                labLine(ctx, 225, h - 30, 213, h - 23, 'rgba(188,208,214,.7)', 2);
+                labText(ctx, '傳播方向', 238, h - 24, '#9fb7c0', 14);
                 drawHuygensLegend(ctx, 625, 35);
             }
         }
@@ -4876,23 +5259,55 @@
             document.getElementById('wave-n1-out').textContent = n1.toFixed(2);
             document.getElementById('wave-n2-out').textContent = n2.toFixed(2);
             document.getElementById('wave-gap-out').textContent = `${gap} px`;
-            const names = { reflection: '反射', refraction: '折射', interference: '干涉', diffraction: '繞射', huygens: '惠更斯原理' };
+            const d = dopplerValues();
+            updateWaveControlVisibility();
+            document.getElementById('doppler-frequency-out').textContent = `${d.emittedFrequency.toFixed(0)} Hz`;
+            document.getElementById('doppler-motion-label').textContent = d.scenario === 'observer' ? '觀察者速度' : '波源速度';
+            document.getElementById('doppler-direction-label').textContent = d.scenario === 'observer' ? '觀察者移動方向' : '波源移動方向';
+            document.getElementById('doppler-motion-out').textContent = `${d.speedRatio.toFixed(2)}v = ${d.speedMagnitude.toFixed(0)} m/s`;
+            document.getElementById('doppler-observer-motion-out').textContent = `${d.observerSpeedRatio.toFixed(2)}v = ${d.observerSpeedMagnitude.toFixed(0)} m/s`;
+            const names = { reflection: '反射', refraction: '折射', interference: '干涉', diffraction: '繞射', huygens: '惠更斯原理', doppler: '都卜勒效應' };
             const mode = window.physicsLab.waveMode;
-            let angleText = '—', state = '', explain = '';
-            if (mode === 'reflection') {
+            const modeLabel = document.getElementById('wave-mode-label');
+            const angleLabel = document.getElementById('wave-angle-label');
+            const lambdaLabel = document.getElementById('wave-lambda2-label');
+            const stateLabel = document.getElementById('wave-state-label');
+            modeLabel.textContent = '目前現象'; angleLabel.textContent = '反射／折射角'; lambdaLabel.textContent = '介質二波長'; stateLabel.textContent = '狀態';
+            let modeText = names[mode], angleText = '—', lambdaText = `${(lambda * n1 / n2).toFixed(1)} px`, state = '', explain = '';
+            if (mode === 'doppler') {
+                if (d.scenario === 'both') {
+                    const b = d.both, freq = value => value === null ? '無穩態值' : `${value.toFixed(1)} Hz`;
+                    modeLabel.textContent = '第三種情境'; angleLabel.textContent = '兩者都動：λ′｜v′｜f′'; lambdaLabel.textContent = '單獨移動的頻率比較'; stateLabel.textContent = '相對距離';
+                    modeText = '波源與觀察者都移動';
+                    angleText = `${b.observedWavelength === null ? '震波' : `${b.observedWavelength.toFixed(3)} m`}｜${b.observerWaveSpeed.toFixed(0)} m/s｜${freq(b.observedFrequency)}`;
+                    lambdaText = `僅 S：${freq(b.sourceOnlyFrequency)}｜僅 O：${freq(b.observerOnlyFrequency)}`;
+                    state = b.relation;
+                    explain = `一個波源與一個觀察者可分別設定速度和方向。對向右傳播的聲波，波源決定波前間距 λ′=(v−vₛ)/f₀，觀察者決定波峰相對速度 v′=v−vₒ，因此兩者同時移動時 f′=f₀(v−vₒ)/(v−vₛ)。畫面也保留「只有波源動」與「只有觀察者動」的結果，可直接看出兩種效應會疊加或抵消。`;
+                } else {
+                    const compact = m => `${m.observedWavelength === null ? '震波' : `${m.observedWavelength.toFixed(3)} m`}｜${m.observerWaveSpeed.toFixed(0)} m/s｜${m.observedFrequency === null ? '無穩態值' : `${m.observedFrequency.toFixed(1)} Hz`}`;
+                    modeLabel.textContent = '移動情境／方向'; angleLabel.textContent = '左側 O_L：λ′｜v′｜f′'; lambdaLabel.textContent = '右側 O_R：λ′｜v′｜f′'; stateLabel.textContent = '同時比較';
+                    modeText = `${d.scenario === 'source' ? '波源' : '觀察者'}向${d.direction === 'right' ? '右' : '左'}移動`;
+                    angleText = compact(d.left);
+                    lambdaText = compact(d.right);
+                    state = `左側${d.left.relation}｜右側${d.right.relation}`;
+                    explain = d.scenario === 'source'
+                        ? `左右觀察者同時靜止。波源朝其中一側移動時，該側波前被壓縮、視頻率升高；另一側波前被拉長、視頻率降低。兩側所測波速都仍是空氣聲速 340 m/s。若波源達到或超過聲速，前方觀察者改看到波前堆疊或震波，後方觀察者仍可接收到被拉長的週期波。`
+                        : `波源固定在中央，左右觀察者以相同方向與速度移動：其中一位接近波源、另一位遠離。兩側空間波長都保持 λ₀；差別來自波峰相對觀察者的速度，接近側 v′=v+vₒ、遠離側 v′=v−vₒ。若遠離速度達到聲速，後續波峰便無法追上該觀察者。`;
+                }
+            } else if (mode === 'reflection') {
                 angleText = `θᵣ = ${angle}°`; state = '反射角等於入射角';
-                explain = '同一段 Δt 內，界面上較早被波前掃到的點會產生半徑較大的反射次波。這些次波的共同切線就是反射波前；由幾何可得 θᵢ = θᵣ。';
+                explain = '上方入射波前先由前一代波前的次波包絡逐代向介面推進；抵達後，介面上較早被掃到的點會產生半徑較大的反射次波。這些介面次波的共同切線形成反射波前，由幾何可得 θᵢ = θᵣ。';
             } else if (mode === 'refraction') {
                 const s = n1 / n2 * Math.sin(angle * Math.PI / 180);
                 if (Math.abs(s) > 1) { angleText = '無折射線'; state = '超過臨界角，發生全反射'; }
                 else { const t2 = Math.asin(s) * 180 / Math.PI; angleText = `θ₂ = ${t2.toFixed(1)}°`; state = n2 > n1 ? '進入慢介質，偏向法線' : '進入快介質，偏離法線'; }
-                explain = '同一段 Δt 內，入射端沿介面前進 v₁Δt，而第二介質中的次波半徑為 v₂Δt；共同切線形成折射波前，幾何上導出 sinθ₁/sinθ₂ = v₁/v₂ = n₂/n₁。';
+                explain = '上方入射波前先由次波包絡逐代推進到介面。接觸介面後，同一段 Δt 內，接觸位置沿介面前進，而第二介質中的次波以 v₂ 展開；共同切線形成折射波前，幾何上導出 sinθ₁/sinθ₂ = v₁/v₂ = n₂/n₁。';
             } else if (mode === 'interference') { state = '亮區同相，暗區反相'; explain = '兩個同頻率波源的波在空間疊加。路徑差為整數倍波長時建設性干涉；為半整數倍波長時破壞性干涉。'; }
             else if (mode === 'diffraction') { state = gap <= lambda ? '狹縫接近波長，明顯展開' : '狹縫遠大於波長，中央主極大變窄'; explain = '狹縫內每一點都是同相次波源；孔徑後方的亮暗來自所有次波的相位疊加，而不是一條圓弧包絡。單縫第一暗紋滿足 a sinθ = λ。'; }
-            else { state = '每一波前點都是次波源'; explain = '惠更斯原理：舊波前上的每一點都可視為新的次波源；經過短時間後，各次波的包絡面形成下一個波前，可用來解釋反射、折射與繞射。'; }
-            document.getElementById('wave-mode-readout').textContent = names[mode];
+            else { state = '新波前會接續成為下一輪次波源'; explain = '惠更斯原理：當下波前上的每一點同時成為次波源；次波等速展開，其共同包絡形成下一個波前。動畫會讓這個新波前接替舊波前，再重複產生下一代，而不是把各代波前彼此獨立地留在畫面上。'; }
+            document.getElementById('wave-mode-readout').textContent = modeText;
             document.getElementById('wave-angle-readout').textContent = angleText;
-            document.getElementById('wave-lambda2-readout').textContent = `${(lambda * n1 / n2).toFixed(1)} px`;
+            document.getElementById('wave-lambda2-readout').textContent = lambdaText;
             document.getElementById('wave-state-readout').textContent = state;
             document.getElementById('wave-explain').textContent = explain;
         }
