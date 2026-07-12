@@ -5047,35 +5047,37 @@
                 const incidentWaveletR = incidentDistance - oldIncidentDistance;
                 const yIncident = (u, distance) => by + (distance - Math.sin(angle) * u) / Math.max(0.001, Math.cos(angle));
                 const drawIncidentFront = (distance, color, width, dash = []) => {
+                    const uLeft = -xMin - 180, uRight = w - xMin + 180;
                     ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash);
                     ctx.beginPath();
-                    ctx.moveTo(xMin - 190, yIncident(-190, distance));
-                    ctx.lineTo(xMax + 190, yIncident(span + 190, distance));
+                    ctx.moveTo(xMin + uLeft, yIncident(uLeft, distance));
+                    ctx.lineTo(xMin + uRight, yIncident(uRight, distance));
                     ctx.stroke(); ctx.restore();
                 };
 
-                // 保留數個已完成的入射波前，讓學生看見連續波列，而非只剩單一藍線。
-                for (let k = 4; k >= 1; k--) {
-                    drawIncidentFront(oldIncidentDistance - k * lambda, `rgba(94,162,255,${0.12 + (4 - k) * 0.055})`, 1.7);
+                // 上、下介質共用同一個波前編號 k 與相位 incidentDistance − kλ，確保介面交點完全一致。
+                for (let k = 6; k >= 0; k--) {
+                    const phase = incidentDistance - k * lambda;
+                    drawIncidentFront(phase, k === 0 ? '#2368d5' : 'rgba(94,162,255,.48)', k === 0 ? 3.2 : 2.1);
                 }
-                drawIncidentFront(oldIncidentDistance, '#2368d5', 3.2);
 
-                // 當代舊波前上的次波只向傳播方向展開；共同包絡就是正在形成的下一波前。
-                const propagationAngle = Math.PI / 2 - angle;
-                ctx.save(); ctx.strokeStyle = 'rgba(113,209,207,.72)'; ctx.lineWidth = 1.45;
-                for (let u = -130; u <= span + 130; u += 48) {
-                    const sx = xMin + u, sy = yIncident(u, oldIncidentDistance);
-                    if (sx < 18 || sx > w - 18 || sy < 48 || sy > by - 8) continue;
-                    ctx.fillStyle = amber; ctx.beginPath(); ctx.arc(sx, sy, 4.2, 0, Math.PI * 2); ctx.fill();
-                    if (incidentWaveletR > 1) {
-                        ctx.beginPath();
-                        ctx.arc(sx, sy, incidentWaveletR, propagationAngle - Math.PI / 2, propagationAngle + Math.PI / 2);
-                        ctx.stroke();
+                // 只在尚未碰到介面時顯示「前一時刻波前 → 次波 → 當前波前」的惠更斯建構；
+                // 接觸介面後改由上面的實際相位波列與下方對應波列相接，避免混用兩套相位。
+                if (constructionTime < 0) {
+                    const propagationAngle = Math.PI / 2 - angle;
+                    drawIncidentFront(oldIncidentDistance, 'rgba(113,209,207,.55)', 1.6, [7, 5]);
+                    ctx.save(); ctx.strokeStyle = 'rgba(113,209,207,.72)'; ctx.lineWidth = 1.45;
+                    for (let u = -130; u <= span + 130; u += 48) {
+                        const sx = xMin + u, sy = yIncident(u, oldIncidentDistance);
+                        if (sx < 18 || sx > w - 18 || sy < 48 || sy > by - 8) continue;
+                        ctx.fillStyle = amber; ctx.beginPath(); ctx.arc(sx, sy, 4.2, 0, Math.PI * 2); ctx.fill();
+                        if (incidentWaveletR > 1) {
+                            ctx.beginPath();
+                            ctx.arc(sx, sy, incidentWaveletR, propagationAngle - Math.PI / 2, propagationAngle + Math.PI / 2);
+                            ctx.stroke();
+                        }
                     }
-                }
-                ctx.restore();
-                if (incidentWaveletR > 4) {
-                    drawIncidentFront(incidentDistance, 'rgba(100,200,0,.92)', 3.3, incidentWaveletR < lambda * 0.78 ? [8, 5] : []);
+                    ctx.restore();
                 }
                 ctx.restore();
 
@@ -5098,6 +5100,35 @@
 
                 const activeU = Math.max(0, Math.min(span, Math.sin(angle) > 0.001 ? v1 * constructionTime / Math.sin(angle) : (constructionTime >= 0 ? span : 0)));
                 const tangentEndU = Math.max(0, activeU);
+                const interfacePhaseSpan = Math.sin(angle) * span;
+                const uViewLeft = -xMin - 180, uViewRight = w - xMin + 180;
+                const drawReflectedWaveTrain = color => {
+                    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, by - 2); ctx.clip();
+                    for (let k = 0; k < 7; k++) {
+                        const phase = incidentDistance - k * lambda;
+                        if (phase <= 0) continue;
+                        const contactU = Math.sin(angle) > 0.001 ? Math.min(span, phase / Math.sin(angle)) : span;
+                        const yOf = u => by + (Math.sin(angle) * u - phase) / Math.max(0.001, Math.cos(angle));
+                        const fullyFormed = phase >= interfacePhaseSpan;
+                        const u1 = fullyFormed ? uViewLeft : 0, u2 = fullyFormed ? uViewRight : contactU;
+                        labLine(ctx, xMin + u1, yOf(u1), xMin + u2, yOf(u2), color, k === 0 ? 3.8 : 2.7);
+                    }
+                    ctx.restore();
+                };
+                const drawRefractedWaveTrain = (theta2, color) => {
+                    ctx.save(); ctx.beginPath(); ctx.rect(0, by + 2, w, h - by - 2); ctx.clip();
+                    for (let k = 0; k < 7; k++) {
+                        const incidentPhase = incidentDistance - k * lambda;
+                        if (incidentPhase <= 0) continue;
+                        const contactU = Math.sin(angle) > 0.001 ? Math.min(span, incidentPhase / Math.sin(angle)) : span;
+                        const refractedPhase = v2 / v1 * incidentPhase;
+                        const yOf = u => by + (refractedPhase - Math.sin(theta2) * u) / Math.max(0.001, Math.cos(theta2));
+                        const fullyFormed = incidentPhase >= interfacePhaseSpan;
+                        const u1 = fullyFormed ? uViewLeft : 0, u2 = fullyFormed ? uViewRight : contactU;
+                        labLine(ctx, xMin + u1, yOf(u1), xMin + u2, yOf(u2), color, k === 0 ? 3.8 : 2.7);
+                    }
+                    ctx.restore();
+                };
 
                 if (mode === 'reflection') {
                     sources.forEach(source => {
@@ -5107,10 +5138,7 @@
                         ctx.beginPath(); ctx.arc(source.x, by, radius, Math.PI, Math.PI * 2); ctx.stroke(); ctx.restore();
                     });
                     drawSources();
-                    if (firstHit && tangentEndU > 0) {
-                        const yOf = u => by + (Math.sin(angle) * u - v1 * constructionTime) / Math.max(0.001, Math.cos(angle));
-                        labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), '#64c800', 4);
-                    }
+                    drawReflectedWaveTrain('#64c800');
                     if (firstHit) {
                         const rayX = xMin + span * 0.48;
                         ctx.save(); ctx.globalAlpha = 0.25 + 0.55 * tangentEndU / span;
@@ -5119,7 +5147,7 @@
                         labText(ctx, `θᵢ = θᵣ = ${Math.round(angle * 180 / Math.PI)}°`, rayX + 18, by - 54, amber, 17);
                         ctx.restore();
                     }
-                    labText(ctx, '綠線由白色次波的共同切線得到，不是預先畫出的反射線', 25, h - 24, '#bcd0d6', 15);
+                    labText(ctx, '同一編號的入射與反射波前在介面同一點相接，再向上傳播', 25, h - 24, '#bcd0d6', 15);
                 } else {
                     const sin2 = n1 / n2 * Math.sin(angle);
                     if (Math.abs(sin2) > 1) {
@@ -5130,10 +5158,7 @@
                             ctx.beginPath(); ctx.arc(source.x, by, radius, Math.PI, Math.PI * 2); ctx.stroke(); ctx.restore();
                         });
                         drawSources();
-                        if (firstHit && tangentEndU > 0) {
-                            const yOf = u => by + (Math.sin(angle) * u - v1 * constructionTime) / Math.max(0.001, Math.cos(angle));
-                            labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), rose, 4);
-                        }
+                        drawReflectedWaveTrain(rose);
                         labText(ctx, 'Snell 方程無實數折射角：改以反射次波形成全反射', 25, h - 24, rose, 16);
                     } else {
                         const theta2 = Math.asin(sin2);
@@ -5144,10 +5169,7 @@
                             ctx.beginPath(); ctx.arc(source.x, by, radius, 0, Math.PI); ctx.stroke(); ctx.restore();
                         });
                         drawSources();
-                        if (firstHit && tangentEndU > 0) {
-                            const yOf = u => by + (v2 * constructionTime - Math.sin(theta2) * u) / Math.max(0.001, Math.cos(theta2));
-                            labLine(ctx, xMin, yOf(0), xMin + tangentEndU, yOf(tangentEndU), '#64c800', 4);
-                        }
+                        drawRefractedWaveTrain(theta2, '#64c800');
                         if (firstHit) {
                             const rayX = xMin + span * 0.48;
                             ctx.save(); ctx.globalAlpha = 0.25 + 0.55 * tangentEndU / span;
@@ -5157,7 +5179,7 @@
                             labText(ctx, `θ₂ ${(theta2 * 180 / Math.PI).toFixed(1)}°`, rayX + 18, by + 56, cyan, 16);
                             ctx.restore();
                         }
-                        labText(ctx, '同一 Δt：白色半徑 = v₂Δt；綠線是所有次波的共同切線', 25, h - 24, '#bcd0d6', 15);
+                        labText(ctx, '同一編號的上下波前在介面同一點相接；下方間距依 λ₂ = λ₁v₂/v₁ 改變', 25, h - 24, '#bcd0d6', 15);
                     }
                     labText(ctx, `介質一  n₁=${n1.toFixed(2)}`, 25, 42, blue, 16);
                     labText(ctx, `介質二  n₂=${n2.toFixed(2)}`, 25, by + 38, cyan, 16);
@@ -5166,7 +5188,7 @@
                     ? '① 上方舊波前產生次波，包絡成下一代入射波前'
                     : constructionTime <= hitLast
                         ? '② 入射波前掃過介面，接觸點依序成為新的次波源'
-                        : `③ 介面次波的共同包絡形成${mode === 'reflection' ? '反射' : isTotalReflection ? '全反射' : '折射'}波前`;
+                        : `③ 每條入射波前都形成對應的${mode === 'reflection' ? '反射' : isTotalReflection ? '全反射' : '折射'}波前，並繼續傳播`;
                 labText(ctx, stageText, 25, 74, '#bcd0d6', 15);
                 drawHuygensLegend(ctx, 625, 35);
             } else if (mode === 'interference') {
@@ -5327,13 +5349,13 @@
                 }
             } else if (mode === 'reflection') {
                 angleText = `θᵣ = ${angle}°`; state = '反射角等於入射角';
-                explain = '上方入射波前先由前一代波前的次波包絡逐代向介面推進；抵達後，介面上較早被掃到的點會產生半徑較大的反射次波。這些介面次波的共同切線形成反射波前，由幾何可得 θᵢ = θᵣ。';
+                explain = '上方連續入射波列逐條抵達介面；每一條入射波前都會讓介面上的點依序產生反射次波，其共同切線形成一條完整反射波前。建構完成後波前會延伸並繼續傳播，不受畫面中的示範取樣區寬度限制；幾何上皆滿足 θᵢ = θᵣ。';
             } else if (mode === 'refraction') {
                 lambdaText = `${(lambda * n1 / n2).toFixed(1)} px`;
                 const s = n1 / n2 * Math.sin(angle * Math.PI / 180);
                 if (Math.abs(s) > 1) { angleText = '無折射線'; state = '超過臨界角，發生全反射'; }
                 else { const t2 = Math.asin(s) * 180 / Math.PI; angleText = `θ₂ = ${t2.toFixed(1)}°`; state = n2 > n1 ? '進入慢介質，偏向法線' : '進入快介質，偏離法線'; }
-                explain = '上方入射波前先由次波包絡逐代推進到介面。接觸介面後，同一段 Δt 內，接觸位置沿介面前進，而第二介質中的次波以 v₂ 展開；共同切線形成折射波前，幾何上導出 sinθ₁/sinθ₂ = v₁/v₂ = n₂/n₁。';
+                explain = '上方連續入射波列逐條推進到介面，每一條都在第二介質形成對應的完整折射波前。介面次波以 v₂ 展開，因此折射波列的間距變為 λ₂=λ₁v₂/v₁；共同切線幾何導出 sinθ₁/sinθ₂ = v₁/v₂ = n₂/n₁。';
             } else if (mode === 'interference') { state = '亮區同相，暗區反相'; explain = '兩個同頻率波源的波在空間疊加。路徑差為整數倍波長時建設性干涉；為半整數倍波長時破壞性干涉。'; }
             else if (mode === 'diffraction') { state = gap <= lambda ? '狹縫接近波長，明顯展開' : '狹縫遠大於波長，中央主極大變窄'; explain = '狹縫內每一點都是同相次波源；孔徑後方的亮暗來自所有次波的相位疊加，而不是一條圓弧包絡。單縫第一暗紋滿足 a sinθ = λ。'; }
             else { state = '新波前會接續成為下一輪次波源'; explain = '惠更斯原理：當下波前上的每一點同時成為次波源；次波等速展開，其共同包絡形成下一個波前。動畫會讓這個新波前接替舊波前，再重複產生下一代，而不是把各代波前彼此獨立地留在畫面上。'; }
