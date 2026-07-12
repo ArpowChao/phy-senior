@@ -4534,11 +4534,42 @@
         }
 
         function updateWaveControlVisibility() {
-            const isDoppler = window.physicsLab && window.physicsLab.waveMode === 'doppler';
+            if (!window.physicsLab) return;
+            const mode = window.physicsLab.waveMode;
+            const isDoppler = mode === 'doppler';
             const isBoth = isDoppler && document.getElementById('doppler-case') && document.getElementById('doppler-case').value === 'both';
+            
+            // Doppler controls
             document.querySelectorAll('.doppler-control').forEach(control => { control.style.display = isDoppler ? 'block' : 'none'; });
             document.querySelectorAll('.doppler-both-control').forEach(control => { control.style.display = isBoth ? 'block' : 'none'; });
-            document.querySelectorAll('.wave-phenomenon-control').forEach(control => { control.style.display = isDoppler ? 'none' : 'block'; });
+            
+            // Wavelength slider (always show when not doppler)
+            const lengthInput = document.getElementById('wave-length');
+            if (lengthInput) lengthInput.closest('.lab-control').style.display = isDoppler ? 'none' : 'block';
+            
+            // Incident Angle (only show for reflection and refraction)
+            const angleInput = document.getElementById('wave-angle');
+            if (angleInput) {
+                angleInput.closest('.lab-control').style.display = (!isDoppler && (mode === 'reflection' || mode === 'refraction')) ? 'block' : 'none';
+            }
+            
+            // n1 (only show for reflection and refraction)
+            const n1Input = document.getElementById('wave-n1');
+            if (n1Input) {
+                n1Input.closest('.lab-control').style.display = (!isDoppler && (mode === 'reflection' || mode === 'refraction')) ? 'block' : 'none';
+            }
+            
+            // n2 (only show for refraction)
+            const n2Input = document.getElementById('wave-n2');
+            if (n2Input) {
+                n2Input.closest('.lab-control').style.display = (!isDoppler && mode === 'refraction') ? 'block' : 'none';
+            }
+            
+            // Gap/slit width (only show for interference and diffraction)
+            const gapInput = document.getElementById('wave-gap');
+            if (gapInput) {
+                gapInput.closest('.lab-control').style.display = (!isDoppler && (mode === 'interference' || mode === 'diffraction')) ? 'block' : 'none';
+            }
         }
 
         function toggleWavePause() {
