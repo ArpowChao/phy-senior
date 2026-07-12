@@ -3369,6 +3369,103 @@
                 </div>
             `;
         }
+
+        // 物質的組成與基本粒子專題（併入模組一：N06）
+        function matterSectionHtml() {
+            return `
+                <div class="handout-section-title">💡 核心觀念解析</div>
+                <div class="info-alert" style="margin-top:0;">
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <strong>物質結構的層次與基本粒子：</strong>
+                        <br>根據現代物理標準模型，所有物質皆由<strong>基本粒子</strong>構成，目前基本粒子在結構上被視為不可再分割的最小單位：
+                        <br>• <strong>基本粒子</strong>：包括<strong>夸克</strong>（Quarks，如上夸克、下夸克）與<strong>輕子</strong>（Leptons，如電子、微中子等）。
+                        <br>• <strong>強子（複合粒子）</strong>：由夸克透過強交互作用（傳遞粒子為膠子）組合成的粒子。例如：
+                        <br>&nbsp;&nbsp;- <strong>質子</strong>：由 2 個上夸克 ($+2/3e$) 與 1 個下夸克 ($-1/3e$) 組成，帶 $+1e$ 電量。
+                        <br>&nbsp;&nbsp;- <strong>中子</strong>：由 1 個上夸克 ($+2/3e$) 與 2 個下夸克 ($-1/3e$) 組成，帶 $0$ 電量。
+                        <br>• <strong>核子</strong>：質子與中子的統稱，構成原子核。
+                    </div>
+                </div>
+
+                <div class="handout-section-title">🔍 數值與尺度對照</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">粒子 / 結構</th>
+                                <th style="width: 25%">尺度數量級</th>
+                                <th style="width: 20%">電量 (e)</th>
+                                <th style="width: 20%">結構組成</th>
+                                <th>基本粒子？</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>原子</strong></td>
+                                <td>$10^{-10}\text{ m}$ (0.1 nm)</td>
+                                <td>$0$</td>
+                                <td>原子核 + 核外電子</td>
+                                <td><span class="code-badge">否</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>原子核</strong></td>
+                                <td>$10^{-15}\text{ m}$ (1 fm)</td>
+                                <td>$+Z$</td>
+                                <td>質子 + 中子</td>
+                                <td><span class="code-badge">否</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>質子</strong></td>
+                                <td>$10^{-15}\text{ m}$ (1 fm)</td>
+                                <td>$+1$</td>
+                                <td>$uud$ (2上1下)</td>
+                                <td><span class="code-badge">否</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>中子</strong></td>
+                                <td>$10^{-15}\text{ m}$ (1 fm)</td>
+                                <td>$0$</td>
+                                <td>$udd$ (1上2下)</td>
+                                <td><span class="code-badge">否</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>電子</strong></td>
+                                <td>$< 10^{-18}\text{ m}$</td>
+                                <td>$-1$</td>
+                                <td>無內部結構 (輕子)</td>
+                                <td><span class="code-badge" style="color: var(--primary-blue); font-weight: bold;">是</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>夸克</strong></td>
+                                <td>$< 10^{-18}\text{ m}$</td>
+                                <td>上夸克 $+2/3$ / 下夸克 $-1/3$</td>
+                                <td>無內部結構</td>
+                                <td><span class="code-badge" style="color: var(--primary-blue); font-weight: bold;">是</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="handout-section-title">📝 跨科整合延伸</div>
+                <div class="info-alert" style="margin-top:0;">
+                    <span class="info-alert-icon">⏳</span>
+                    <div>
+                        <strong>基本粒子與原子結構發現史里程碑：</strong>
+                        <br>• <strong>1897 年｜湯姆森陰極射線實驗（發現電子）</strong>
+                        <br>&nbsp;&nbsp;- 利用磁場與電場偏折陰極射線，測出電子的荷質比 ($e/m$)，打破原子不可分割之說，提出「葡萄乾布丁模型」。
+                        <br>• <strong>1911 年｜拉塞福 $\alpha$ 粒子散射實驗（發現原子核）</strong>
+                        <br>&nbsp;&nbsp;- 以 $\alpha$ 粒子撞擊金箔，發現極少數大角度散射（超乎布丁模型預期）。提出「行星軌道模型」：原子的正電荷與幾乎全部質量皆集中於極小的原子核，其餘皆為真空。
+                        <br>• <strong>1919 年｜拉塞福撞擊氮核實驗（發現質子）</strong>
+                        <br>&nbsp;&nbsp;- 以 $\alpha$ 粒子（即氣氦核）轟擊氮原子核，釋放出氫原子核，證實氫核為原子核內的基本成分，命名為「質子」。
+                        <br>• <strong>1932 年｜查兌克鈹射線實驗（發現中子）</strong>
+                        <br>&nbsp;&nbsp;- 以 $\alpha$ 粒子撞擊鈹核，釋放出穿透力極強且不帶電的射線。用該射線撞擊石蠟並偵測被撞出的質子能量，回推證實其為質量與質子相近的電中性粒子，命名為「中子」。
+                        <br>• <strong>1964 年｜蓋爾曼夸克模型（提出基本粒子）</strong>
+                        <br>&nbsp;&nbsp;- 提出強子是由帶有分數電荷的「夸克」組成。質子由 $uud$ 組成，中子由 $udd$ 組成，經由高能物理散射實驗證實其內部確實存在此結構。
+                    </div>
+                </div>
+            `;
+        }
+    
     
 
         // 運動圖形對照（x-t、v-t、a-t）——併入模組二
