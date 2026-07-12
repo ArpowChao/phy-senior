@@ -3375,7 +3375,7 @@
             `;
         }
 
-                // 物質的組成與基本粒子專題（併入模組一：N06）
+                        // 物質的組成與基本粒子專題（併入模組一：N06）
         function matterSectionHtml() {
             return `
                 <div class="handout-section-title">💡 核心觀念解析</div>
@@ -3383,21 +3383,12 @@
                     <span class="info-alert-icon">💡</span>
                     <div>
                         <strong>物質結構的層次與基本粒子：</strong>
-                        <br>根據現代物理標準模型，所有物質皆由<strong>基本粒子</strong>構成，目前基本粒子在結構上被視為不可再分割的最小單位：
-                        <br>• <strong>基本粒子</strong>：包括<strong>夸克</strong>（Quarks，如上夸克、下夸克）與<strong>輕子</strong>（Leptons，如電子、微中子等）。
-                        <br>• <strong>強子（複合粒子）</strong>：由夸克透過強交互作用（傳遞粒子為膠子）組合成的粒子。例如：
+                        <br>根據高中物理課程標準，構成物質的最基本單元為<strong>基本粒子</strong>（目前在結構上視為不可再分割的最小單位）：
+                        <br>• <strong>基本粒子</strong>：僅包含<strong>夸克</strong>（Quarks，如上夸克、下夸克）與<strong>電子</strong>（Electrons）。
+                        <br>• <strong>複合粒子組成</strong>：
                         <br>&nbsp;&nbsp;- <strong>質子</strong>：由 2 個上夸克 ($+2/3e$) 與 1 個下夸克 ($-1/3e$) 組成，帶 $+1e$ 電量。
                         <br>&nbsp;&nbsp;- <strong>中子</strong>：由 1 個上夸克 ($+2/3e$) 與 2 個下夸克 ($-1/3e$) 組成，帶 $0$ 電量。
-                        <br>• <strong>核子</strong>：質子與中子的統稱，構成原子核。
-                    </div>
-                </div>
-                <div class="info-alert" style="margin-top:0.8rem; border-left-color: var(--success-green, #10b981);">
-                    <span class="info-alert-icon">🤔</span>
-                    <div>
-                        <strong>拉塞福金箔實驗的物理邏輯與衝突脈絡：</strong>
-                        <br>• <strong>原本預測（基於葡萄乾布丁模型）</strong>：拉塞福原本是為了驗證其導師湯姆森所提出的「葡萄乾布丁模型」。由於該模型認為原子內部的正電荷與質量均勻且稀疏地分布在整個原子體積內，<strong>不存在局部的強電場</strong>。因此，拉塞福預測高速帶正電的 $\alpha$ 粒子撞擊金箔時，受到的庫侖排斥力極微弱，<strong>應該幾乎 100% 直接穿過去（偏折角度小於數度）</strong>。
-                        <br>• <strong>實際結果（偏折角極大，震驚物理界）</strong>：絕大多數粒子確實幾乎無偏折地穿過，但極少數（約 1/8000）發生了<strong>大角度偏折（偏折角 > 90°）</strong>，甚至有粒子<strong>近乎 180° 原路被反彈回來</strong>！拉塞福形容這就像「拿十五吋的大砲轟擊一張面紙，砲彈卻反彈回來打中你一樣不可思議」。
-                        <br>• <strong>理論推論（行星軌道模型的誕生）</strong>：要能將高速且重的 $\alpha$ 粒子（帶雙正電荷的氦核）以 $180^\circ$ 反彈，原子內部正電荷與絕大部分質量，必定集中在一個<strong>體積極小、密度極高的核心</strong>，即<strong>原子核</strong>。原子的其餘空間極為空曠，僅有電子在核外繞行（行星軌道模型）。
+                        <br>&nbsp;&nbsp;- <strong>質子與中子</strong>合稱<strong>核子</strong>，共同組成原子核，與核外的電子結合成原子。
                     </div>
                 </div>
 
@@ -3459,6 +3450,15 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="info-alert" style="margin-top:0.8rem; border-left-color: var(--success-green, #10b981);">
+                    <span class="info-alert-icon">🔍</span>
+                    <div>
+                        <strong>拉塞福金箔實驗的物理邏輯與衝突對照：</strong>
+                        <br>• <strong>原本預測（基於葡萄乾布丁模型）</strong>：原子內部的正電荷與質量均勻稀疏分布在整個原子體積內，<strong>不存在局部的強電場</strong>。預測高速帶正電的 $\alpha$ 粒子撞擊金箔時受力極微弱，<strong>應該幾乎 100% 直接穿過去（偏折角度小於數度）</strong>。
+                        <br>• <strong>實際結果（偏折角極大，震驚物理界）</strong>：絕大多數粒子確實幾乎無偏折地穿過，但極少數（約 1/8000）發生了<strong>大角度偏折（偏折角 > 90°）</strong>，甚至有粒子<strong>近乎 180° 原路被反彈回來</strong>。
+                        <br>• <strong>理論推論（行星軌道模型的誕生）</strong>：能將高速且重的 $\alpha$ 粒子（帶雙正電荷的氦核）以 $180^\circ$ 反彈，原子內部正電荷與絕大部分質量，決定性地集中在一個<strong>體積與原子相比極小、但密度極高的核心</strong>，即<strong>原子核</strong>。原子的其餘空間極為空曠，僅有電子在核外繞行（行星軌道模型）。
+                    </div>
+                </div>
 
                 <div class="handout-section-title">📐 實驗方法圖解一（拉塞福金箔散射模擬）</div>
                 <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -3479,26 +3479,32 @@
                     </div>
                 </div>
 
-                <div class="handout-section-title">📐 實驗方法圖解二（陰極射線偏折與速度選擇器）</div>
+                <div class="handout-section-title">📐 實驗方法圖解二（陰極射線實驗與電子的普適性驗證）</div>
                 <div style="text-align: center; margin-bottom: 1.5rem;">
                     <svg id="crt-svg" viewBox="0 0 520 200" style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); width: 100%; max-width: 520px; display: block; margin: 0 auto;"></svg>
                     
                     <div style="display: flex; flex-direction: column; gap: 0.8rem; max-width: 520px; margin: 1rem auto 0 auto; padding: 1rem; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); text-align: left;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-                            <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">電場強度 E (上下偏折力)</span>
-                            <span style="font-family: monospace; font-weight: bold; color: var(--primary-blue);" id="crt-e-val">0</span>
+                        <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">1. 更換陰極金屬與管內氣體：</span>
+                            <select id="crt-material-select" style="padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-weight: bold; cursor: pointer;">
+                                <option value="Cu">銅 (Cu) 陰極 ＋ 空氣</option>
+                                <option value="Au">金 (Au) 陰極 ＋ 氫氣 (H₂)</option>
+                                <option value="Al">鋁 (Al) 陰極 ＋ 氦氣 (He)</option>
+                            </select>
                         </div>
-                        <input type="range" id="crt-e-slider" min="-50" max="50" value="0" step="5" style="width: 100%; cursor: pointer;">
                         
-                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.2rem;">
-                            <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">磁場強度 B (⊗ 入紙面 / ⊙ 出紙面)</span>
-                            <span style="font-family: monospace; font-weight: bold; color: var(--success-green);" id="crt-b-val">0</span>
+                        <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; margin-top: 0.3rem;">
+                            <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">2. 施加橫向場進行實驗操作：</span>
+                            <div style="display: flex; gap: 0.3rem;">
+                                <button id="crt-btn-none" style="padding: 0.35rem 0.8rem; background: var(--primary-blue); color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">不加場 (直進)</button>
+                                <button id="crt-btn-e" style="padding: 0.35rem 0.8rem; background: var(--border-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; font-weight: 600; cursor: pointer;">加電場 (向上偏折)</button>
+                                <button id="crt-btn-b" style="padding: 0.35rem 0.8rem; background: var(--border-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; font-weight: 600; cursor: pointer;">加磁場 (向下偏折)</button>
+                            </div>
                         </div>
-                        <input type="range" id="crt-b-slider" min="-50" max="50" value="0" step="5" style="width: 100%; cursor: pointer;">
                         
-                        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
-                            <button id="crt-btn-balance" style="padding: 0.4rem 1rem; background: var(--primary-blue); color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">開啟力平衡 (速度選擇器)</button>
-                            <button id="crt-btn-reset" style="padding: 0.4rem 1rem; background: var(--border-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; font-weight: 600; cursor: pointer;">重設歸零</button>
+                        <!-- Educational Tip Card -->
+                        <div id="crt-tip-card" class="info-alert" style="margin-top:0.5rem; padding: 0.6rem 0.8rem; font-size: 0.9rem; border-left-color: var(--primary-blue); background: rgba(59, 130, 246, 0.05); margin-bottom: 0;">
+                            💡 陰極射線直進打在螢幕中央。請點選上方按鈕施加場，或更換材料進行探究！
                         </div>
                     </div>
                 </div>
@@ -3507,24 +3513,23 @@
                 <div class="info-alert" style="margin-top:0;">
                     <span class="info-alert-icon">⚡</span>
                     <div>
-                        <strong>湯姆森陰極射線實驗與電子的荷質比測定方法：</strong>
-                        <br>• <strong>粒子與電性驗證</strong>：湯姆森在陰極射線管（Crookes 管）中加上橫向電場與磁場，觀察到射線朝正極偏折，且可受磁場偏折，確定其為<strong>帶負電的粒子流（電子）</strong>。
-                        <br>• <strong>荷質比 ($e/m$) 測量步驟（速度選擇器物理學）</strong>：
-                        <br>&nbsp;&nbsp;1. <strong>調整力平衡測速度</strong>：同時開啟正交的電場 $E$ 與磁場 $B$，調整其強弱使電子受到的電場力與磁場力剛好抵消（$eE = evB \implies v = E/B$），此時電子做直進運動打在螢幕中央，藉此得出電子速度 $v$。
-                        <br>&nbsp;&nbsp;2. <strong>單一磁場偏折求半徑</strong>：關閉電場，僅保留磁場 $B$。電子受磁場力（洛倫茲力）提供向心力，在磁場中做半徑為 $R$ 的等速率圓周運動（$evB = \frac{mv^2}{R} \implies R = \frac{mv}{eB}$）。
-                        <br>&nbsp;&nbsp;3. <strong>計算荷質比</strong>：將 $v = E/B$ 代入，即可導出電子荷質比 $\frac{e}{m} = \frac{v}{BR} = \frac{E}{B^2 R} \approx 1.76 \times 10^{11} \text{ C/kg}$。
-                        <br>• <strong>發現電子的意義</strong>：無論陰極使用何種金屬、或管中殘留何種氣體，測得的荷質比皆完全相同，證明電子是構成所有物質所共有的最基本粒子。
+                        <strong>湯姆森陰極射線實驗與電子的普適性發現：</strong>
+                        <br>• <strong>證明為帶電粒子（實驗操作）</strong>：湯姆森在陰極射線管中加上橫向電場或磁場，發現射線會向正極偏折，在磁場中亦會發生偏折，證實陰極射線是由<strong>帶負電的粒子（電子）</strong>所組成的流動。
+                        <br>• <strong>證實電子存在於所有物質中（普適性）</strong>：
+                        <br>&nbsp;&nbsp;- 湯姆森在實驗中嘗試了<strong>不同的陰極金屬材料</strong>（如鋁、銅、金等），並在管中填充了<strong>不同的殘留氣體</strong>（如空氣、氫氣、氦氣等）。
+                        <br>&nbsp;&nbsp;- 實驗發現：無論如何更換材料或氣體，射線在電磁場中的偏折行為與軌跡<strong>完全一致，沒有任何改變</strong>。
+                        <br>&nbsp;&nbsp;- <strong>結論</strong>：這證明了電子並非特定金屬或氣體所獨有，而是<strong>普遍存在於所有物質中的共同基本粒子</strong>。
                     </div>
                 </div>
                 <div class="info-alert" style="margin-top:0.8rem; border-left-color: var(--primary-blue);">
                     <span class="info-alert-icon">⏳</span>
                     <div>
                         <strong>基本粒子與原子結構發現史里程碑：</strong>
-                        <br>• <strong>1897 年｜湯姆森陰極射線實驗（發現電子）</strong> ➔ 利用電磁偏折測出電子荷質比 $e/m$，打破原子不可分割之說，提出「葡萄乾布丁模型」。
+                        <br>• <strong>1897 年｜湯姆森陰極射線實驗（發現電子）</strong> ➔ 利用電磁偏折證實陰極射線為帶負電粒子，更換材料證實其為所有物質共有的基本粒子，提出葡萄乾布丁模型。
                         <br>• <strong>1911 年｜拉塞福 $\alpha$ 粒子散射實驗（發現原子核）</strong> ➔ 發現大角度偏折與反彈，打破布丁模型，提出「行星軌道模型」。
                         <br>• <strong>1919 年｜拉塞福撞擊氮核實驗（發現質子）</strong> ➔ 以 $\alpha$ 粒子轟擊氮核釋放出氫核（質子），證實質子為核內成分。
                         <br>• <strong>1932 年｜查兌克鈹射線實驗（發現中子）</strong> ➔ 以 $\alpha$ 粒子撞擊鈹核釋放電中性射線，撞擊石蠟產生質子，用動量與能量守恆推算出中子質量。
-                        <br>• <strong>1964 年｜蓋爾曼夸克模型（提出基本粒子）</strong> ➔ 提出強子是由帶分數電荷的夸克組成（質子 $uud$, 中子 $udd$），後經高能散射實驗證實。
+                        <br>• <strong>1964 年｜蓋爾曼夸克模型（提出基本粒子）</strong> ➔ 提出強子是由帶分數電荷的夸克組成（質子 $uud$，中子 $udd$），後經高能散射實驗證實。
                     </div>
                 </div>
             `;
@@ -3545,7 +3550,6 @@
 
             rutherfordActiveParticles = [];
             
-            // Draw background and gold nucleus
             svg.innerHTML = `
                 <defs>
                     <filter id="gold-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -3574,7 +3578,6 @@
                 <g id="rutherford-particles-group"></g>
             `;
 
-            // Update slider value readout
             slider.addEventListener('input', () => {
                 bVal.textContent = slider.value + ' px';
             });
@@ -3700,104 +3703,112 @@
 
         function initCrtSim() {
             const svg = document.getElementById('crt-svg');
-            const sliderE = document.getElementById('crt-e-slider');
-            const sliderB = document.getElementById('crt-b-slider');
-            const valE = document.getElementById('crt-e-val');
-            const valB = document.getElementById('crt-b-val');
-            const btnBalance = document.getElementById('crt-btn-balance');
-            const btnReset = document.getElementById('crt-btn-reset');
+            const selectMat = document.getElementById('crt-material-select');
+            const btnNone = document.getElementById('crt-btn-none');
+            const btnE = document.getElementById('crt-btn-e');
+            const btnB = document.getElementById('crt-btn-b');
+            const tipCard = document.getElementById('crt-tip-card');
             
-            if (!svg || !sliderE || !sliderB || !valE || !valB) return;
+            if (!svg || !selectMat || !btnNone || !btnE || !btnB || !tipCard) return;
 
-            // Draw static CRT structure once
-            svg.innerHTML = `
-                <defs>
-                    <filter id="green-glow" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="5" result="blur" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                    </filter>
-                    <linearGradient id="glass-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgba(30, 41, 59, 0.7)" />
-                        <stop offset="100%" stop-color="rgba(15, 23, 42, 0.4)" />
-                    </linearGradient>
-                </defs>
-                
-                <!-- Glass Tube Outline -->
-                <path d="M 45 80 L 180 80 L 320 30 L 440 30 L 440 170 L 320 170 L 180 120 L 45 120 Z" fill="url(#glass-grad)" stroke="#64748b" stroke-width="2.5" />
-                
-                <!-- Cathode (-) on the left -->
-                <rect x="55" y="90" width="10" height="20" fill="#f43f5e" rx="1" />
-                <line x1="30" y1="100" x2="55" y2="100" stroke="#f43f5e" stroke-width="2" />
-                <text x="50" y="75" fill="#f43f5e" font-size="9" text-anchor="middle" font-weight="bold">陰極 C (-)</text>
-                
-                <!-- Anode (+) collimator -->
-                <rect x="140" y="85" width="8" height="30" fill="#38bdf8" />
-                <line x1="144" y1="100" x2="144" y2="140" stroke="#38bdf8" stroke-width="1.5" />
-                <text x="144" y="72" fill="#38bdf8" font-size="9" text-anchor="middle" font-weight="bold">陽極 A (+)</text>
-                
-                <!-- Phosphor Screen Glow -->
-                <path d="M 440 30 A 10 140 0 0 1 440 170" stroke="#10b981" stroke-width="8" fill="none" opacity="0.15" />
-                <path d="M 440 35 A 10 130 0 0 1 440 165" stroke="#10b981" stroke-width="3" fill="none" opacity="0.6" />
-                <text x="455" y="104" fill="#10b981" font-size="10" font-weight="bold" writing-mode="vertical-rl">螢光幕</text>
-                
-                <!-- Electric Plates -->
-                <rect id="crt-plate-top" x="200" y="55" width="80" height="8" fill="#64748b" rx="2" />
-                <rect id="crt-plate-bottom" x="200" y="137" width="80" height="8" fill="#64748b" rx="2" />
-                <text id="crt-plate-top-txt" x="240" y="50" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
-                <text id="crt-plate-bottom-txt" x="240" y="155" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
-                
-                <!-- Magnetic Field Region Indicator Box -->
-                <rect x="200" y="70" width="80" height="60" fill="none" stroke="rgba(148, 163, 184, 0.2)" stroke-dasharray="3 3" />
-                
-                <!-- Magnetic Field Symbols Group -->
-                <g id="crt-mag-symbols"></g>
-                
-                <!-- Electron Beam Paths -->
-                <path id="crt-beam" d="" stroke="#10b981" stroke-width="4.5" fill="none" filter="url(#green-glow)" opacity="0.85" />
-                <path id="crt-beam-core" d="" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.95" />
-                
-                <!-- Glowing point on screen -->
-                <circle id="crt-spot" cx="440" cy="100" r="5" fill="#ffffff" filter="url(#green-glow)" />
-            `;
+            let crtMode = 'none'; // 'none', 'e', 'b'
 
-            function updateCrt() {
-                const E = parseInt(sliderE.value);
-                const B = parseInt(sliderB.value);
-                
-                valE.textContent = (E > 0 ? '+' : '') + E;
-                valB.textContent = (B > 0 ? '+' : '') + B;
+            // Names mapping
+            const names = {
+                Cu: { metal: '銅 (Cu) 陰極', gas: '空氣 Residual Air' },
+                Au: { metal: '金 (Au) 陰極', gas: '氫氣 (H₂)' },
+                Al: { metal: '鋁 (Al) 陰極', gas: '氦氣 (He)' }
+            };
+
+            function drawCrtBase() {
+                const mat = selectMat.value;
+                const info = names[mat];
+
+                svg.innerHTML = `
+                    <defs>
+                        <filter id="green-glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="5" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                        <linearGradient id="glass-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="rgba(30, 41, 59, 0.7)" />
+                            <stop offset="100%" stop-color="rgba(15, 23, 42, 0.4)" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Glass Tube Outline -->
+                    <path d="M 45 80 L 180 80 L 320 30 L 440 30 L 440 170 L 320 170 L 180 120 L 45 120 Z" fill="url(#glass-grad)" stroke="#64748b" stroke-width="2.5" />
+                    
+                    <!-- Cathode (-) on the left -->
+                    <rect x="55" y="90" width="10" height="20" fill="#f43f5e" rx="1" />
+                    <line x1="30" y1="100" x2="55" y2="100" stroke="#f43f5e" stroke-width="2" />
+                    <text x="50" y="75" fill="#f43f5e" font-size="9" text-anchor="middle" font-weight="bold">${info.metal}</text>
+                    
+                    <!-- Anode (+) collimator -->
+                    <rect x="140" y="85" width="8" height="30" fill="#38bdf8" />
+                    <line x1="144" y1="100" x2="144" y2="140" stroke="#38bdf8" stroke-width="1.5" />
+                    <text x="144" y="72" fill="#38bdf8" font-size="9" text-anchor="middle" font-weight="bold">陽極 A (+)</text>
+                    
+                    <!-- Residual Gas Label -->
+                    <text x="110" y="112" fill="rgba(148, 163, 184, 0.6)" font-size="8" text-anchor="middle">管內氣體: ${info.gas}</text>
+                    
+                    <!-- Phosphor Screen Glow -->
+                    <path d="M 440 30 A 10 140 0 0 1 440 170" stroke="#10b981" stroke-width="8" fill="none" opacity="0.15" />
+                    <path d="M 440 35 A 10 130 0 0 1 440 165" stroke="#10b981" stroke-width="3" fill="none" opacity="0.6" />
+                    <text x="455" y="104" fill="#10b981" font-size="10" font-weight="bold" writing-mode="vertical-rl">螢光幕</text>
+                    
+                    <!-- Electric Plates -->
+                    <rect id="crt-plate-top" x="200" y="55" width="80" height="8" fill="#64748b" rx="2" />
+                    <rect id="crt-plate-bottom" x="200" y="137" width="80" height="8" fill="#64748b" rx="2" />
+                    <text id="crt-plate-top-txt" x="240" y="50" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
+                    <text id="crt-plate-bottom-txt" x="240" y="155" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle"></text>
+                    
+                    <!-- Magnetic Field Region Indicator Box -->
+                    <rect x="200" y="70" width="80" height="60" fill="none" stroke="rgba(148, 163, 184, 0.2)" stroke-dasharray="3 3" />
+                    <text x="240" y="125" fill="rgba(148, 163, 184, 0.3)" font-size="8" text-anchor="middle">橫向偏折場區域</text>
+                    
+                    <!-- Magnetic Field Symbols Group -->
+                    <g id="crt-mag-symbols"></g>
+                    
+                    <!-- Electron Beam Paths -->
+                    <path id="crt-beam" d="" stroke="#10b981" stroke-width="4.5" fill="none" filter="url(#green-glow)" opacity="0.85" />
+                    <path id="crt-beam-core" d="" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.95" />
+                    
+                    <!-- Glowing spot on screen -->
+                    <circle id="crt-spot" cx="440" cy="100" r="5" fill="#ffffff" filter="url(#green-glow)" />
+                `;
+            }
+
+            function updateSimulation() {
+                drawCrtBase();
                 
                 const plateTop = document.getElementById('crt-plate-top');
                 const plateBottom = document.getElementById('crt-plate-bottom');
                 const plateTopTxt = document.getElementById('crt-plate-top-txt');
                 const plateBottomTxt = document.getElementById('crt-plate-bottom-txt');
+                const magGroup = document.getElementById('crt-mag-symbols');
                 
-                if (E > 0) {
+                let E = 0, B = 0;
+                
+                // Update Button styles
+                btnNone.style.background = crtMode === 'none' ? 'var(--primary-blue)' : 'var(--border-color)';
+                btnNone.style.color = crtMode === 'none' ? 'white' : 'var(--text-main)';
+                btnE.style.background = crtMode === 'e' ? 'var(--primary-blue)' : 'var(--border-color)';
+                btnE.style.color = crtMode === 'e' ? 'white' : 'var(--text-main)';
+                btnB.style.background = crtMode === 'b' ? 'var(--primary-blue)' : 'var(--border-color)';
+                btnB.style.color = crtMode === 'b' ? 'white' : 'var(--text-main)';
+
+                if (crtMode === 'e') {
+                    E = 35;
                     plateTop.setAttribute('fill', '#f43f5e'); // Red (+)
                     plateBottom.setAttribute('fill', '#3b82f6'); // Blue (-)
                     plateTopTxt.textContent = '+';
                     plateTopTxt.setAttribute('fill', '#f43f5e');
                     plateBottomTxt.textContent = '-';
                     plateBottomTxt.setAttribute('fill', '#3b82f6');
-                } else if (E < 0) {
-                    plateTop.setAttribute('fill', '#3b82f6'); // Blue (-)
-                    plateBottom.setAttribute('fill', '#f43f5e'); // Red (+)
-                    plateTopTxt.textContent = '-';
-                    plateTopTxt.setAttribute('fill', '#3b82f6');
-                    plateBottomTxt.textContent = '+';
-                    plateBottomTxt.setAttribute('fill', '#f43f5e');
-                } else {
-                    plateTop.setAttribute('fill', '#64748b');
-                    plateBottom.setAttribute('fill', '#64748b');
-                    plateTopTxt.textContent = '';
-                    plateBottomTxt.textContent = '';
-                }
-                
-                const magGroup = document.getElementById('crt-mag-symbols');
-                magGroup.innerHTML = '';
-                if (B !== 0) {
-                    const symbol = B > 0 ? '⊗' : '⊙';
-                    const color = B > 0 ? 'rgba(239, 68, 68, 0.4)' : 'rgba(59, 130, 246, 0.4)';
+                } else if (crtMode === 'b') {
+                    B = 35;
+                    // Draw ⊗ symbols (magnetic field points into screen, pulling electrons down)
                     const positions = [
                         {x: 220, y: 88}, {x: 260, y: 88},
                         {x: 220, y: 118}, {x: 260, y: 118}
@@ -3806,15 +3817,18 @@
                         const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                         txt.setAttribute('x', pos.x);
                         txt.setAttribute('y', pos.y);
-                        txt.setAttribute('fill', color);
+                        txt.setAttribute('fill', 'rgba(239, 68, 68, 0.4)');
                         txt.setAttribute('font-size', '14');
                         txt.setAttribute('font-weight', 'bold');
                         txt.setAttribute('text-anchor', 'middle');
-                        txt.textContent = symbol;
+                        txt.textContent = '⊗';
                         magGroup.appendChild(txt);
                     });
                 }
                 
+                // Calculate Beam Path
+                // E > 0 pulls electron UPWARDS (ay < 0).
+                // B > 0 pulls electron DOWNWARDS (ay > 0).
                 const ay = -0.0006 * E + 0.0006 * B;
                 const x1 = 180, x2 = 300, x3 = 438;
                 const y1 = 100;
@@ -3836,23 +3850,26 @@
                 } else {
                     spot.setAttribute('display', 'none');
                 }
+
+                // Update Tip card text
+                const mat = selectMat.value;
+                const matText = selectMat.options[selectMat.selectedIndex].text;
+                let modeText = '直進打在螢幕中央';
+                if (crtMode === 'e') modeText = '受到電場力吸引，朝正極板向上偏折';
+                if (crtMode === 'b') modeText = '受到磁場力（洛倫茲力）作用，向下偏折';
+
+                tipCard.innerHTML = `<strong>💡 實驗觀察：</strong>
+                    當前為 <strong>【${matText}】</strong>。
+                    <br>• 在此配置下，施加橫向場時，陰極射線 <strong>${modeText}</strong>。
+                    <br>• <span style="color: var(--success-green, #10b981); font-weight: bold;">核心發現：</span>試試看更換其他陰極材料與管內氣體！你會發現無論材料與氣體如何改變，<strong>偏折的軌跡與行為完全一致</strong>！這證實了電子是不隨材料改變而普遍存在於所有物質中的基本粒子。`;
             }
 
-            sliderE.oninput = updateCrt;
-            sliderB.oninput = updateCrt;
+            selectMat.onchange = updateSimulation;
+            btnNone.onclick = () => { crtMode = 'none'; updateSimulation(); };
+            btnE.onclick = () => { crtMode = 'e'; updateSimulation(); };
+            btnB.onclick = () => { crtMode = 'b'; updateSimulation(); };
 
-            btnBalance.onclick = () => {
-                sliderB.value = sliderE.value;
-                updateCrt();
-            };
-
-            btnReset.onclick = () => {
-                sliderE.value = 0;
-                sliderB.value = 0;
-                updateCrt();
-            };
-
-            updateCrt();
+            updateSimulation();
         }
 
 
