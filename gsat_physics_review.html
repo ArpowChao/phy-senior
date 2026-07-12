@@ -2872,6 +2872,7 @@
             });
 
             const specialHtml = (nodeId === 'N01' ? siSectionHtml() : '')
+                + (nodeId === 'N02' ? scaleSectionHtml() : '')
                 + (nodeId === 'N03' ? kinematicsGraphsHtml() : '')
                 + (nodeId === 'N18' ? emSpectrumSectionHtml() : '')
                 + (nodeId === 'N23' ? photoelectricSectionHtml() : '')
@@ -3308,6 +3309,67 @@
                 </div>
             `;
         }
+
+        // 自然界的尺度與數量級專題（併入模組一：N02）
+        function scaleSectionHtml() {
+            return `
+                <div class="handout-section-title">📘 輔助資訊（說明原理原則）</div>
+                <div class="info-alert" style="margin-top:0;">
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <strong>數量級的對數原理：</strong>數量級是衡量物理規模的對數尺度，本質上是取對數（以 10 為底）進行四捨五入。在對數尺度下，因 $\\log_{10}(3.16) \\approx 0.5$ 恰在 0 與 1 之間，故進位中點為 $\\sqrt{10} \\approx 3.16$，而非算術平分的 5。
+                        <br>• 若 $a \\ge 3.16$，數量級為 $10^{n+1}$。
+                        <br>• 若 $a < 3.16$，數量級為 $10^n$。
+                    </div>
+                </div>
+
+                <div class="handout-section-title">🔍 細節資訊（闡述細節以利理解）</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">數值 / 科學記號</th>
+                                <th style="width: 30%">與臨界值 3.16 比較</th>
+                                <th>數量級判定結果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$4.2 \\times 10^5$</td>
+                                <td>$4.2 \\ge 3.16$（進位）</td>
+                                <td><span class="code-badge" style="color: var(--primary-blue); font-weight: bold;">10⁶</span></td>
+                            </tr>
+                            <tr>
+                                <td>$2.8 \\times 10^5$</td>
+                                <td>$2.8 < 3.16$（不進位）</td>
+                                <td><span class="code-badge">10⁵</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="info-alert" style="margin-top:1rem;">
+                    <span class="info-alert-icon">📏</span>
+                    <div>
+                        <strong>自然界典型尺度鏈對照：</strong>
+                        <br>• <strong>原子核</strong>：$\\approx 10^{-15}\\text{ m}$（飛米，fm）
+                        <br>• <strong>原子</strong>：$\\approx 10^{-10}\\text{ m}$（埃，Å）
+                        <br>• <strong>流感病毒</strong>：$\\approx 10^{-7}\\text{ m}$（奈米級，約 100 nm）
+                        <br>• <strong>人體細胞</strong>：$\\approx 10^{-5}\\text{ m}$（微米級，如紅血球約 8 μm）
+                    </div>
+                </div>
+
+                <div class="handout-section-title">📝 補充資訊（應用例子）</div>
+                <div class="info-alert" style="margin-top:0;">
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <strong>經典生活尺度估算（費米估算）：</strong>
+                        <br>• <strong>頭髮生長速度</strong>：每月長約 $1\\text{ cm} = 10^{-2}\\text{ m}$，一個月時間 $T \\approx 2.6 \\times 10^6\\text{ s}$。生長速度 $v = 10^{-2} / 2.6 \\times 10^6 \\approx 3.8 \\times 10^{-9}\\text{ m/s}$。因係數 $3.8 \\ge 3.16$，數量級進位為 <strong>$10^{-8}\\text{ m/s}$</strong>（相當於每秒生長數十個原子大小）。
+                        <br>• <strong>人體細胞總數</strong>：體重 $60\\text{ kg}$ 的成人體積 $V \\approx 0.06\\text{ m}^3 = 6 \\times 10^{-2}\\text{ m}^3$；細胞平均直徑 $10\\ \\mu\\text{m} = 10^{-5}\\text{ m}$，體積 $v \\approx 10^{-15}\\text{ m}^3$。細胞總數 $N = V/v \\approx 6 \\times 10^{12}$ 個。因 $6 \\ge 3.16$，數量級進位為 <strong>$10^{13}$ 個</strong>。
+                    </div>
+                </div>
+            `;
+        }
+    
 
         // 運動圖形對照（x-t、v-t、a-t）——併入模組二
         function kinematicsGraphsHtml() {
