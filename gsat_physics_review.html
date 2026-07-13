@@ -2625,6 +2625,242 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* ==========================================================================
+           3D Dipole Antenna & Electromagnetic Wave Simulation Styles
+           ========================================================================== */
+        :root {
+            --dipole-scale: 1.0;
+            --dipole-dur: 1.6s;
+        }
+
+        .dipole-sim-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dipole-svg-wrap {
+            background-color: #0b1220;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .dipole-svg-wrap svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* SVG Glowing Lines and Elements */
+        .dipole-axis {
+            stroke: rgba(148, 163, 184, 0.25);
+            stroke-width: 1.2;
+            stroke-dasharray: 4 4;
+        }
+
+        .dipole-axis-solid {
+            stroke: rgba(148, 163, 184, 0.4);
+            stroke-width: 1.5;
+        }
+
+        .dipole-wave-e {
+            stroke: #22d3ee; /* Cyan */
+            stroke-width: 2.5;
+            fill: none;
+            filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.7));
+        }
+
+        .dipole-wave-b {
+            stroke: #f97316; /* Orange */
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.7));
+        }
+
+        .dipole-vector-e {
+            stroke: rgba(34, 211, 238, 0.5);
+            stroke-width: 1.2;
+        }
+
+        .dipole-vector-b {
+            stroke: rgba(249, 115, 22, 0.5);
+            stroke-width: 1.2;
+        }
+
+        /* Accelerating Charge Animation Styles */
+        .charge-track {
+            stroke: #475569;
+            stroke-width: 1.5;
+            stroke-dasharray: 3 3;
+        }
+
+        .charge-group {
+            animation: charge-shm var(--dipole-dur) linear infinite; /* Using linear interpolation to prevent equilibrium stutter */
+        }
+
+        /* Wave Translation Animation */
+        .dipole-wave-group {
+            animation: dipole-wave-travel var(--dipole-dur) linear infinite;
+        }
+
+        /* Static and Radial Field Styles */
+        .charge-track {
+            stroke: #475569;
+            stroke-width: 1.5;
+            stroke-dasharray: 3 3;
+        }
+
+        .static-radial-fields line {
+            stroke: rgba(34, 211, 238, 0.75);
+            stroke-width: 1.8px;
+            filter: drop-shadow(0 0 2px rgba(34, 211, 238, 0.4));
+        }
+
+        .dipole-wave-static {
+            stroke: #22d3ee;
+            stroke-width: 2.5;
+            fill: none;
+            filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.7));
+        }
+
+        /* 2D Plane Shading Sheets for E and B Fields */
+        .dipole-wave-e-fill {
+            fill: rgba(34, 211, 238, 0.15); /* Semi-transparent cyan sheet */
+            stroke: none;
+        }
+
+        .dipole-wave-b-fill {
+            fill: rgba(249, 115, 22, 0.12); /* Semi-transparent orange sheet */
+            stroke: none;
+        }
+
+        /* Keyframe Animations */
+        @keyframes dipole-wave-travel {
+            0% {
+                transform: translate(-160px, 0);
+            }
+            100% {
+                transform: translate(0px, 0);
+            }
+        }
+
+        /* Perfectly smooth linear-interpolated sine wave SHM to avoid slowing down at the center */
+        @keyframes charge-shm {
+            0% { transform: translateY(0px); }
+            12.5% { transform: translateY(33.94px); }
+            25% { transform: translateY(48px); }
+            37.5% { transform: translateY(33.94px); }
+            50% { transform: translateY(0px); }
+            62.5% { transform: translateY(-33.94px); }
+            75% { transform: translateY(-48px); }
+            87.5% { transform: translateY(-33.94px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Playback States */
+        .dipole-sim-container.paused .dipole-wave-group,
+        .dipole-sim-container.paused .charge-group {
+            animation-play-state: paused !important;
+        }
+
+        /* ==========================================================================
+           Learning Stages Visibility Logic
+           ========================================================================== */
+        
+        /* 1. Stage 1: Static Charge (Static E-Field) */
+        .dipole-sim-container.stage-1 .charge-group {
+            animation-play-state: paused !important;
+            transform: translateY(0px) !important;
+        }
+        .dipole-sim-container.stage-1 .dipole-wave-group {
+            animation-play-state: paused !important;
+            transform: translate(0px, 0) !important;
+        }
+        .dipole-sim-container.stage-1 .static-radial-fields,
+        .dipole-sim-container.stage-1 .dipole-wave-static,
+        .dipole-sim-container.stage-1 .static-wave-arrows {
+            display: block !important;
+        }
+        .dipole-sim-container.stage-1 .dipole-wave-e,
+        .dipole-sim-container.stage-1 .dipole-wave-b,
+        .dipole-sim-container.stage-1 .dipole-wave-e-fill,
+        .dipole-sim-container.stage-1 .dipole-wave-b-fill,
+        .dipole-sim-container.stage-1 .dipole-vector-e,
+        .dipole-sim-container.stage-1 .dipole-vector-b,
+        .dipole-sim-container.stage-1 .dipole-b-axis {
+            display: none !important;
+        }
+
+        /* 2. Stage 2: Oscillating E-Field Wave Only */
+        .dipole-sim-container.stage-2 .static-radial-fields,
+        .dipole-sim-container.stage-2 .dipole-wave-static,
+        .dipole-sim-container.stage-2 .static-wave-arrows,
+        .dipole-sim-container.stage-2 .dipole-wave-b,
+        .dipole-sim-container.stage-2 .dipole-wave-b-fill,
+        .dipole-sim-container.stage-2 .dipole-vector-b,
+        .dipole-sim-container.stage-2 .dipole-b-axis {
+            display: none !important;
+        }
+        .dipole-sim-container.stage-2 .dipole-wave-e,
+        .dipole-sim-container.stage-2 .dipole-wave-e-fill,
+        .dipole-sim-container.stage-2 .dipole-vector-e {
+            display: block !important;
+        }
+
+        /* 3. Stage 3: Full EM Wave (E & B Orthogonal) */
+        .dipole-sim-container.stage-3 .static-radial-fields,
+        .dipole-sim-container.stage-3 .dipole-wave-static,
+        .dipole-sim-container.stage-3 .static-wave-arrows {
+            display: none !important;
+        }
+        .dipole-sim-container.stage-3 .dipole-wave-e,
+        .dipole-sim-container.stage-3 .dipole-wave-b,
+        .dipole-sim-container.stage-3 .dipole-wave-e-fill,
+        .dipole-sim-container.stage-3 .dipole-wave-b-fill,
+        .dipole-sim-container.stage-3 .dipole-vector-e,
+        .dipole-sim-container.stage-3 .dipole-vector-b,
+        .dipole-sim-container.stage-3 .dipole-b-axis {
+            display: block !important;
+        }
+
+        /* Visibility Filters */
+        .dipole-sim-container.hide-e .dipole-wave-e,
+        .dipole-sim-container.hide-e .dipole-vector-e,
+        .dipole-sim-container.hide-e .dipole-e-axis {
+            display: none !important;
+        }
+
+        .dipole-sim-container.hide-b .dipole-wave-b,
+        .dipole-sim-container.hide-b .dipole-vector-b,
+        .dipole-sim-container.hide-b .dipole-b-axis {
+            display: none !important;
+        }
+
+        /* Override prefers-reduced-motion specifically for this educational simulation */
+        @media (prefers-reduced-motion: reduce) {
+            .dipole-sim-container,
+            .dipole-sim-container * {
+                animation-duration: var(--dipole-dur) !important;
+                animation-iteration-count: infinite !important;
+                transition-duration: 0.2s !important;
+            }
+            .charge-group {
+                animation-name: charge-shm !important;
+                animation-timing-function: linear !important;
+            }
+            .dipole-wave-group {
+                animation-name: dipole-wave-travel !important;
+                animation-timing-function: linear !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3978,6 +4214,7 @@
         }
 
         // 電磁波頻譜與應用（含繞射）——併入模組五
+        // 電磁波頻譜與應用（含繞射）與偶極子動畫——併入模組五
         function emSpectrumSectionHtml() {
             const rows = [
                 ['無線電波', '&gt; 1 m', '廣播、電視、手機與衛星通訊', '波長長 → 易繞過建築物、涵蓋範圍廣'],
@@ -4000,21 +4237,54 @@
                 </div>
                 <div class="edu-table-container">
                     <table class="edu-table">
-                        <thead>
-                            <tr>
-                                <th style="width:12%">波段</th>
-                                <th style="width:14%">波長（約）</th>
-                                <th style="width:30%">主要應用</th>
-                                <th>與繞射／吸收的關係</th>
-                            </tr>
-                        </thead>
-                        <tbody>${body}</tbody>
+                         <thead>
+                             <tr>
+                                 <th style="width:12%">波段</th>
+                                 <th style="width:14%">波長（約）</th>
+                                 <th style="width:30%">主要應用</th>
+                                 <th>與繞射／吸收的關係</th>
+                             </tr>
+                         </thead>
+                         <tbody>${body}</tbody>
                     </table>
                 </div>
                 <div class="feature-guide-box" style="margin-top:1rem;">
                     <div class="feature-bridge">
                         <div class="feature-bridge-title">➔ 用「繞射」理解不同波段的應用</div>
                         <div class="feature-bridge-desc">繞射的明顯程度取決於「波長」與「障礙物或孔徑尺度」的相對大小：兩者相當時繞射最明顯。<br>① <b>無線電波（波長長）</b>：能繞過山丘、建築物，適合大範圍廣播與通訊。<br>② <b>可見光／X 射線（波長短）</b>：繞射不明顯、直進性強，可用於精細成像；望遠鏡或顯微鏡的「口徑越大、波長越短，繞射極限越小、解析度越高」。<br>③ <b>X 射線（波長 ~ 原子間距）</b>：射入晶體會被規則排列的原子層繞射，用來分析晶體結構（112 學測 Q30）。</div>
+                    </div>
+                </div>
+
+                <!-- 2. 輔助資訊 (Explanation of Principles) -->
+                <div class="handout-section-title" style="margin-top: 1.75rem;">💡 核心觀念解析：電荷運動狀態與電磁波的產生</div>
+                <div class="info-alert" style="border-left: 4px solid var(--accent-cyan); background-color: var(--primary-blue-light); margin-bottom: 1.5rem;">
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <b>1. 電磁波是怎麼產生的？</b><br>
+                        在物理學中，電荷的運動狀態決定了它產生的電磁效應，這是學測非常愛考的觀念：<br>
+                        • <b>靜止電荷</b>：僅產生不隨時間變化的「靜電場」。<br>
+                        • <b>等速運動電荷</b>（例如直流電）：產生恆定「靜電場」與不隨時間變化的穩定「磁場」。<br>
+                        • <b>加速運動電荷</b>（例如來回簡諧運動、交流電）：產生<b>隨時間變化的電場</b>。根據法拉第與馬克士威理論，變化的電場會激發變化的磁場，變化的磁場又激發變化的電場，這種交互作用向外傳播，就是<b>電磁波</b>。<br><br>
+                        <b>2. 核心考點整理</b>：<br>
+                        只有<b>「具有加速度」</b>的電荷（速度大小或方向改變）才能發射電磁波！當一個帶電粒子來回振動（簡諧運動）時，其加速度不斷變化，因此會同步向外輻射出交錯的電場與磁場波動。
+                    </div>
+                </div>
+
+                <!-- 3. 細節資訊 (Clarifying Details) ── SVG 3D 模擬 -->
+                ` + dipoleAntennaHtml() + `
+
+                <!-- 4. 補充資訊 (Application Examples) -->
+                <div class="handout-section-title" style="margin-top: 1.75rem;">📝 生活應用與估算實戰：電磁共振與天線發射</div>
+                <div class="info-alert" style="border-left: 4px solid var(--accent-orange); background-color: var(--accent-orange-light);">
+                    <span class="info-alert-icon">📝</span>
+                    <div>
+                        <b>手機是如何發送無線訊號的？</b><br>
+                        手機內部有發射天線，當我們撥打電話或上網時，手機內部的晶片會輸出高頻的交流電（AC）。高頻交流電迫使天線金屬導線中的自由電子產生<b>加速往復運動</b>（高頻振動），進而將電能轉化為電磁波輻射到空氣中，傳送至基地台。<br><br>
+                        <b>天線長度估算實例（5G 手機天線長度）</b>：<br>
+                        為了讓金屬導線內部的自由電子產生最強的共振效應，天線的長度 $L$ 通常會設計為發射電磁波波長的一半（$L \approx \frac{\lambda}{2}$）：<br>
+                        • 已知 5G 手機通訊頻率 $f = 3.0\text{ GHz} = 3.0 \times 10^9\text{ Hz}$，真空光速 $c = 3.0 \times 10^8\text{ m/s}$。<br>
+                        • 計算波長：$\lambda = \frac{c}{f} = \frac{3.0 \times 10^8}{3.0 \times 10^9} = 0.1\text{ m} = 10\text{ cm}$。<br>
+                        • 天線最佳長度：$L = \frac{\lambda}{2} = 5\text{ cm}$。這就是為什麼現代手機不需要長長的外露天線，而是能將幾公分大小的天線直接隱藏在手機外殼內部。
                     </div>
                 </div>
             `;
@@ -4170,6 +4440,273 @@
                 </div>
             `;
         }
+
+        // ===== 3D Dipole Antenna & EM Wave Simulation Javascript Logic =====
+        function dipoleAntennaHtml() {
+            // Wavelength & Amplitude
+            const lambda = 160;
+            const A = 48;
+            const theta = 30 * Math.PI / 180; // Cavalier projection angle
+            const cosT = Math.cos(theta);
+            const sinT = Math.sin(theta);
+            const yOrigin = 115;
+            const xStart = 120;
+            const xEnd = 880;
+
+            // Generate Wave Paths
+            // We start drawing from x = 120 - lambda = -40 to x = 880 to ensure seamless translation
+            let ePoints = [];
+            let bPoints = [];
+            
+            for (let x = -40; x <= xEnd; x += 4) {
+                const relativeX = x - xStart;
+                const sine = Math.sin((2 * Math.PI * relativeX) / lambda);
+                
+                // E-Field wave (vertical XY plane)
+                const yE = yOrigin - A * sine;
+                ePoints.push(x + "," + yE);
+                
+                // B-Field wave (tilted XZ plane projection)
+                const xB = x - A * sine * cosT;
+                const yB = yOrigin + A * sine * sinT;
+                bPoints.push(xB + "," + yB);
+            }
+            
+            const pathE = "M " + ePoints.join(" L ");
+            const pathB = "M " + bPoints.join(" L ");
+            
+            // Generate closed paths for filled 2D wave sheets
+            const fillPathE = "M -40," + yOrigin + " L " + ePoints.join(" L ") + " L 880," + yOrigin + " Z";
+            const fillPathB = "M -40," + yOrigin + " L " + bPoints.join(" L ") + " L 880," + yOrigin + " Z";
+
+            // Generate field vectors (arrows)
+            let eArrows = "";
+            let bArrows = "";
+            
+            // Placed every lambda / 8 = 20px
+            for (let x = -40; x <= xEnd; x += 20) {
+                const relativeX = x - xStart;
+                const sine = Math.sin((2 * Math.PI * relativeX) / lambda);
+                if (Math.abs(sine) < 0.05) continue; // Skip nodes
+
+                // E Arrow
+                const yE = yOrigin - A * sine;
+                eArrows += '<line x1="' + x + '" y1="' + yOrigin + '" x2="' + x + '" y2="' + yE + '" class="dipole-vector-e" marker-end="url(#arrow-cyan)" />';
+
+                // B Arrow
+                const xB = x - A * sine * cosT;
+                const yB = yOrigin + A * sine * sinT;
+                bArrows += '<line x1="' + x + '" y1="' + yOrigin + '" x2="' + xB + '" y2="' + yB + '" class="dipole-vector-b" marker-end="url(#arrow-orange)" />';
+            }
+            
+            // 360-degree radial lines for Stage 1 Static Electric Field
+            let staticRadialLines = "";
+            for (let a = 0; a < 360; a += 30) {
+                if (a === 0 || a === 180) continue; // Skip horizontal lines (propagation axis handles right, left is drawn manually below)
+                const rad = a * Math.PI / 180;
+                const x2 = 70 + 75 * Math.cos(rad);
+                const y2 = yOrigin + 75 * Math.sin(rad);
+                staticRadialLines += '<line x1="70" y1="' + yOrigin + '" x2="' + x2 + '" y2="' + y2 + '" marker-end="url(#arrow-cyan)" />';
+            }
+            // Add left radiating line (going to x=10)
+            staticRadialLines += '<line x1="70" y1="' + yOrigin + '" x2="10" y2="' + yOrigin + '" marker-end="url(#arrow-cyan)" />';
+
+            let html = "";
+            html += "<div class=\"handout-section-title\" style=\"margin-top: 1.75rem;\">🔍 觀念深度剖析：電荷運動與電磁波概念建構模擬</div>";
+            
+            // Progressive concept building tabs
+            html += "<div class=\"dipole-sim-container stage-3\" id=\"dipole-sim-box\">";
+            html += "    <div class=\"sim-row\" style=\"margin-bottom: 0.2rem; justify-content: center; gap: 0.5rem; flex-wrap: wrap;\">";
+            html += "        <button class=\"bank-chip-btn stage-btn\" id=\"btn-stage-1\" onclick=\"setDipoleStage(1)\">1. 靜止電荷 (靜電場)</button>";
+            html += "        <button class=\"bank-chip-btn stage-btn\" id=\"btn-stage-2\" onclick=\"setDipoleStage(2)\">2. 電荷加速 (電場波動)</button>";
+            html += "        <button class=\"bank-chip-btn stage-btn active\" id=\"btn-stage-3\" onclick=\"setDipoleStage(3)\">3. 完整電磁波 (電磁正交)</button>";
+            html += "    </div>";
+
+            html += "    <div class=\"dipole-svg-wrap\">";
+            html += "        <svg viewBox=\"0 0 900 230\" xmlns=\"http://www.w3.org/2000/svg\">";
+            html += "            <defs>";
+            html += "                <marker id=\"arrow-cyan\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\">";
+            html += "                    <path d=\"M 0 1.5 L 10 5 L 0 8.5 z\" fill=\"#22d3ee\" />";
+            html += "                </marker>";
+            html += "                <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\">";
+            html += "                    <path d=\"M 0 1.5 L 10 5 L 0 8.5 z\" fill=\"#f97316\" />";
+            html += "                </marker>";
+            html += "                <clipPath id=\"wave-clip\">";
+            html += "                    <rect x=\"110\" y=\"0\" width=\"770\" height=\"230\" />";
+            html += "                </clipPath>";
+            html += "            </defs>";
+            html += "            <g class=\"dipole-grid\">";
+            html += "                <line x1=\"50\" y1=\"115\" x2=\"880\" y2=\"115\" class=\"dipole-axis-solid\" />";
+            html += "                <line x1=\"120\" y1=\"20\" x2=\"120\" y2=\"210\" class=\"dipole-e-axis\" style=\"stroke:#22d3ee; stroke-width:1; stroke-dasharray: 2 2;\" />";
+            html += "                <line x1=\"85\" y1=\"135\" x2=\"155\" y2=\"95\" class=\"dipole-b-axis\" style=\"stroke:#f97316; stroke-width:1; stroke-dasharray: 2 2;\" />";
+            html += "                <text x=\"875\" y=\"130\" fill=\"#94a3b8\" font-size=\"11\" font-weight=\"bold\">傳播方向 c</text>";
+            html += "                <text x=\"125\" y=\"25\" fill=\"#22d3ee\" font-size=\"11\" font-weight=\"bold\" class=\"dipole-e-axis\">E (電場)</text>";
+            html += "                <text x=\"160\" y=\"92\" fill=\"#f97316\" font-size=\"11\" font-weight=\"bold\" class=\"dipole-b-axis\">B (磁場)</text>";
+            html += "            </g>";
+            html += "            <g clip-path=\"url(#wave-clip)\">";
+            html += "                <g style=\"transform: scaleX(var(--dipole-scale)); transform-origin: 120px 115px;\">";
+            html += "                    <g class=\"dipole-wave-group\">";
+            html += "                        <!-- E-Field 2D Shading sheet -->";
+            html += "                        <path d=\"" + fillPathE + "\" class=\"dipole-wave-e-fill\" />";
+            html += "                        <!-- B-Field 2D Shading sheet -->";
+            html += "                        <path d=\"" + fillPathB + "\" class=\"dipole-wave-b-fill\" />";
+            
+            html += "                        <path d=\"" + pathE + "\" class=\"dipole-wave-e\" vector-effect=\"non-scaling-stroke\" />";
+            html += eArrows;
+            html += "                        <path d=\"" + pathB + "\" class=\"dipole-wave-b\" vector-effect=\"non-scaling-stroke\" />";
+            html += bArrows;
+            html += "                    </g>";
+            html += "                </g>";
+            html += "            </g>";
+            // Stage 1 Static Elements: 360-degree radial field lines + horizontal propagation line
+            html += "            <g class=\"static-radial-fields\" style=\"display:none;\">" + staticRadialLines + "</g>";
+            
+            html += "            <g class=\"dipole-wave-static\" style=\"display:none;\">";
+            html += "                <line x1=\"70\" y1=\"115\" x2=\"880\" y2=\"115\" class=\"dipole-wave-static\" />";
+            html += "            </g>";
+            
+            html += "            <g class=\"static-wave-arrows\" style=\"display:none;\">";
+            html += "                <line x1=\"200\" y1=\"115\" x2=\"210\" y2=\"115\" stroke=\"rgba(34, 211, 238, 0.5)\" stroke-width=\"1.2\" marker-end=\"url(#arrow-cyan)\" />";
+            html += "                <line x1=\"360\" y1=\"115\" x2=\"370\" y2=\"115\" stroke=\"rgba(34, 211, 238, 0.5)\" stroke-width=\"1.2\" marker-end=\"url(#arrow-cyan)\" />";
+            html += "                <line x1=\"520\" y1=\"115\" x2=\"530\" y2=\"115\" stroke=\"rgba(34, 211, 238, 0.5)\" stroke-width=\"1.2\" marker-end=\"url(#arrow-cyan)\" />";
+            html += "                <line x1=\"680\" y1=\"115\" x2=\"690\" y2=\"115\" stroke=\"rgba(34, 211, 238, 0.5)\" stroke-width=\"1.2\" marker-end=\"url(#arrow-cyan)\" />";
+            html += "                <line x1=\"840\" y1=\"115\" x2=\"850\" y2=\"115\" stroke=\"rgba(34, 211, 238, 0.5)\" stroke-width=\"1.2\" marker-end=\"url(#arrow-cyan)\" />";
+            html += "            </g>";
+
+            // Accelerating single charge structure: vertical guide track + glowing +q charge ball in SHM
+            html += "            <g id=\"charge-oscillator\">";
+            html += "                <!-- Vertical guide track representing SHM boundaries -->";
+            html += "                <line x1=\"70\" y1=\"25\" x2=\"70\" y2=\"205\" class=\"charge-track\" />";
+            html += "                <line x1=\"60\" y1=\"25\" x2=\"80\" y2=\"25\" stroke=\"#475569\" stroke-width=\"1.5\" />";
+            html += "                <line x1=\"60\" y1=\"205\" x2=\"80\" y2=\"205\" stroke=\"#475569\" stroke-width=\"1.5\" />";
+            html += "                <text x=\"70\" y=\"15\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\">y (位置)</text>";
+            
+            html += "                <!-- Glowing single +q charge ball animating up and down -->";
+            html += "                <g class=\"charge-group\">";
+            html += "                    <circle cx=\"70\" cy=\"115\" r=\"14\" fill=\"#22d3ee\" filter=\"drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))\" />";
+            html += "                    <text x=\"70\" y=\"115\" fill=\"#0f172a\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" dominant-baseline=\"central\">+q</text>";
+            html += "                </g>";
+            html += "            </g>";
+            html += "        </svg>";
+            html += "    </div>";
+            html += "    <div class=\"sim-controls\">";
+            html += "        <div class=\"sim-row\" style=\"justify-content: space-between; align-items: center;\">";
+            html += "            <div style=\"display: flex; gap: 0.5rem;\">";
+            html += "                <button class=\"bank-chip-btn active\" id=\"btn-dipole-play\" onclick=\"toggleDipolePlay()\">⏸ 暫停</button>";
+            html += "            </div>";
+            html += "            <div style=\"display: flex; gap: 1rem; align-items: center;\">";
+            html += "                <label style=\"font-size:0.85rem; color:var(--text-main); font-weight:700;\">顯示通道：</label>";
+            html += "                <label style=\"font-size:0.82rem; color:var(--text-muted); cursor:pointer;\">";
+            html += "                    <input type=\"checkbox\" checked onchange=\"toggleDipoleField('e', this.checked)\"> 電場 E";
+            html += "                </label>";
+            html += "                <label style=\"font-size:0.82rem; color:var(--text-muted); cursor:pointer;\">";
+            html += "                    <input type=\"checkbox\" checked onchange=\"toggleDipoleField('b', this.checked)\"> 磁場 B";
+            html += "                </label>";
+            html += "            </div>";
+            html += "        </div>";
+            html += "        <div class=\"sim-row\">";
+            html += "            <span class=\"sim-label\">電荷運動快慢 (簡諧運動頻率 f)</span>";
+            html += "            <input type=\"range\" min=\"1\" max=\"3\" step=\"1\" value=\"2\" oninput=\"changeDipoleFreq(this)\">";
+            html += "            <span class=\"sim-val\" id=\"dipole-val-freq\" style=\"font-weight:bold;\">中頻 (標準波長)</span>";
+            html += "        </div>";
+            html += "    </div>";
+            html += "    <div class=\"sim-readout\" id=\"dipole-sim-readout\">";
+            html += "        <span class=\"sim-chip\">波源狀態：<b>電荷加速度運動</b></span>";
+            html += "        <span class=\"sim-chip\">光速 c = f × λ = <b>真空恆定值</b></span>";
+            html += "        <span class=\"sim-chip\">正交關係：E ⊥ B ⊥ c</span>";
+            html += "    </div>";
+            html += "    <div class=\"sim-note\">";
+            html += "        💡 <b>物理觀念導引：</b><br>";
+            html += "        1. <b>電荷加速與波動</b>：當帶電粒子 $+q$ 在軌道上來回作「簡諧運動」時，因為其位置不斷改變，速度也在變化，所以處於<b>「加速度運動狀態」</b>。這是不斷向外輻射電磁波的根本原因。<br>";
+            html += "        2. <b>同相正交</b>：產生的電場 $\\vec{E}$（垂直面）與磁場 $\\vec{B}$（水平面）互相垂直，且兩者的波峰、波谷同步抵達空間中任一位置（相位完全相同），且傳播方向 $\\vec{c}$ 同時垂直於電場與磁場。<br>";
+            html += "        3. <b>波速恆定性</b>：當您調快電荷運動速度（高頻）時，波長 $\\lambda$ 會被壓縮變短，但電磁波的傳播速率（波形前進的速度）在真空中永遠是光速 $c$。";
+            html += "    </div>";
+            html += "</div>";
+            return html;
+        }
+
+        window.setDipoleStage = function(stage) {
+            const box = document.getElementById('dipole-sim-box');
+            if (!box) return;
+            
+            box.classList.remove('stage-1', 'stage-2', 'stage-3');
+            box.classList.add('stage-' + stage);
+            
+            document.querySelectorAll('.stage-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.getElementById('btn-stage-' + stage);
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            const playBtn = document.getElementById('btn-dipole-play');
+            const freqSlider = document.querySelector('.sim-controls input[type="range"]');
+            
+            if (stage === 1) {
+                if (playBtn) {
+                    playBtn.disabled = true;
+                    playBtn.textContent = '⏸ 暫停';
+                    playBtn.classList.remove('active');
+                }
+                if (freqSlider) freqSlider.disabled = true;
+                box.classList.add('paused');
+            } else {
+                if (playBtn) {
+                    playBtn.disabled = false;
+                    const isPaused = box.classList.contains('paused');
+                    playBtn.textContent = isPaused ? '▶ 播放' : '⏸ 暫停';
+                    playBtn.classList.toggle('active', !isPaused);
+                }
+                if (freqSlider) freqSlider.disabled = false;
+            }
+        };
+
+        window.toggleDipolePlay = function() {
+            const box = document.getElementById('dipole-sim-box');
+            const btn = document.getElementById('btn-dipole-play');
+            if (!box || !btn) return;
+            
+            // Check if it's stage 1 (static), where play/pause is disabled
+            if (box.classList.contains('stage-1')) return;
+            
+            const isPaused = box.classList.toggle('paused');
+            btn.textContent = isPaused ? '▶ 播放' : '⏸ 暫停';
+            btn.classList.toggle('active', !isPaused);
+        };
+
+        window.changeDipoleFreq = function(el) {
+            const val = parseInt(el.value);
+            const textSpan = document.getElementById('dipole-val-freq');
+            const root = document.documentElement;
+            
+            let freqText = "中頻 (標準波長)";
+            let scale = "1.0";
+            let duration = "1.6s";
+            
+            if (val === 1) {
+                freqText = "慢速擺動 (低頻、長波長 λ)";
+                scale = "2.0";
+                duration = "3.2s";
+            } else if (val === 3) {
+                freqText = "快速擺動 (高頻、短波長 λ)";
+                scale = "0.5";
+                duration = "0.8s";
+            }
+            
+            if (textSpan) textSpan.textContent = freqText;
+            root.style.setProperty('--dipole-scale', scale);
+            root.style.setProperty('--dipole-dur', duration);
+        };
+
+        window.toggleDipoleField = function(field, isChecked) {
+            const box = document.getElementById('dipole-sim-box');
+            if (!box) return;
+            
+            if (field === 'e') {
+                box.classList.toggle('hide-e', !isChecked);
+            } else if (field === 'b') {
+                box.classList.toggle('hide-b', !isChecked);
+            }
+        };
 
         // ===== 互動模擬一：波動現象（行進波 / 兩波疊加）——併入模組五 =====
         let waveSimState = { mode: 'travel', A: 34, f: 1.0, v: 120, delta: 0.5, raf: null, t0: 0 };
