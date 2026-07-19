@@ -5640,7 +5640,7 @@
                     <p style="font-size: 0.92rem; line-height: 1.6; color: var(--text-main);">
                         電場與電力線的規律能完美解釋大考常考的靜電現象：
                     </p>
-                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem; margin-bottom:1rem;">
+                    <ul style="font-size:0.92rem; line-height:1.6; color: var(--text-main); padding-left:1.25rem; margin-bottom:1rem;">
                         <li><b>尖端放電 (Tip Discharge)</b>：帶電導體表面各處的電荷分佈不均勻，<b>曲率半徑愈小（愈尖銳）的地方，電荷密度愈高</b>。因此，尖端附近的電場極強，容易使周圍空氣分子游離而發生放電現象。
                             <br>• <i>大考實例</i>：<b>避雷針</b>的頂端非常尖銳，當雷雲接近時，避雷針藉由尖端放電將雷雲的電荷緩慢中和，或將閃電直接引導至地面，保護建築物。沈括《夢溪筆談》中記載雷擊僅燒毀木材卻未熔化金屬，即與放電路徑與電磁阻抗有關。
                         </li>
@@ -6023,92 +6023,71 @@
             s += `<line x1="260" y1="20" x2="260" y2="220" stroke="${DG.grid}" stroke-width="1.2" stroke-dasharray="4 3"/>`;
             
             // Titles
-            s += dgTxt(130, 28, '電偶極的電力線 (正進負出、非閉合)', { fs: 11.5, b: 1, fill: DG.ink });
+            s += dgTxt(130, 28, '單一正電荷的電力線 (放射狀、非閉合)', { fs: 11.5, b: 1, fill: DG.ink });
             s += dgTxt(390, 28, '條形磁鐵的磁力線 (外部 N→S、內部 S→N 閉合)', { fs: 11.5, b: 1, fill: DG.ink });
 
-            // Left Side: Electric Dipole
+            // Left Side: Single Positive Charge (+q)
             const ex = 130, ey = 120;
-            const dist = 36;
-            const qp_x = ex - dist;
-            const qn_x = ex + dist;
+            const rStart = 10;
+            const rEnd = 54;
+            const angles = [0, 45, 90, 135, 180, 225, 270, 315];
             
-            // Dipole field curves
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x} 60, ${qn_x} 60, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x} 30, ${qn_x} 30, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x} 180, ${qn_x} 180, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x} 210, ${qn_x} 210, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
+            angles.forEach(a => {
+                const rad = a * Math.PI / 180;
+                const x1 = ex + rStart * Math.cos(rad);
+                const y1 = ey + rStart * Math.sin(rad);
+                const x2 = ex + rEnd * Math.cos(rad);
+                const y2 = ey + rEnd * Math.sin(rad);
+                s += dgArrow(x1, y1, x2, y2, DG.blue, 1.5);
+            });
             
-            // Direct connection arrow
-            s += dgArrow(qp_x + 10, ey, qn_x - 10, ey, DG.blue, 1.5);
-            
-            // Radiating lines & arrows for charges
-            s += dgArrow(qp_x, ey, qp_x - 45, ey, DG.blue, 1.5);
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x - 20} ${ey - 30}, ${qp_x - 40} ${ey - 40}, ${qp_x - 45} ${ey - 45}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += dgArrow(qp_x - 30, ey - 34, qp_x - 45, ey - 45, DG.blue, 1.5);
-            s += `<path d="M ${qp_x} ${ey} C ${qp_x - 20} ${ey + 30}, ${qp_x - 40} ${ey + 40}, ${qp_x - 45} ${ey + 45}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += dgArrow(qp_x - 30, ey + 34, qp_x - 45, ey + 45, DG.blue, 1.5);
+            // Positive charge circle
+            s += `<circle cx="${ex}" cy="${ey}" r="9" fill="${DG.rose}" stroke="#fff" stroke-width="1.2"/>` + dgTxt(ex, ey + 4, '+', { fill: '#fff', b: 1, fs: 13 });
+            s += dgTxt(ex, ey - 14, '+q', { fs: 10.5, fill: DG.rose, b: 1 });
 
-            s += dgArrow(qn_x + 45, ey, qn_x + 8, ey, DG.blue, 1.5);
-            s += `<path d="M ${qn_x + 45} ${ey - 45} C ${qn_x + 40} ${ey - 40}, ${qn_x + 20} ${ey - 30}, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += dgArrow(qn_x + 45, ey - 45, qn_x + 28, ey - 33, DG.blue, 1.5);
-            s += `<path d="M ${qn_x + 45} ${ey + 45} C ${qn_x + 40} ${ey + 40}, ${qn_x + 20} ${ey + 30}, ${qn_x} ${ey}" fill="none" stroke="${DG.blue}" stroke-width="1.5"/>`;
-            s += dgArrow(qn_x + 45, ey + 45, qn_x + 28, ey + 33, DG.blue, 1.5);
-            
-            // Draw charge circles
-            s += `<circle cx="${qp_x}" cy="${ey}" r="9" fill="${DG.rose}" stroke="#fff" stroke-width="1.2"/>` + dgTxt(qp_x, ey + 4, '+', { fill: '#fff', b: 1, fs: 13 });
-            s += `<circle cx="${qn_x}" cy="${ey}" r="9" fill="${DG.ink}" stroke="#fff" stroke-width="1.2"/>` + dgTxt(qn_x, ey + 4.5, '-', { fill: '#fff', b: 1, fs: 14 });
-            s += dgTxt(qp_x, ey - 14, '+q', { fs: 10, fill: DG.rose, b: 1 });
-            s += dgTxt(qn_x, ey - 14, '-q', { fs: 10, fill: DG.ink, b: 1 });
-
-            // Right Side: Bar Magnet
+            // Right Side: Bar Magnet (N on Left, S on Right)
             const mx = 390, my = 120;
             const mw = 76, mh = 26;
             
-            // Outer loops (N -> S)
-            s += `<path d="M ${mx - 20} ${my - mh/2} C ${mx - 20} 55, ${mx + 20} 55, ${mx + 20} ${my - mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 2, 57, mx + 2, 57, DG.green, 1.5);
+            // Outside loops (N to S: Left to Right)
+            // Loop 1 (Inner top)
+            s += `<path d="M ${mx - 30} ${my - mh/2} C ${mx - 30} 50, ${mx + 30} 50, ${mx + 30} ${my - mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
+            s += dgArrow(mx - 2, 64, mx + 2, 64, DG.green, 1.5);
             
-            s += `<path d="M ${mx - 20} ${my - mh/2} C ${mx - 40} 25, ${mx + 40} 25, ${mx + 20} ${my - mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 2, 33, mx + 2, 33, DG.green, 1.5);
+            // Loop 2 (Outer top)
+            s += `<path d="M ${mx - 38} ${my - mh/2 + 5} C ${mx - 60} 20, ${mx + 60} 20, ${mx + 38} ${my - mh/2 + 5}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
+            s += dgArrow(mx - 2, 43, mx + 2, 43, DG.green, 1.5);
             
-            s += `<path d="M ${mx - 20} ${my + mh/2} C ${mx - 20} 185, ${mx + 20} 185, ${mx + 20} ${my + mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 2, 183, mx + 2, 183, DG.green, 1.5);
+            // Loop 3 (Inner bottom)
+            s += `<path d="M ${mx - 30} ${my + mh/2} C ${mx - 30} 190, ${mx + 30} 190, ${mx + 30} ${my + mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
+            s += dgArrow(mx - 2, 176, mx + 2, 176, DG.green, 1.5);
             
-            s += `<path d="M ${mx - 20} ${my + mh/2} C ${mx - 40} 215, ${mx + 40} 215, ${mx + 20} ${my + mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 2, 207, mx + 2, 207, DG.green, 1.5);
-            
-            // Side loops
-            s += `<path d="M ${mx - 38} ${my} C ${mx - 75} ${my - 45}, ${mx - 55} 75, ${mx - 20} ${my - mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 55, 96, mx - 45, 106, DG.green, 1.5);
-            
-            s += `<path d="M ${mx - 38} ${my} C ${mx - 75} ${my + 45}, ${mx - 55} 165, ${mx - 20} ${my + mh/2}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx - 45, 134, mx - 55, 144, DG.green, 1.5);
+            // Loop 4 (Outer bottom)
+            s += `<path d="M ${mx - 38} ${my + mh/2 - 5} C ${mx - 60} 220, ${mx + 60} 220, ${mx + 38} ${my + mh/2 - 5}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
+            s += dgArrow(mx - 2, 197, mx + 2, 197, DG.green, 1.5);
 
-            s += `<path d="M ${mx + 20} ${my - mh/2} C ${mx + 55} 75, ${mx + 75} ${my - 45}, ${mx + 38} ${my}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx + 45, 106, mx + 55, 96, DG.green, 1.5);
-            
-            s += `<path d="M ${mx + 20} ${my + mh/2} C ${mx + 55} 165, ${mx + 75} ${my + 45}, ${mx + 38} ${my}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(mx + 55, 144, mx + 45, 134, DG.green, 1.5);
-            
-            // Inside lines (S -> N, leftward)
-            s += `<line x1="${mx + 25}" y1="${my}" x2="${mx - 25}" y2="${my}" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
+            // Inside lines (S to N: Right to Left, closed loop continuation)
+            s += `<line x1="${mx + 38}" y1="${my}" x2="${mx - 38}" y2="${my}" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
             s += dgArrow(mx + 5, my, mx - 5, my, DG.green, 1.2);
             
-            s += `<path d="M ${mx + 25} ${my - 6} Q ${mx} ${my - 4} ${mx - 25} ${my - 6}" fill="none" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
-            s += dgArrow(mx + 5, my - 5, mx - 5, my - 5, DG.green, 1.2);
+            s += `<line x1="${mx + 30}" y1="${my - 6}" x2="${mx - 30}" y2="${my - 6}" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
+            s += dgArrow(mx + 5, my - 6, mx - 5, my - 6, DG.green, 1.2);
             
-            s += `<path d="M ${mx + 25} ${my + 6} Q ${mx} ${my + 4} ${mx - 25} ${my + 6}" fill="none" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
-            s += dgArrow(mx + 5, my + 5, mx - 5, my + 5, DG.green, 1.2);
+            s += `<line x1="${mx + 30}" y1="${my + 6}" x2="${mx - 30}" y2="${my + 6}" stroke="${DG.green}" stroke-width="1.2" stroke-dasharray="3 2"/>`;
+            s += dgArrow(mx + 5, my + 6, mx - 5, my + 6, DG.green, 1.2);
 
             // Magnet Body
+            // Left Half: N (Red)
             s += `<path d="M ${mx - 38 + 2} ${my - mh/2} L ${mx} ${my - mh/2} L ${mx} ${my + mh/2} L ${mx - 38 + 2} ${my + mh/2} A 2 2 0 0 1 ${mx - 38} ${my + mh/2 - 2} L ${mx - 38} ${my - mh/2 + 2} A 2 2 0 0 1 ${mx - 38 + 2} ${my - mh/2} Z" fill="${DG.rose}" stroke="#334155" stroke-width="1.2"/>`;
+            // Right Half: S (Ink/Blue)
             s += `<path d="M ${mx} ${my - mh/2} L ${mx + 38 - 2} ${my - mh/2} A 2 2 0 0 1 ${mx + 38} ${my - mh/2 + 2} L ${mx + 38} ${my + mh/2 - 2} A 2 2 0 0 1 ${mx + 38 - 2} ${my + mh/2} L ${mx} ${my + mh/2} Z" fill="${DG.ink}" stroke="#334155" stroke-width="1.2"/>`;
             
+            // Labels N and S
             s += dgTxt(mx - 19, my + 4, 'N', { fill: '#fff', b: 1, fs: 12.5 });
             s += dgTxt(mx + 19, my + 4, 'S', { fill: '#fff', b: 1, fs: 12.5 });
             
-            return dgCard('電力線與磁力線之物理模型對照（正進負出 vs. 封閉迴圈）', dgSvg(520, 240, s),
-                '電力線起源於正電荷、終止於負電荷（非封閉）；磁力線則為連續的封閉迴圈，外部由 N 極指向 S 極，內部由 S 極指向 N 極。此特性對照為大考定性觀念必考焦點。');
+            return dgCard('電力線與磁力線之物理模型對照（單一電荷放射狀 vs. 磁鐵閉合迴圈）', dgSvg(520, 240, s),
+                '電力線發自正電荷指向無限遠（非封閉）；磁力線則為連續的封閉迴圈，外部由 N 極指向 S 極，內部由 S 極指向 N 極。課綱強調「單一電荷電力線」與「磁鐵磁力線」的定性對照。');
         }
 
         function diagN21() {
