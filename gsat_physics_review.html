@@ -612,146 +612,7 @@
             margin-bottom: 0.25rem;
         }
 
-        /* 8-Week Tracker Layout */
-        .tracker-grid {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 1.5rem;
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .tracker-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .tracker-accordion {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .tracker-week-card {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.5);
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .tracker-week-header {
-            padding: 1rem 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .tracker-week-header:hover {
-            background-color: var(--primary-blue-light);
-        }
-
-        .tracker-week-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .tracker-week-num {
-            background-color: var(--primary-blue);
-            color: #ffffff;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .tracker-week-arrow {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            transition: transform 0.2s ease;
-        }
-
-        .tracker-week-card.open .tracker-week-arrow {
-            transform: rotate(90deg);
-        }
-
-        .tracker-week-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
-            background-color: rgba(0, 0, 0, 0.01);
-            padding: 0 1.25rem;
-            border-top: 1px solid transparent;
-        }
-
-        .tracker-week-card.open .tracker-week-content {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .tracker-checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .tracker-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            cursor: pointer;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .tracker-label:hover {
-            color: var(--text-main);
-        }
-
-        .tracker-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 17px;
-            height: 17px;
-            border: 2px solid var(--primary-blue);
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.15rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: var(--transition);
-        }
-
-        .tracker-checkbox:checked {
-            background-color: var(--primary-blue);
-        }
-
-        .tracker-checkbox:checked::after {
-            content: '✓';
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 0.7rem;
-        }
-
-        .tracker-label.checked {
-            text-decoration: line-through;
-            opacity: 0.55;
-        }
-
-        .tracker-tag {
+        .bank-level-tag {
             font-size: 0.7rem;
             font-weight: 700;
             padding: 0.15rem 0.4rem;
@@ -759,66 +620,10 @@
             display: inline-block;
         }
 
-        .tracker-tag-s { background-color: var(--primary-blue-light); color: var(--primary-blue); border: 1px solid rgba(59, 130, 246, 0.15); }
-        .tracker-tag-o { background-color: rgba(124, 58, 237, 0.08); color: hsl(265, 80%, 40%); border: 1px solid rgba(124, 58, 237, 0.15); }
-        .tracker-tag-i { background-color: var(--accent-green-light); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.15); }
-        .tracker-tag-l { background-color: var(--accent-rose-light); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.15); }
-
-        .tracker-progress-card {
-            position: sticky;
-            top: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow-neon);
-        }
-
-        .progress-circle-svg {
-            width: 150px;
-            height: 150px;
-            transform: rotate(-90deg);
-            margin-bottom: 1.25rem;
-        }
-
-        .p-circle-bg {
-            fill: none;
-            stroke: rgba(0, 0, 0, 0.03);
-            stroke-width: 10;
-        }
-
-        .p-circle-fill {
-            fill: none;
-            stroke: var(--primary-blue);
-            stroke-width: 10;
-            stroke-linecap: round;
-            stroke-dasharray: 439.82; /* 2 * PI * r (r=70) */
-            stroke-dashoffset: 439.82;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        .progress-circle-percent {
-            position: absolute;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-top: -30px;
-        }
-
-        .progress-count-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .progress-count-text span {
-            color: var(--primary-blue);
-            font-weight: 700;
-        }
+        .bank-level-tag-s { background-color: var(--primary-blue-light); color: var(--primary-blue); border: 1px solid rgba(59, 130, 246, 0.15); }
+        .bank-level-tag-o { background-color: rgba(124, 58, 237, 0.08); color: hsl(265, 80%, 40%); border: 1px solid rgba(124, 58, 237, 0.15); }
+        .bank-level-tag-i { background-color: var(--accent-green-light); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.15); }
+        .bank-level-tag-l { background-color: var(--accent-rose-light); color: var(--accent-rose); border: 1px solid rgba(244, 63, 94, 0.15); }
 
         /* Quiz Layout Styles */
         .quiz-card {
@@ -2075,8 +1880,7 @@
             line-height: 1.75;
         }
 
-        .edu-card, .formula-card, .quiz-card, .q-card,
-        .tracker-week-card, .tracker-progress-card, .bank-filter-bar,
+        .edu-card, .formula-card, .quiz-card, .q-card, .bank-filter-bar,
         .exam-item, .concept-map-container, .feature-guide-box {
             background: #ffffff;
             border-color: var(--border-color);
@@ -2607,7 +2411,7 @@
             }
             .content-title { font-size: 1.75rem; }
             .content-header .print-btn { align-self: flex-start; }
-            .formulas-grid, .features-grid, .tracker-grid { grid-template-columns: minmax(0, 1fr); }
+            .formulas-grid, .features-grid { grid-template-columns: minmax(0, 1fr); }
             .edu-card, .formula-card, .quiz-card, .q-card { padding: 1.15rem; }
             .summary-jump-list { grid-template-columns: 1fr 1fr; }
             .summary-section-head { display: block; }
@@ -2861,6 +2665,241 @@
                 animation-timing-function: linear !important;
             }
         }
+
+        /* 常考情境專欄：以「題幹訊號 → 物理翻譯 → 起手式」作為固定閱讀軌 */
+        .context-hero {
+            position: relative;
+            margin-bottom: 1.25rem;
+            padding: 1.5rem 1.6rem;
+            color: #173640;
+            background: #eef5f4;
+            border: 1px solid #d4e4e1;
+            border-left: 6px solid #2f7476;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .context-hero::after {
+            content: 'MODEL';
+            position: absolute;
+            right: 1.1rem;
+            bottom: -0.45rem;
+            color: rgba(47, 116, 118, 0.08);
+            font: 800 4.2rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+            letter-spacing: -0.08em;
+            pointer-events: none;
+        }
+
+        .context-hero strong {
+            display: block;
+            max-width: 720px;
+            margin-bottom: 0.45rem;
+            font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+            line-height: 1.35;
+        }
+
+        .context-hero p {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 0;
+            color: #56717a;
+            line-height: 1.75;
+        }
+
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .context-card {
+            --context-accent: #377f87;
+            position: relative;
+            min-width: 0;
+            padding: 1.2rem 1.25rem 1.15rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--context-accent);
+            border-radius: 11px;
+            box-shadow: 0 10px 28px rgba(26, 58, 68, 0.07);
+        }
+
+        .context-card[data-tone="sky"] { --context-accent: #4386a8; }
+        .context-card[data-tone="motion"] { --context-accent: #b87936; }
+        .context-card[data-tone="wave"] { --context-accent: #397d7a; }
+        .context-card[data-tone="orbit"] { --context-accent: #596faa; }
+        .context-card[data-tone="medical"] { --context-accent: #a85e74; }
+        .context-card[data-tone="energy"] { --context-accent: #548052; }
+        .context-card[data-tone="induction"] { --context-accent: #755e9c; }
+        .context-card[data-tone="quantum"] { --context-accent: #9a7033; }
+
+        .context-card-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.8rem;
+            align-items: flex-start;
+            margin-bottom: 0.85rem;
+        }
+
+        .context-domain {
+            color: var(--context-accent);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .context-card h3 {
+            margin: 0.18rem 0 0;
+            color: #183640;
+            font-size: 1.18rem;
+            line-height: 1.35;
+        }
+
+        .context-frequency {
+            flex: 0 0 auto;
+            padding: 0.25rem 0.48rem;
+            color: #587078;
+            background: #f1f5f4;
+            border: 1px solid #dce6e4;
+            border-radius: 5px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .context-translation {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 0.4rem;
+            align-items: stretch;
+            margin-bottom: 0.9rem;
+        }
+
+        .context-translation-step {
+            min-width: 0;
+            padding: 0.62rem 0.65rem;
+            background: #f7f9f8;
+            border: 1px solid #e1e8e6;
+            border-radius: 7px;
+        }
+
+        .context-translation-step span {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--context-accent);
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .context-translation-step b {
+            color: #35515a;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+
+        .context-arrow {
+            align-self: center;
+            color: #91a6ab;
+            font-weight: 800;
+        }
+
+        .context-block {
+            margin-top: 0.8rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed #d9e3e1;
+        }
+
+        .context-block-title {
+            margin-bottom: 0.4rem;
+            color: #38545d;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .context-formulas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .context-formula {
+            padding: 0.32rem 0.48rem;
+            color: #23434e;
+            background: #edf4f3;
+            border-radius: 5px;
+            font: 700 0.78rem/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+        }
+
+        .context-traps {
+            margin: 0;
+            padding-left: 1.05rem;
+            color: #5a7078;
+            font-size: 0.84rem;
+            line-height: 1.65;
+        }
+
+        .context-exam-list {
+            color: #647980;
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+
+        .context-card-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.7rem;
+            align-items: center;
+            margin-top: 0.9rem;
+        }
+
+        .context-node-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .context-node-btn,
+        .context-exam-btn {
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .context-node-btn {
+            padding: 0.28rem 0.45rem;
+            color: #526b74;
+            background: #ffffff;
+            border: 1px solid #d8e2e0;
+            font-size: 0.72rem;
+        }
+
+        .context-node-btn:hover { color: var(--context-accent); border-color: var(--context-accent); }
+
+        .context-exam-btn {
+            flex: 0 0 auto;
+            padding: 0.42rem 0.6rem;
+            color: #ffffff;
+            background: var(--context-accent);
+            border: 1px solid var(--context-accent);
+            font-size: 0.75rem;
+        }
+
+        .context-exam-btn:hover { filter: brightness(0.94); transform: translateY(-1px); }
+
+        @media (max-width: 860px) {
+            .context-grid { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        @media (max-width: 560px) {
+            .context-hero { padding: 1.2rem; }
+            .context-hero::after { font-size: 3rem; }
+            .context-translation { grid-template-columns: minmax(0, 1fr); }
+            .context-arrow { transform: rotate(90deg); justify-self: center; }
+            .context-card-footer { align-items: flex-start; flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -2882,13 +2921,12 @@
         <div class="nav-section-title">複習工具箱</div>
         <ul class="nav-list">
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-summary')"><span class="nav-icon">🧭</span> 物理核心總整理</a></li>
+            <li><a class="nav-item" onclick="switchMainView(this, 'tool-contexts')"><span class="nav-icon">🗂️</span> 常考情境專欄</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-lab')"><span class="nav-icon">🔬</span> 互動物理實驗室</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-quiz')"><span class="nav-icon">✏️</span> 知識節點分級題庫</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-exams')"><span class="nav-icon">📚</span> 歷屆試題練習</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-stats')"><span class="nav-icon">📊</span> 五年命題矩陣（節點層級）</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-buster')"><span class="nav-icon">⚡</span> 大考「素養包裝」破解器</a></li>
-            <li><a class="nav-item" onclick="switchMainView(this, 'tool-tracker')"><span class="nav-icon">📅</span> 8週雙月複習追蹤器</a></li>
-
         </ul>
     </nav>
 
@@ -2937,12 +2975,12 @@
                 renderInteractiveLab();
             } else if (targetId === 'tool-summary') {
                 renderSummaryView();
+            } else if (targetId === 'tool-contexts') {
+                renderContextsView();
             } else if (targetId === 'tool-stats') {
                 renderStatsView();
             } else if (targetId === 'tool-buster') {
                 renderBusterView();
-            } else if (targetId === 'tool-tracker') {
-                renderTrackerView();
             } else if (targetId === 'tool-quiz') {
                 renderBankView();
             } else if (targetId === 'tool-exams') {
@@ -3058,6 +3096,7 @@
                     formulasHtml += `
                         <div class="formula-card">
                             <div class="formula-card-title">📌 ${f.name}</div>
+                            ${f.anchor ? `<div style="font-size:0.88rem; color:var(--accent-cyan); font-weight:700; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.25rem;">🧠 大腦錨點：${f.anchor}</div>` : ''}
                             <div class="formula-display">${displayHtml}</div>
                             <div class="formula-desc">${f.desc}</div>
                         </div>
@@ -3115,6 +3154,7 @@
                 + (nodeId === 'N07' ? keplerSectionHtml() : '')
                 + (nodeId === 'N19' ? electrostaticsSectionHtml() : '')
                 + (nodeId === 'N20' ? magnetismSectionHtml() : '')
+                + (nodeId === 'N21' ? electromagneticInductionSectionHtml() : '')
                 + (nodeId === 'N18' ? emSpectrumSectionHtml() : '')
                 + (nodeId === 'N23' ? photoelectricSectionHtml() : '')
                 + (nodeId === 'N28' ? blackbodyQuantumSectionHtml() : '')
@@ -3135,6 +3175,38 @@
                     </div>
                 `;
                 qs.forEach(q => { quizHtml += bankCardHtml(q, 'bk' + questionBank.indexOf(q)); });
+            }
+
+            // 3. Build Concept Internet HTML
+            let internetHtml = '';
+            const links = conceptInternetData[nodeId];
+            if (links && links.length) {
+                internetHtml = `
+                    <div class="handout-section-title" style="margin-top: 2rem;">💡 觀念互聯網（跨知識點神經突觸連結）</div>
+                    <div class="edu-card" style="background: linear-gradient(135deg, rgba(11, 146, 152, 0.02) 0%, rgba(255, 255, 255, 0.7) 100%); border-left: 5px solid var(--accent-cyan); margin-bottom: 1.5rem;">
+                        <p style="font-size:0.92rem; color:var(--text-main); margin-top:0; line-height:1.6;">
+                            大腦神經科學指出，孤立知識極易遺忘。點擊下方關聯節點，建立跨單元的知識基模（Schema）：
+                        </p>
+                        <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1rem;">
+                `;
+                links.forEach(link => {
+                    const targetNode = knowledgeNodes.find(n => n.id === link.target);
+                    if (targetNode) {
+                        internetHtml += `
+                            <div style="font-size:0.88rem; line-height:1.5; color:var(--text-main); display:flex; align-items:flex-start; gap:0.5rem;">
+                                <button class="print-hide" onclick="renderNodeView('${link.target}')" style="background:var(--accent-green-light); border:1px solid rgba(24,132,92,0.15); color:var(--accent-green); padding:0.15rem 0.4rem; border-radius:4px; font-size:0.75rem; font-weight:700; cursor:pointer; white-space:nowrap; margin-top:1px;">
+                                    ${link.target} ${targetNode.name} ➔
+                                </button>
+                                <span style="font-size:0.85rem; color:var(--text-muted); font-weight:700;" class="print-show-inline">${link.target} ${targetNode.name}:</span>
+                                <span style="font-size:0.88rem; color:var(--text-main);">${link.reason}</span>
+                            </div>
+                        `;
+                    }
+                });
+                internetHtml += `
+                        </div>
+                    </div>
+                `;
             }
 
             const cnt = nodeExamCounts(nodeId);
@@ -3165,6 +3237,7 @@
                 ${examHtml ? `<div class="handout-section-title">🎯 歷屆真題實戰</div><div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">${examHtml}</div>` : ''}
 
                 ${quizHtml}
+                ${internetHtml}
 
                 <div style="margin-top:2rem; padding-top:1rem; border-top:1px dashed var(--border-color);">
                     <a onclick="goToModuleOverview(${node.module})" style="cursor:pointer; color:var(--text-muted); font-size:0.85rem;">↩ 查看「${modulesData[node.module].title}」完整觀念地圖與生活延伸 ➔</a>
@@ -3180,6 +3253,113 @@
                 window.MathJax.typesetPromise();
             }
         }
+
+        const conceptInternetData = {
+            'N01': [
+                { target: 'N19', reason: '因次分析應用：推導與電場 $E$、電壓 $V$ 或電荷 $q$ 的單位關係（如 115 學測 Q15 考查的電場 SI 單位）。' },
+                { target: 'N23', reason: '普朗克常數因次：近代物理中普朗克常數 $h$ 的單位為 $\\text{kg}\\cdot\\text{m}^2\\cdot\\text{s}^{-1}$，常用於光子能量與光電效應計算。' }
+            ],
+            'N02': [
+                { target: 'N06', reason: '尺度對照：微觀物質結構中原子（$10^{-10}$ m）與原子核（$10^{-15}$ m）的尺度對比。' },
+                { target: 'N18', reason: '波長與數量級：可見光與電磁波譜（紅外線、紫外線）的波長數量級排序對照。' }
+            ],
+            'N06': [
+                { target: 'N27', reason: '基本粒子受力：夸克與電子作為基本粒子，分別受強交互作用與電磁交互作用的約束。' },
+                { target: 'N25', reason: '原子模型演進：拉塞福散射實驗確立了原子核的存在，開啟了微觀世界粒子結構的研究。' }
+            ],
+            'N03': [
+                { target: 'N14', reason: '運動波形結合：地震波（P波與S波）傳播時間差的物理計算與 $S = vt$ 圖形判讀結合（如 113 學測 Q31）。' },
+                { target: 'N04', reason: '因果關係：運動學圖形（速度與加速度變化）是受力情況（牛頓第二定律 $F=ma$）的宏觀表現。' }
+            ],
+            'N04': [
+                { target: 'N09', reason: '能量與衝量：力在時間上的累積（動量變化）與力在空間上的累積（做功與動能定理 N09）共同決定運動狀態。' }
+            ],
+            'N05': [
+                { target: 'N19', reason: '力學平衡：靜電力與摩擦力/重力之受力平衡與力學作圖對照（如 112 學測 Q36）。' }
+            ],
+            'N07': [
+                { target: 'N08', reason: '力學原因：克卜勒第三定律中的常數 $K$ 可由牛頓萬有引力提供向心力來推導：$G\\frac{Mm}{R^2} = m\\frac{4\\pi^2}{T^2}R$。' }
+            ],
+            'N08': [
+                { target: 'N19', reason: '物理場對照：牛頓萬有引力定律（平方反比）與庫侖靜電力定律（平方反比）數學形式完全對稱，是場論的起點。' }
+            ],
+            'N09': [
+                { target: 'N23', reason: '能量守恆：光電效應中光子的能量轉化為電子的最大初動能與功函數（逸出功）：$E_k = hf - W$。' }
+            ],
+            'N14': [
+                { target: 'N18', reason: '波的分類：光與電磁波本質上是橫波，而聲音則是縱波（疏密波），皆具有波速公式 $v = f\\lambda$。' }
+            ],
+            'N18': [
+                { target: 'N23', reason: '光量子能量：電磁波譜中高頻率波段（紫外線、X光）之光子能量較高，能激發光電效應。' },
+                { target: 'N28', reason: '黑體輻射：黑體發射的連續光譜對應特定的電磁波波段，其能量密度峰值波長與溫度成反比。' }
+            ],
+            'N20': [
+                { target: 'N21', reason: '電生磁 ➔ 磁生電：電流產生的變化磁場（電流磁效應）是產生電磁感應應電流（電磁感應）的物理前提。' }
+            ],
+            'N21': [
+                { target: 'N20', reason: '反向抗衡：電磁感應產生的應電流，其本身的磁場方向（安培右手定則）必定抵抗原磁場的變化（冷次定律）。' }
+            ],
+            'N23': [
+                { target: 'N28', reason: '量子論起源：普朗克的能量子假設為愛因斯坦提出光子說（解決光電效應）奠定了量子物理的理論基石。' },
+                { target: 'N24', reason: '同一本能量帳：光電效應的 $hf = W + E_k$ 與能階躍遷的 $\Delta E = hf$ 都是「單一光子與單一電子」的能量交換。' }
+            ],
+            'N10': [
+                { target: 'N11', reason: '微觀本質：熱平衡的宏觀條件是「溫度相同」，微觀本質是兩者分子的平均動能相等。' },
+                { target: 'N12', reason: '方向性：熱自發地由高溫流向低溫、不會反向，正是熱力學第二定律的核心內涵。' }
+            ],
+            'N11': [
+                { target: 'N10', reason: '宏觀對應：絕對溫度是分子平均動能的宏觀指標，解釋了熱平衡與溫度計原理。' },
+                { target: 'N01', reason: '因次連結：$k_BT$ 具有能量的因次（114 學測 Q47 細胞膜題組即考此判斷）；比例計算務必使用絕對溫標（114 Q48）。' }
+            ],
+            'N12': [
+                { target: 'N09', reason: '能量流失的單行道：摩擦把力學能轉為熱之後，無法自發全數轉回——能量守恆但品質退化。' },
+                { target: 'N13', reason: '發電能量鏈：核電廠由核能→熱能→動能→電能的多級轉換（113 學測 Q19），每級都有效率損耗。' }
+            ],
+            'N13': [
+                { target: 'N26', reason: '核反應守恆：核分裂/衰變前後質量數與原子序守恆，釋能來自反應前後的質量虧損。' },
+                { target: 'N27', reason: '力的根源：核能的本質是強交互作用的能量；聚變須先克服質子間的庫侖排斥。' }
+            ],
+            'N15': [
+                { target: 'N14', reason: '判讀基礎：都卜勒效應中「波速由介質決定、不因波源運動改變」，改變的是視波長與接收頻率。' },
+                { target: 'N18', reason: '光的都卜勒：星系光譜紅移（遠離）與藍移（接近）是宇宙膨脹的關鍵證據。' }
+            ],
+            'N16': [
+                { target: 'N14', reason: '跨介質通則：折射時頻率不變、波速與波長改變——與繩波跨介質是同一套規則。' },
+                { target: 'N17', reason: '同題整合：115 學測 Q49 同時考折射作圖與薄膜干涉加強，是反射折射＋干涉的整合題。' }
+            ],
+            'N17': [
+                { target: 'N25', reason: '波動性的鐵證：電子通過雙狹縫也產生干涉條紋（112 學測 Q31），證明物質波真實存在。' },
+                { target: 'N18', reason: '繞射與尺度：X 光波長與晶體原子間距相當，因而產生晶體繞射（112 學測 Q30）。' }
+            ],
+            'N19': [
+                { target: 'N08', reason: '平方反比雙生子：庫侖定律與萬有引力數學形式相同，但重力恆吸引、電力可吸可斥且強度懸殊。' },
+                { target: 'N01', reason: '單位判讀：電場＝單位電荷所受的力，SI 單位 N/C（115 學測 Q15 直接考此因次）。' }
+            ],
+            'N22': [
+                { target: 'N21', reason: '電從哪裡來：插座的交流電源自發電廠的電磁感應——磁場變化感應出電流。' },
+                { target: 'N12', reason: '用電計價：一度電＝1 kW × 1 hr，即「功率 × 時間 ＝ 能量」的生活應用。' }
+            ],
+            'N24': [
+                { target: 'N23', reason: '能量帳同源：能階差以光子形式收支（$\Delta E = hf$），與光電效應同屬「光子—電子」一對一交易。' },
+                { target: 'N28', reason: '思想源頭：普朗克「能量不連續」的量子化假設，是波耳能階分立觀念的前身。' }
+            ],
+            'N25': [
+                { target: 'N17', reason: '判定標準：干涉與繞射是波動獨有的特徵——電子干涉條紋因此成為物質波的決定性證據。' },
+                { target: 'N02', reason: '尺度應用：電子的物質波波長遠短於可見光，電子顯微鏡因而能看見更小的結構。' }
+            ],
+            'N26': [
+                { target: 'N27', reason: '分工明確：原子核的穩定靠強力，β 衰變（中子轉質子）由弱力主導。' },
+                { target: 'N13', reason: '釋能機制：衰變與核分裂的能量都來自質量虧損，經 $E = \Delta mc^2$ 轉換。' }
+            ],
+            'N27': [
+                { target: 'N19', reason: '強度對比：微觀下電磁力遠強於重力；宏觀世界重力勝出是因質量只有正值、可無限累積。' },
+                { target: 'N06', reason: '質量之謎：夸克由強力束縛成質子與中子，核子質量約 99% 來自強作用的結合能而非夸克本身。' }
+            ],
+            'N28': [
+                { target: 'N23', reason: '理論繼承：愛因斯坦的光子說直接繼承普朗克的能量子假設，並以光電效應給出實驗檢驗。' },
+                { target: 'N18', reason: '溫度與波段：黑體輻射連結溫度與電磁波段——恆星顏色判溫、地球能量收支（111 學測 Q7-8）皆本於此。' }
+            ]
+        };
 
         // ===== 108 課綱知識節點架構（統計與題庫的單一資料來源）=====
         // exam5y = 近五年（111-115）學測物理 71 個子題中歸屬本節點的題數
@@ -3199,7 +3379,7 @@
             { id: "N13", module: 4, code: "Ba/Nc", name: "質能互換與核能發電", exam5y: 4, detail: "質量虧損觀念（112 Q34、113 Q19 核電廠能量轉換）、核分裂/聚變、114 Q20-21 比特幣耗能守恆換算" },
             { id: "N14", module: 5, code: "Ka", name: "波的性質與波速", exam5y: 5, detail: "$v=f\\lambda$、波傳能量不傳介質、結合等速運動計算（113/115地震波、114太空船、115光速時間與距離）" },
             { id: "N15", module: 5, code: "Ka", name: "聲波與都卜勒效應", exam5y: 3, detail: "接近頻率升高/遠離降低（定性）、112 Q32 血流都卜勒測速、星系紅移" },
-            { id: "N16", module: 5, code: "Ka", name: "光的反射與折射", exam5y: 3, detail: "折射作圖（115 Q49）、慢介質到快介質偏離法線、頻率不變波長改變（定性）" },
+            { id: "N16", module: 5, code: "Ka", name: "光的反射與折射", exam5y: 3, detail: "司乃耳定律與折射作圖（115 Q49）、慢介質到快介質偏離法線、頻率不變波長改變、全反射與光纖" },
             { id: "N17", module: 5, code: "Ka", name: "干涉、繞射與光的波動性", exam5y: 2, detail: "楊氏雙狹縫亮暗紋條件、波程差整數波長、繞射與孔徑關係" },
             { id: "N18", module: 5, code: "Ka", name: "電磁波與電磁波譜", exam5y: 2, detail: "頻率排序（無線電波→γ射線）、大氣窗吸收、真空中皆以 $c$ 前進" },
             { id: "N19", module: 6, code: "Kc", name: "靜電與庫侖定律", exam5y: 2, detail: "$F = kq_1q_2/r^2$ 平方反比、同性斥異性吸、感應起電" },
@@ -3232,6 +3412,7 @@
                 formulasHtml += `
                     <div class="formula-card">
                         <div class="formula-card-title">📌 ${f.name}</div>
+                        ${f.anchor ? `<div style="font-size:0.88rem; color:var(--accent-cyan); font-weight:700; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.25rem;">🧠 大腦錨點：${f.anchor}</div>` : ''}
                         <div class="formula-display">${displayHtml}</div>
                         <div class="formula-desc">${f.desc}</div>
                     </div>
@@ -5024,7 +5205,7 @@
         }
 
         // ===== 天體運行與行星逆行互動實驗室 (astronomy lab) =====
-        function drawAstronomyLab() {
+        function drawAstronomyLab(frameDtSeconds = 0) {
             const setup = prepLabCanvas('astronomy-canvas');
             if (!setup) return;
             const { ctx, w, h } = setup;
@@ -5039,19 +5220,28 @@
             const showSky = document.getElementById('astro-show-sky').checked;
             const showTrace = document.getElementById('astro-show-trace').checked;
             
-            const R_E = 72; 
-            const R_M = 130; 
-            const R_stars = 170; 
-            
-            if (!window.physicsLab.astroPaused) {
+            // 圓軌道近似：兩個面板共用同一比例尺。1 AU = 58 px，火星軌道半徑 = 1.524 AU。
+            // 地心圖的本輪半徑也是 1 AU，因此火星最遠可到 2.524 AU，仍完整落在星空環內。
+            const AU_PX = 58;
+            const EARTH_ORBIT_AU = 1;
+            const MARS_ORBIT_AU = 1.524;
+            const EARTH_PERIOD_Y = 1;
+            const MARS_PERIOD_Y = 1.881;
+            const R_E = AU_PX * EARTH_ORBIT_AU;
+            const R_M = AU_PX * MARS_ORBIT_AU;
+            const R_stars = 174;
+
+            if (!window.physicsLab.astroPaused && frameDtSeconds > 0) {
                 const speed = labNumber('astro-speed') !== undefined ? labNumber('astro-speed') : 1.0;
-                const dt = 0.015 * speed;
-                window.physicsLab.astroTime += dt;
+                // 1 秒動畫時間約代表 1 rad；以實際影格時間積分，避免螢幕更新率改變公轉速率。
+                window.physicsLab.astroTime += Math.min(frameDtSeconds, 0.05) * speed;
             }
-            
+
             const theta_E = window.physicsLab.astroTime;
-            const theta_M = 0.5317 * window.physicsLab.astroTime;
-            
+            const omega_E = 1 / EARTH_PERIOD_Y;
+            const omega_M = 1 / MARS_PERIOD_Y;
+            const theta_M = (omega_M / omega_E) * window.physicsLab.astroTime;
+
             const x_E_rel = R_E * Math.cos(theta_E);
             const y_E_rel = R_E * Math.sin(theta_E);
             const x_M_rel = R_M * Math.cos(theta_M);
@@ -5062,25 +5252,24 @@
             const phi = Math.atan2(dy, dx);
             
             const dist = Math.hypot(dx, dy);
-            const beta = 22 * Math.sin(theta_M - 0.7) / (dist / 100);
+            // 火星軌道傾角約 1.85°；天空投影的上下位移來自真實緯度角，而不是任意波形。
+            const marsInclination = 1.85 * Math.PI / 180;
+            const marsZ = R_M * Math.sin(marsInclination) * Math.sin(theta_M - 0.7);
+            const betaAngle = Math.atan2(marsZ, dist);
+            const beta = betaAngle * 420;
             
-            if (!window.physicsLab.astroPaused) {
+            if (!window.physicsLab.astroPaused && frameDtSeconds > 0) {
                 window.physicsLab.astroTrace.push({ phi, beta });
                 if (window.physicsLab.astroTrace.length > 500) {
                     window.physicsLab.astroTrace.shift();
                 }
             }
             
-            let isRetrograde = false;
-            if (window.physicsLab.lastAstroPhi !== undefined) {
-                let diff = phi - window.physicsLab.lastAstroPhi;
-                if (diff > Math.PI) diff -= 2 * Math.PI;
-                if (diff < -Math.PI) diff += 2 * Math.PI;
-                if (diff < 0) {
-                    isRetrograde = true;
-                }
-            }
-            window.physicsLab.lastAstroPhi = phi;
+            // dφ/dt = (r × v)/|r|²。直接由瞬時位置、速度判斷，不受影格率與暫停影響。
+            const vx = -omega_M * R_M * Math.sin(theta_M) + omega_E * R_E * Math.sin(theta_E);
+            const vy =  omega_M * R_M * Math.cos(theta_M) - omega_E * R_E * Math.cos(theta_E);
+            const apparentAngularVelocity = (dx * vy - dy * vx) / Math.max(dist * dist, 1e-9);
+            const isRetrograde = apparentAngularVelocity < 0;
             
             const earthEl = document.getElementById('astro-earth-angle');
             const marsEl = document.getElementById('astro-mars-angle');
@@ -5108,16 +5297,65 @@
                 drawHeliocentric(ctx, 260, 205, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
                 drawGeocentric(ctx, 700, 205, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
             } else if (mode === 'helio') {
-                drawHeliocentric(ctx, 480, 205, R_E + 20, R_M + 30, R_stars + 35, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+                const singleScale = 1.16;
+                drawHeliocentric(ctx, 480, 205, R_E * singleScale, R_M * singleScale, R_stars + 20, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
             } else if (mode === 'geo') {
-                drawGeocentric(ctx, 480, 205, R_E + 20, R_M + 30, R_stars + 35, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+                const singleScale = 1.16;
+                drawGeocentric(ctx, 480, 205, R_E * singleScale, R_M * singleScale, R_stars + 20, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
             }
             
             drawSkyView(ctx, w, h, phi, beta, showSky, showTrace, isRetrograde);
         }
 
+        function drawCircularVelocity(ctx, x, y, phase, color, length = 13) {
+            const tx = -Math.sin(phase);
+            const ty = Math.cos(phase);
+            const x2 = x + tx * length;
+            const y2 = y + ty * length;
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            const heading = Math.atan2(ty, tx);
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - 5 * Math.cos(heading - 0.55), y2 - 5 * Math.sin(heading - 0.55));
+            ctx.lineTo(x2 - 5 * Math.cos(heading + 0.55), y2 - 5 * Math.sin(heading + 0.55));
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function rayExitPointOnCircle(originX, originY, directionX, directionY, circleX, circleY, radius) {
+            const directionLength = Math.hypot(directionX, directionY) || 1;
+            const ux = directionX / directionLength;
+            const uy = directionY / directionLength;
+            const ox = originX - circleX;
+            const oy = originY - circleY;
+            const projection = ox * ux + oy * uy;
+            const discriminant = Math.max(0, projection * projection - (ox * ox + oy * oy - radius * radius));
+            const distance = -projection + Math.sqrt(discriminant);
+            return { x: originX + distance * ux, y: originY + distance * uy };
+        }
+
+        function drawApparentPositionMarker(ctx, x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(Math.PI / 4);
+            ctx.strokeStyle = '#fecaca';
+            ctx.lineWidth = 1.6;
+            ctx.strokeRect(-4, -4, 8, 8);
+            ctx.restore();
+            labText(ctx, '視位置', x + 8, y - 7, '#d5e2e3', 9, 'left');
+        }
+
         function drawHeliocentric(ctx, cx, cy, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde) {
-            labText(ctx, '日心說模型 (Heliocentric)', cx, 30, '#d5e2e3', 15, 'center');
+            labText(ctx, '日心圓軌道模型', cx, 30, '#d5e2e3', 15, 'center');
+            labText(ctx, '同一比例尺：地球 1.00 AU｜火星 1.524 AU', cx, 49, '#8eaab2', 10, 'center');
             
             ctx.strokeStyle = '#26444e';
             ctx.lineWidth = 1;
@@ -5156,15 +5394,19 @@
             ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.arc(x_E, y_E, 7, 0, Math.PI * 2); ctx.stroke();
             labText(ctx, '地', x_E + 8, y_E + 4, '#60a5fa', 11, 'left');
+            drawCircularVelocity(ctx, x_E, y_E, theta_E, 'rgba(96,165,250,.85)');
             
             ctx.fillStyle = '#f87171';
             ctx.beginPath(); ctx.arc(x_M, y_M, 4, 0, Math.PI * 2); ctx.fill();
             ctx.strokeStyle = 'rgba(248, 113, 113, 0.4)';
             ctx.beginPath(); ctx.arc(x_M, y_M, 6, 0, Math.PI * 2); ctx.stroke();
             labText(ctx, '火', x_M + 8, y_M + 4, '#f87171', 11, 'left');
+            drawCircularVelocity(ctx, x_M, y_M, theta_M, 'rgba(248,113,113,.85)');
             
-            const x_proj = cx + R_stars * Math.cos(phi);
-            const y_proj = cy + R_stars * Math.sin(phi);
+            // 從地球出發、穿過火星的射線，與示意星空環的遠端交點才是視位置。
+            const projected = rayExitPointOnCircle(x_E, y_E, x_M - x_E, y_M - y_E, cx, cy, R_stars);
+            const x_proj = projected.x;
+            const y_proj = projected.y;
             
             if (showSightline) {
                 ctx.strokeStyle = isRetrograde ? 'rgba(248,113,113,0.45)' : 'rgba(213,226,227,0.3)';
@@ -5174,15 +5416,12 @@
                 ctx.setLineDash([]);
             }
             
-            ctx.fillStyle = '#f87171';
-            ctx.beginPath(); ctx.arc(x_proj, y_proj, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.arc(x_proj, y_proj, 6, 0, Math.PI * 2); strokeStyle = '#fff'; ctx.stroke();
+            drawApparentPositionMarker(ctx, x_proj, y_proj);
         }
 
         function drawGeocentric(ctx, cx, cy, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde) {
-            labText(ctx, '地心說模型 (Geocentric)', cx, 30, '#d5e2e3', 15, 'center');
+            labText(ctx, '地心等價分解（均輪＋本輪）', cx, 30, '#d5e2e3', 15, 'center');
+            labText(ctx, '均輪 1.524 AU｜本輪 1.00 AU｜兩者皆等角速率', cx, 49, '#8eaab2', 10, 'center');
             
             ctx.strokeStyle = '#26444e';
             ctx.lineWidth = 1;
@@ -5215,6 +5454,7 @@
             ctx.fillStyle = sunGrad;
             ctx.beginPath(); ctx.arc(x_S, y_S, 10, 0, Math.PI * 2); ctx.fill();
             labText(ctx, '日', x_S + 10, y_S + 4, '#fbbf24', 11, 'left');
+            drawCircularVelocity(ctx, x_S, y_S, theta_E + Math.PI, 'rgba(251,191,36,.85)');
             
             if (showOrbits) {
                 ctx.strokeStyle = 'rgba(132, 169, 176, 0.12)';
@@ -5228,6 +5468,8 @@
             if (showOrbits) {
                 ctx.fillStyle = 'rgba(132, 169, 176, 0.4)';
                 ctx.beginPath(); ctx.arc(x_c, y_c, 2.5, 0, Math.PI * 2); ctx.fill();
+                labText(ctx, 'C', x_c + 7, y_c - 7, '#8eaab2', 9, 'left');
+                drawCircularVelocity(ctx, x_c, y_c, theta_M, 'rgba(132,169,176,.75)', 11);
                 
                 ctx.strokeStyle = 'rgba(213, 226, 227, 0.15)';
                 ctx.setLineDash([2, 2]);
@@ -5250,6 +5492,7 @@
             ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.arc(x_M_geo, y_M_geo, 6, 0, Math.PI * 2); ctx.stroke();
             labText(ctx, '火', x_M_geo + 8, y_M_geo + 4, '#f87171', 11, 'left');
+            drawCircularVelocity(ctx, x_M_geo, y_M_geo, theta_E + Math.PI, 'rgba(248,113,113,.85)');
             
             const x_proj = cx + R_stars * Math.cos(phi);
             const y_proj = cy + R_stars * Math.sin(phi);
@@ -5262,11 +5505,7 @@
                 ctx.setLineDash([]);
             }
             
-            ctx.fillStyle = '#f87171';
-            ctx.beginPath(); ctx.arc(x_proj, y_proj, 4, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.arc(x_proj, y_proj, 6, 0, Math.PI * 2); ctx.stroke();
+            drawApparentPositionMarker(ctx, x_proj, y_proj);
         }
 
         function drawStarRingBackground(ctx, cx, cy, R_stars) {
@@ -5398,9 +5637,9 @@
             
             const mode = document.getElementById('astro-mode').value;
             const explains = {
-                both: `對比說明：左側為哥白尼「日心說」（太陽在中心），右側為托勒密「地心說」（地球在中心）。雖然兩者在動態上完全等價（由地球觀測到的火星軌跡與逆行完全相同，見下方天空投影），但日心說免去了地心說中行星本輪必須與太陽同步的繁複設定，後續更由克卜勒與牛頓揭示了天體運動的物理本質。`,
-                helio: `日心說模型：太陽靜止於中心，地球與火星皆繞日公轉。因為地球位於內軌道、公轉速率快於外軌道的火星，當地球在軌道上「追越」火星時，由地球看火星的視線會短暫向後倒退，在背景星空形成「逆行」現象（如超車時看鄰車向後退）。此模型簡單且符合萬有引力規律。`,
-                geo: `地心說模型：地球靜止於中心，太陽繞地公轉，火星則在「均輪」上繞行，並在均輪軌道上同時繞「本輪」旋轉。當火星轉至本輪內側（靠近地球）時，其合成運動方向與均輪相反，從而形成「逆行」。此模型極其複雜，且各行星本輪必須與太陽位置人為同步。`
+                both: `圓軌道近似下，兩圖使用完全相同的尺度與時間：地球軌道半徑 1.00 AU、火星 1.524 AU；地球週期 1.000 年、火星 1.881 年。右圖只是把左圖轉成以地球為原點的幾何分解，所以天空中的火星投影相同；這是幾何觀測等價，不代表兩種模型具有相同的動力學解釋。`,
+                helio: `日心圓軌道模型：地球與火星各自在固定半徑的圓上做等角速率圓周運動，角速率分別為 ω<sub>E</sub>=2π/1.000 年、ω<sub>M</sub>=2π/1.881 年。地球位於內軌道且角速率較大，追越火星時會看到火星相對背景星空短暫逆行。`,
+                geo: `地心等價分解：火星的位置由兩個均速圓周運動相加。均輪中心 C 以半徑 1.524 AU、角速率 ω<sub>M</sub> 繞地球；火星再以半徑 1.00 AU、角速率 ω<sub>E</sub> 繞 C。火星的合成軌跡不必是圓，但組成它的均輪與本輪都各自是等角速率圓周運動。`
             };
             document.getElementById('astro-explain').innerHTML = explains[mode];
             
@@ -5726,6 +5965,84 @@
                             <br>• <i>生活實例</i>：電磁起重機（吸放廢鐵）、傳統電鈴、磁浮列車。
                         </li>
                         <li><b>電動機 (馬達) 與揚聲器 (喇叭)</b>：馬達是利用「電流在磁場中受磁力作用（載流導線受力 $F = ILB$）」來產生旋轉力矩，將電能轉換為機械能；喇叭則是利用變動電流在磁場中受力，帶動紙盆振動發聲。
+                        </li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function electromagneticInductionSectionHtml() {
+            return `
+                <div class="handout-section-title" style="margin-top: 1.5rem;">💡 核心觀念解析：電磁感應與冷次定律的物理本質</div>
+                <p class="content-subtitle">電磁感應是法拉第於 1831 年發現的，它證明了「磁生電」的可能性。核心概念是穿過線圈的「磁場變化」（磁力線數目的改變），而冷次定律則是自然界的「電磁慣性」體現：</p>
+
+                <div class="edu-card" style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-top:0; color:var(--primary-blue);">1. 磁場與感應電流的產生條件</h4>
+                    <p style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
+                        <b>電磁感應的關鍵不在於「有沒有磁場」，而在於「穿過線圈的磁場（磁力線數目）有沒有隨著時間發生變化」。</b>
+                    </p>
+                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem;">
+                        <li><b>磁力線數目</b>：穿過某特定面積的磁力線總數。當磁場變強或線圈面積改變時，磁場就會改變。</li>
+                        <li><b>感應電流的大小</b>：穿過線圈的磁場變化得越「快」，感應電流越大（定性關係；量化公式屬選修範圍，學測不考）。</li>
+                    </ul>
+                </div>
+
+                <div class="edu-card" style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-top:0; color:var(--primary-blue);">2. 冷次定律——對抗變化的電磁慣性</h4>
+                    <p style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
+                        <b>冷次定律的物理本質是「抵抗（阻礙）磁場的變化」，這是能量守恆定律的必然結果。</b>
+                    </p>
+                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem;">
+                        <li>若原本穿過線圈向下的磁力線<b>增加</b>，線圈產生的感應電流磁場必須<b>向上</b>以抵消其增加。</li>
+                        <li>若原本穿過線圈向下的磁力線<b>減少</b>，線圈產生的感應電流磁場必須<b>向下</b>以補充其減少（此時感應電流會去拉住即將離開的磁鐵，表現為吸引力）。</li>
+                    </ul>
+                </div>
+
+                <div class="handout-section-title">🔍 「電流磁效應」與「電磁感應」雙向耦合的經典範例</div>
+                <p class="content-subtitle" style="margin-bottom:1rem;">在許多實際裝置中，「電生磁」（電流磁效應）與「磁生電」（電磁感應）是前後相隨、緊密耦合在一起的：</p>
+                <div class="edu-table-container" style="margin-bottom:1.5rem;">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%">經典應用與現象</th>
+                                <th style="width: 45%">物理機制與耦合過程（電生磁 ➔ 磁生電）</th>
+                                <th style="width: 30%">大考特徵與解題關鍵</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>鄰近雙線圈實驗</b></td>
+                                <td>主線圈接通或斷開開關時電流改變，其產生的磁場隨之改變（<b>電流磁效應</b>）；此變化的磁場穿過鄰近的副線圈，使穿過副線圈的磁力線數目改變而產生暫時的感應電流（<b>電磁感應</b>）。</td>
+                                <td>指針僅在開關<b>接通（On）</b>或<b>斷開（Off）</b>的「瞬間」偏轉。若開關一直保持 On（直流電穩定），則無感應電流。</td>
+                            </tr>
+                            <tr>
+                                <td><b>交流變壓器</b></td>
+                                <td>主線圈通以交流電，在鐵芯中產生週期性方向變化的磁場（<b>電流磁效應</b>）；鐵芯引導該變化磁場穿過副線圈，副線圈因穿過的磁力線數目持續改變而產生感應交流電壓（<b>電磁感應</b>）。</td>
+                                <td>變壓器<b>必須使用交流電（AC）</b>才有效；電壓比等於圈數比：$\\frac{V_1}{V_2} = \\frac{N_1}{N_2}$。</td>
+                            </tr>
+                            <tr>
+                                <td><b>非接觸式感應供電<br>(無線充電 / 悠遊卡)</b></td>
+                                <td>發射端（充電盤／讀卡機）通以高頻交流電，在周圍空間激發快速變動的磁場（<b>電流磁效應</b>）；接收端（手機／感應卡）內部線圈靠近時，因磁場變化產生感應電流以驅動晶片或充電（<b>電磁感應</b>）。</td>
+                                <td>關鍵特徵在於<b>「接收端沒有裝電池」</b>卻能通電運作。利用電磁感應實現能量的非接觸式傳輸。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="handout-section-title">📝 生活應用與電磁加熱實戰</div>
+                <div class="edu-card" style="margin-bottom: 2rem;">
+                    <div style="font-weight: 700; color: var(--accent-orange); margin-bottom: 0.5rem;">⚡ 電磁爐與電磁煞車的物理本質</div>
+                    <p style="font-size: 0.92rem; line-height: 1.6; color: var(--text-main);">
+                        電磁爐與電磁煞車同样是結合了電流磁效應與電磁感應的生活實例：
+                    </p>
+                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem; margin-bottom:1rem;">
+                        <li><b>電磁爐加熱 (Induction Cooker)</b>：
+                            <br>• <b>步驟一 (電生磁)</b>：電磁爐內部的線圈通以高頻交流電，產生快速變化的磁場。
+                            <br>• <b>步驟二 (磁生電)</b>：當鐵製鍋具放置在爐面上時，變化的磁場穿過金屬鍋底，在鍋底感應出環狀的<b>渦電流 (Eddy Current)</b>（電磁感應）。
+                            <br>• <b>步驟三 (熱效應)</b>：鍋底的感應電流因金屬電阻而產生焦耳熱（$P=I^2R$），達到直接加熱鍋內食物的效果（注意：必須是鐵製等具磁導性與電阻的鍋具才有效，玻璃或鋁鍋無法以此加熱）。
+                        </li>
+                        <li><b>電磁煞車 (Electromagnetic Braking)</b>：
+                            <br>• <b>機制</b>：當旋轉中的金屬圓盤或前行的列車金屬葉片通過強力磁鐵產生的磁場（電流磁效應）時，金屬內部會因電磁感應產生反向的應電流與阻礙其運動的磁力（冷次定律的體現），達到平穩煞車的效果（常應用於雲霄飛車或高鐵煞車）。
                         </li>
                     </ul>
                 </div>
@@ -6811,15 +7128,18 @@
         function labNumber(id) { return Number(document.getElementById(id).value); }
 
         function startLabAnimation() {
-            const loop = () => {
+            let lastFrameTime = null;
+            const loop = (frameTime) => {
                 if (!window.physicsLab || !document.getElementById('wave-canvas')) return;
+                const frameDtSeconds = lastFrameTime === null ? 0 : (frameTime - lastFrameTime) / 1000;
+                lastFrameTime = frameTime;
                 const dt = 0.035 * labNumber('wave-speed');
                 window.physicsLab.time += dt;
                 if (!window.physicsLab.wavePaused) window.physicsLab.waveTime += dt;
                 if (window.physicsLab.active === 'wave') drawWaveLab();
                 if (window.physicsLab.active === 'photo') drawPhotoLab();
                 if (window.physicsLab.active === 'induction') drawInductionLab();
-                if (window.physicsLab.active === 'astronomy') drawAstronomyLab();
+                if (window.physicsLab.active === 'astronomy') drawAstronomyLab(frameDtSeconds);
                 window.labAnimationFrame = requestAnimationFrame(loop);
             };
             window.labAnimationFrame = requestAnimationFrame(loop);
@@ -8285,7 +8605,7 @@
             ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1; ctx.beginPath();
             ctx.moveTo(-15, -8); ctx.lineTo(-12, -6); ctx.moveTo(0, -18); ctx.lineTo(0, -15); ctx.moveTo(15, -8); ctx.lineTo(12, -6); ctx.stroke();
             labText(ctx, 'G', 0, 15, '#334155', 10, 'center');
-            const needleAngle = (step === 3) ? Math.max(-Math.PI / 4, Math.min(Math.PI / 4, -current * 2.2)) : 0;
+            const needleAngle = (step === 3) ? Math.max(-Math.PI / 4, Math.min(Math.PI / 4, current * 2.2)) : 0;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(18 * Math.sin(needleAngle), -18 * Math.cos(needleAngle)); ctx.stroke();
             
@@ -8642,7 +8962,7 @@
                                 <tr><td>天體運動</td><td>克卜勒</td><td>由觀測資料歸納行星三定律</td><td>橢圓軌道、等面積律、$T^2\\propto r^3$</td></tr>
                                 <tr><td>古典力學</td><td>牛頓</td><td>以運動定律與萬有引力統一天上、地上的運動</td><td>$\\Sigma F=ma$、$F_g=GMm/r^2$</td></tr>
                                 <tr><td>電磁學</td><td>庫侖、厄斯特、安培</td><td>建立靜電力，發現電流與磁場的關係</td><td>平方反比、右手定則、電磁鐵</td></tr>
-                                <tr><td>電磁學</td><td>法拉第、冷次</td><td>變動磁場產生感應電流，方向阻礙磁通量變化</td><td>發電機、變壓器、感應卡</td></tr>
+                                <tr><td>電磁學</td><td>法拉第、冷次</td><td>變動磁場產生感應電流，方向阻礙磁場變化</td><td>發電機、變壓器、感應卡</td></tr>
                                 <tr><td>電磁統合</td><td>馬克士威、赫茲</td><td>預測並實驗證實電磁波，光也屬電磁波</td><td>電磁波譜、真空波速 $c$</td></tr>
                                 <tr><td>能量</td><td>焦耳</td><td>證明機械功可轉換成熱，確立能量守恆</td><td>$1\\text{ cal}\\approx4.186\\text{ J}$、能量退化</td></tr>
                                 <tr><td>原子結構</td><td>湯木生、拉塞福、波耳</td><td>電子 → 原子核 → 量子化能階模型</td><td>金箔散射、能階躍遷、線光譜</td></tr>
@@ -8781,6 +9101,139 @@
             window.scrollTo(0, 0);
         }
 
+        const contextColumns = [
+            {
+                tone: 'sky', domain: '氣象 × 運動學', title: '颱風路徑：彎曲不等於變快',
+                signal: '路徑彎曲、起點終點、移動速率',
+                model: '速度是向量；方向改變就有加速度',
+                start: '先判斷題目問路程還是位移',
+                formulas: ['平均速度＝位移／時間', '平均速率＝路程／時間', 'ΣF＝ma'],
+                traps: ['速率不變但方向改變時，加速度與合力仍不為零。', '平均速度只看起點與終點，不能拿彎曲路徑長度來除。'],
+                exams: ['111 學測 Q1–2', '108 學測 Q37'], nodes: ['N03', 'N04']
+            },
+            {
+                tone: 'motion', domain: '阻力 × 落體', title: '空氣阻力落體：終端速率不是停止',
+                signal: '阻力隨速率增大、v–t 圖漸平、終端速率',
+                model: '重力固定，阻力增大，合力與加速度逐漸歸零',
+                start: '向下取正，先寫 mg − D(v)＝ma',
+                formulas: ['mg − D(v)＝ma', '終端狀態：D(vₜ)＝mg', 'v–t 圖斜率＝a'],
+                traps: ['終端速率時是 a＝0、v＝定值，不是 v＝0。', '同形狀物體在相同速率下阻力相近；質量較大者通常需更高速才平衡重力。'],
+                exams: ['112 學測 Q33', '107 學測 Q16', '110 學測 Q58–59'], nodes: ['N05', 'N03', 'N04']
+            },
+            {
+                tone: 'wave', domain: '地科 × 波動', title: '地震預警：抵達時間差才是核心',
+                signal: 'P 波先到、S 波後到、走時曲線、海嘯抵達',
+                model: '不同波走相同距離，但波速不同',
+                start: '把未知震源距離設成同一個 d',
+                formulas: ['t＝d／v', 'Δt＝d(1／vₛ − 1／vₚ)', '可應變時間＝抵達時刻−通知時刻'],
+                traps: ['先後到達的時間差，不等於市民真正擁有的預警時間。', 'km/s、km/min 與秒、分鐘混用時要先統一單位。'],
+                exams: ['113 學測 Q31', '115 學測 Q8', '110 學測 Q16'], nodes: ['N14', 'N03']
+            },
+            {
+                tone: 'orbit', domain: '天體 × 力學', title: '衛星軌道：週期、重力與失重一起看',
+                signal: '同步衛星、太空站、軌道高度、微重力',
+                model: '萬有引力提供向心力；軌道半徑決定週期與速率',
+                start: '先把高度 h 換成中心距離 r＝R＋h',
+                formulas: ['T² ∝ r³', 'v＝√(GM／r)', 'g＝GM／r²'],
+                traps: ['軌道高度不是軌道半徑。', '失重代表支撐力近零，不代表萬有引力消失；質量未知時不能武斷比較總能量。'],
+                exams: ['114 學測 Q19', '111 參考卷 Q52', '108 學測 Q51', '107 學測 Q60'], nodes: ['N07', 'N08', 'N09']
+            },
+            {
+                tone: 'medical', domain: '醫療 × 訊號', title: '醫療物理：先找訊號如何被改變',
+                signal: '血流回波、額溫槍、質子治療、介面折射',
+                model: '移動改變頻率；介面改變方向；能量沉積決定治療深度',
+                start: '先標出波源、接收者、反射體與傳播介質',
+                formulas: ['接近：f觀測上升', '遠離：f觀測下降', '|Δf| ∝ 血流速率'],
+                traps: ['都卜勒頻移的正負看距離正在縮短或增加，不看物體名稱。', '波跨介質時頻率不變；額溫槍接收的是紅外線，不是量到「熱流速度」。'],
+                exams: ['111 學測 Q49–51、Q54', '112 學測 Q29、Q32', '113 學測 Q22–23'], examCount: 5, nodes: ['N15', 'N16', 'N18', 'N26']
+            },
+            {
+                tone: 'energy', domain: '能源 × 熱學', title: '能源題：先畫能量帳本再代公式',
+                signal: '發電功率、效率、耗電量、融冰、抬升、水庫',
+                model: '輸入能量在形式間轉換；有用輸出與耗散必須同時入帳',
+                start: '先定系統邊界，再畫「輸入 → 轉換 → 輸出」',
+                formulas: ['P＝E／t', 'η＝有用輸出／總輸入', 'Q＝mL', 'ΔU重＝mgh'],
+                traps: ['「一度電」是能量，不是功率。', '能量沒有消失；效率小於 100% 是部分能量轉成較難利用的熱。'],
+                exams: ['112 學測 Q37–40', '114 學測 Q20–21', '113 學測 Q24–25', '108 學測 Q54–56'], nodes: ['N09', 'N10', 'N12']
+            },
+            {
+                tone: 'induction', domain: '科技 × 電磁', title: '感應裝置：有磁場不代表有感應電流',
+                signal: '磁鐵移動、線圈電流改變、無線充電、感應卡',
+                model: '穿過線圈的磁通量改變，才產生感應電動勢',
+                start: '先比較前後磁通量，再用冷次定律判方向',
+                formulas: ['Φ＝BA cosθ', '|ε| ∝ |ΔΦ／Δt|', '感應效果反抗磁通量的變化'],
+                traps: ['磁場很強但完全不變時，仍可沒有感應電流。', '冷次定律反抗的是「變化」，不是一律產生與原磁場相反的磁場。'],
+                exams: ['111 學測 Q6', '114 學測 Q27', '113 學測 Q44–46', '115 學測 Q53'], nodes: ['N21', 'N20']
+            },
+            {
+                tone: 'quantum', domain: '材料 × 量子', title: '光電與材料：先判斷是光子還是波',
+                signal: '底限頻率、最大波長、能隙、EUV、薄膜反射',
+                model: '單一光子能量由頻率決定；多束光疊加則看相位與光程差',
+                start: '遇到能隙先寫 E＝hc／λ；遇到明暗條紋改查相位',
+                formulas: ['E＝hf＝hc／λ', 'Kmax＝hf−W', '干涉：比較光程差與相位'],
+                traps: ['提高光強度增加光子數，不會提高單一光子的能量。', '波長越長，光子能量越低；薄膜題還要處理反射相位與介質波速。'],
+                exams: ['114 學測 Q50–51', '115 學測 Q47–49', '111 參考卷 Q23', '112 學測 Q30–31'], nodes: ['N23', 'N24', 'N17', 'N28']
+            }
+        ];
+
+        function contextColumnHtml(column) {
+            const formulas = column.formulas.map(item => `<span class="context-formula">${item}</span>`).join('');
+            const traps = column.traps.map(item => `<li>${item}</li>`).join('');
+            const nodes = column.nodes.map(id => `<button class="context-node-btn" type="button" onclick="openContextNode('${id}')">${nodeLabel(id)}</button>`).join('');
+            return `
+                <article class="context-card" data-tone="${column.tone}">
+                    <div class="context-card-head">
+                        <div><div class="context-domain">${column.domain}</div><h3>${column.title}</h3></div>
+                        <span class="context-frequency">${column.examCount || column.exams.length} 組代表題</span>
+                    </div>
+                    <div class="context-translation" aria-label="題幹訊號到物理模型的翻譯流程">
+                        <div class="context-translation-step"><span>題幹訊號</span><b>${column.signal}</b></div>
+                        <div class="context-arrow" aria-hidden="true">→</div>
+                        <div class="context-translation-step"><span>物理翻譯</span><b>${column.model}</b></div>
+                        <div class="context-arrow" aria-hidden="true">→</div>
+                        <div class="context-translation-step"><span>第一步</span><b>${column.start}</b></div>
+                    </div>
+                    <div class="context-block"><div class="context-block-title">起手式與核心關係</div><div class="context-formulas">${formulas}</div></div>
+                    <div class="context-block"><div class="context-block-title">最常失分的地方</div><ul class="context-traps">${traps}</ul></div>
+                    <div class="context-block"><div class="context-block-title">代表歷屆題</div><div class="context-exam-list">${column.exams.join('　／　')}</div></div>
+                    <div class="context-card-footer">
+                        <div class="context-node-list">${nodes}</div>
+                        <button class="context-exam-btn" type="button" onclick="showExamsForNode('${column.nodes[0]}')">練這類題目 →</button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function openContextNode(nodeId) {
+            const target = [...document.querySelectorAll('.nav-item-node')].find(item => (item.getAttribute('onclick') || '').includes(`node-${nodeId}`));
+            if (target) switchMainView(target, `node-${nodeId}`);
+            else renderNodeView(nodeId);
+            window.scrollTo(0, 0);
+        }
+
+        function renderContextsView() {
+            currentView = 'contexts';
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
+                <div class="content-header">
+                    <div>
+                        <span class="content-badge">常考情境專欄</span>
+                        <h2 class="content-title">把題目外衣翻成物理模型</h2>
+                        <p class="content-subtitle">依現有歷屆題整理高重複情境。先辨認題幹動詞與可觀察量，再選模型；地科、生物或科技名詞只是場景，不應取代物理判斷。</p>
+                    </div>
+                </div>
+                <section class="context-hero" aria-label="情境題閱讀原則">
+                    <strong>情境只是外衣；真正決定解法的是「什麼量正在改變」。</strong>
+                    <p>每篇專欄都沿同一條翻譯軌閱讀：題幹訊號 → 物理模型 → 第一條關係式。看到陌生題材時，先找位移、方向、波速、能量、磁通量或頻率，而不是先背情境名稱。</p>
+                </section>
+                <section class="context-grid" aria-label="八類常考物理情境">
+                    ${contextColumns.map(contextColumnHtml).join('')}
+                </section>
+            `;
+            if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise([main]);
+            window.scrollTo(0, 0);
+        }
+
         function renderStatsView() {
             currentView = 'stats';
             const main = document.getElementById('main-content');
@@ -8862,7 +9315,7 @@
                         </label>
                     </div>
                     <div style="font-size: 0.8rem; color: var(--text-muted);">
-                        「108課綱題數」為 108 課綱 111–115 官方定稿的概念分布；勾選後，各列的「總歷屆題數」會一併計入 99 課綱舊制題，且您可點擊表頭進行動態排序。
+                        「108課綱題數」採多節點歸類：跨章整合題會同時計入所有參與關鍵判斷或計算的節點，純名詞或情境背景不計。勾選後，「總歷屆題數」會再納入 99 課綱舊制題。
                     </div>
                 </div>
 
@@ -8962,7 +9415,7 @@
                         <div class="buster-cell buster-cell-core">
                             <span class="buster-label">Realization 物理模型本質</span>
                             <div class="buster-model-title">波動折射作圖與干涉加強 (光程差)</div>
-                            <p class="buster-text-desc">折射線作圖只需用折射的定性規則：光從慢速介質（反射層）進入快速介質時折射角偏離法線。電場疊加則利用反射波波峰與波峰同相疊加的干涉加強，回歸波的疊加本質。</p>
+                            <p class="buster-text-desc">折射線作圖只需用司乃耳定律：光從慢速介質（反射層）進入快速介質時，折射角大於入射角、偏離法線。電場疊加則利用反射波波峰與波峰同相疊加的干涉加強，回歸波的疊加本質。</p>
                         </div>
                     </div>
 
@@ -8983,224 +9436,6 @@
             `;
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise();
-            }
-        }
-
-        // Render tool-tracker View
-        const studyWeeks = [
-            {
-                week: 1, name: "測量與單位、尺度與不確定度 (Ea)",
-                tasks: [
-                    { tag: "s", text: "選取 SI 7個基本單位，過濾無關衍生單位。" },
-                    { tag: "o", text: "組織物理常數（如普朗克常數 $h$）的因次分析與單位推導。" },
-                    { tag: "i", text: "整合化學質量數與物理微觀尺度（原子 $10^{-10}\\text{m}$，核 $10^{-15}\\text{m}$）概念。" },
-                    { tag: "l", text: "練習不確定度 A 類（統計）與 B 類（刻度）判讀——屬「探究與實作」數據分析題型。" }
-                ]
-            },
-            {
-                week: 2, name: "牛頓運動定律與生活常見力 (Eb)",
-                tasks: [
-                    { tag: "s", text: "選取牛頓三大運動定律與接觸力（正向力、摩擦力、彈力）。" },
-                    { tag: "o", text: "組織合力、速度與加速度在 $v-t$ 圖中的對應斜率與面積模型。" },
-                    { tag: "i", text: "整合牛頓第二定律與緩衝設計：延長作用時間降低加速度與受力（安全氣囊）。" },
-                    { tag: "l", text: "實戰 115 吊重物力學題與汽車 $v-t$ 阻力作功題，手寫受力分析。" }
-                ]
-            },
-            {
-                week: 3, name: "萬有引力與克卜勒天體定律 (Kb)",
-                tasks: [
-                    { tag: "s", text: "選取克卜勒三大定律，掌握重力場 $g = G\\frac{M}{R^2}$ 公式。" },
-                    { tag: "o", text: "組織衛星圓形軌道半徑、速度與週期關係邏輯鏈條。" },
-                    { tag: "i", text: "整合地科恆星周日運動與火星/地球引力加速度比例。" },
-                    { tag: "l", text: "實戰 114 太空站微重力體驗與同步衛星軌道半徑週期比值計算。" }
-                ]
-            },
-            {
-                week: 4, name: "功與能量守恆、核發電質能虧損 (Ba)",
-                tasks: [
-                    { tag: "s", text: "選取動能、重力勢能與質能互換公式 $E = mc^2$。" },
-                    { tag: "o", text: "組織機械能守恆條件，理解非保守力（阻力）作功物理意義。" },
-                    { tag: "i", text: "整合核裂變與聚變方程式，結合發電廠質量虧損與功率計算。" },
-                    { tag: "l", text: "實戰 114 比特幣運作熱熔冰與水庫位能轉換大考題型。" }
-                ]
-            },
-            {
-                week: 5, name: "熱能、絕對溫標與能量品質退化 (Bb/Nc)",
-                tasks: [
-                    { tag: "s", text: "選取熱能定義、絕對溫度意義與理想氣體分子平均動能。" },
-                    { tag: "o", text: "組織熱力第二定律，建立熱功轉換方向性與能量退化框架。" },
-                    { tag: "i", text: "整合溫室效應，將地面長波熱輻射吸收與絕對溫度正比綁定。" },
-                    { tag: "l", text: "實戰 111 地球能量收支（Q7-8）與 113 電冰箱性能係數（Q24-25）能量轉換題型。" }
-                ]
-            },
-            {
-                week: 6, name: "波速、都卜勒效應與幾何繞射光學 (Ka)",
-                tasks: [
-                    { tag: "s", text: "選取波速公式 $v=f\\lambda$ 與都卜勒效應頻率定性變化規律。" },
-                    { tag: "o", text: "組織光的微粒與波動說歷史，以及折反射與惠更斯原理解釋。" },
-                    { tag: "i", text: "整合地科地震波傳播（P波/S波波速差）與海嘯定位預警模型。" },
-                    { tag: "l", text: "實戰 112 血流都卜勒與 115 EUV 薄膜折反射箭頭方向手繪題。" }
-                ]
-            },
-            {
-                week: 7, name: "電磁力、電磁感應與冷次定律 (Kc/Mc)",
-                tasks: [
-                    { tag: "s", text: "選取庫侖定律、磁場概念與法拉第電磁感應規律。" },
-                    { tag: "o", text: "組織「厄斯特 ➔ 法拉第 ➔ 馬克士威 ➔ 赫茲」的電磁學大師科學史脈絡。" },
-                    { tag: "i", text: "整合家用單相三線式配電與主幹線並聯過載跳電安全機制。" },
-                    { tag: "l", text: "手繪 113 磁鐵穿過線圈的應電流 $I-t$ 曲線圖，完成可識化輸出。" }
-                ]
-            },
-            {
-                week: 8, name: "量子論發端、原子能階與四大基本力 (Kd/Ke)",
-                tasks: [
-                    { tag: "s", text: "選取光子能量 $E=hf$ 與原子核能階躍遷軌道對應關係。" },
-                    { tag: "o", text: "組織「普朗克 ➔ 愛因斯坦 ➔ 拉塞福 ➔ 波耳 ➔ 德布羅意」的量子史觀地圖。" },
-                    { tag: "i", text: "整合四大基本交互作用的相對強度、作用範圍、媒介粒子與生活實例對照表。" },
-                    { tag: "l", text: "實戰 115 汞能階 365 nm 躍遷與 111 電磁天平（公斤量子定義）題型。" }
-                ]
-            }
-        ];
-
-        const TRACKER_STORAGE_KEY = 'gsat-physics-tracker-tasks';
-        let checkedTasks = {};
-        try {
-            checkedTasks = JSON.parse(localStorage.getItem(TRACKER_STORAGE_KEY)) || {};
-        } catch (e) {
-            checkedTasks = {};
-        }
-
-        function renderTrackerView() {
-            const main = document.getElementById('main-content');
-
-            let accordionHtml = '';
-            let totalTasks = 0;
-
-            studyWeeks.forEach(w => {
-                let tasksHtml = '';
-                w.tasks.forEach((task, tIdx) => {
-                    const taskId = `task-${w.week}-${tIdx}`;
-                    totalTasks++;
-                    const isChecked = checkedTasks[taskId] ? 'checked' : '';
-                    const checkedClass = checkedTasks[taskId] ? 'checked' : '';
-                    tasksHtml += `
-                        <label class="tracker-label ${checkedClass}" id="label-${taskId}">
-                            <input type="checkbox" class="tracker-checkbox" id="${taskId}" ${isChecked} onchange="updateTrackerProgress()">
-                            <span class="tracker-tag tracker-tag-${task.tag}">${task.tag.toUpperCase()}</span>
-                            <span>${task.text}</span>
-                        </label>
-                    `;
-                });
-
-                accordionHtml += `
-                    <div class="tracker-week-card ${w.week === 1 ? 'open' : ''}" id="week-card-${w.week}">
-                        <div class="tracker-week-header" onclick="toggleTrackerWeek(${w.week})">
-                            <div class="tracker-week-title">
-                                <div class="tracker-week-num">${w.week}</div>
-                                <span>第 ${w.week} 週：${w.name}</span>
-                            </div>
-                            <div class="tracker-week-arrow">▶</div>
-                        </div>
-                        <div class="tracker-week-content">
-                            <div class="tracker-checklist">
-                                ${tasksHtml}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            main.innerHTML = `
-                <div class="content-header" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                    <div>
-                        <span class="content-badge">複習時程進度</span>
-                        <h2 class="content-title">雙月黃金複習進度追蹤器</h2>
-                        <p class="content-subtitle">依據 108 課綱與 4±1 大腦極限，將 8 週時程模組化。勾選任務將即時計算完成度。</p>
-                    </div>
-                    <button class="print-btn print-hide" onclick="window.print()">
-                        <span>🖨️</span> 列印進度
-                    </button>
-                </div>
-
-                <div class="tracker-grid">
-                    <div class="tracker-accordion">
-                        ${accordionHtml}
-                    </div>
-
-                    <div class="tracker-progress-card">
-                        <svg class="progress-circle-svg">
-                            <circle class="p-circle-bg" cx="75" cy="75" r="70" />
-                            <circle class="p-circle-fill" id="tracker-circle-fill" cx="75" cy="75" r="70" />
-                        </svg>
-                        <div class="progress-circle-percent" id="tracker-percent">0%</div>
-                        <div class="progress-count-text">
-                            已完成 <span id="tracker-checked-cnt">0</span> 項複習任務<br>
-                            共計 <span id="tracker-total-cnt">${totalTasks}</span> 項核心學習指標
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            updateTrackerProgress();
-            // Set max-height for default open week card
-            const defaultOpenCard = document.querySelector('.tracker-week-card.open');
-            if (defaultOpenCard) {
-                const content = defaultOpenCard.querySelector('.tracker-week-content');
-                content.style.maxHeight = content.scrollHeight + 'px';
-            }
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise();
-            }
-        }
-
-        function toggleTrackerWeek(weekNum) {
-            const card = document.getElementById(`week-card-${weekNum}`);
-            const isOpen = card.classList.contains('open');
-            document.querySelectorAll('.tracker-week-card').forEach(c => {
-                c.classList.remove('open');
-                c.querySelector('.tracker-week-content').style.maxHeight = '0px';
-            });
-            if (!isOpen) {
-                card.classList.add('open');
-                const content = card.querySelector('.tracker-week-content');
-                content.style.maxHeight = content.scrollHeight + 'px';
-            }
-        }
-
-        function updateTrackerProgress() {
-            const checkboxes = document.querySelectorAll('.tracker-checkbox');
-            let checked = 0;
-            const total = checkboxes.length;
-
-            checkboxes.forEach(cb => {
-                const label = document.getElementById(`label-${cb.id}`);
-                checkedTasks[cb.id] = cb.checked;
-                if (cb.checked) {
-                    checked++;
-                    if (label) label.classList.add('checked');
-                } else {
-                    if (label) label.classList.remove('checked');
-                }
-            });
-
-            try {
-                localStorage.setItem(TRACKER_STORAGE_KEY, JSON.stringify(checkedTasks));
-            } catch (e) { /* 私密瀏覽模式下無法寫入，僅保留單次瀏覽狀態 */ }
-
-            const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
-
-            const trackerPercentEl = document.getElementById('tracker-percent');
-            const trackerCheckedCntEl = document.getElementById('tracker-checked-cnt');
-            const trackerCircleFillEl = document.getElementById('tracker-circle-fill');
-
-            if (trackerPercentEl) trackerPercentEl.textContent = `${percent}%`;
-            if (trackerCheckedCntEl) trackerCheckedCntEl.textContent = checked;
-
-            const r = 70;
-            const circ = 2 * Math.PI * r;
-            const offset = circ - (percent / 100) * circ;
-            if (trackerCircleFillEl) {
-                trackerCircleFillEl.style.strokeDashoffset = offset;
             }
         }
 
@@ -9229,7 +9464,7 @@
             const node = bankNodeOf(q);
             const chips = `
                 <div class="bank-chips">
-                    <span class="tracker-tag tracker-tag-${BANK_LV_CLS[q.level]}">${q.level}</span>
+                    <span class="bank-level-tag bank-level-tag-${BANK_LV_CLS[q.level]}">${q.level}</span>
                     <span class="bank-chip">${BANK_TYPE_LABEL[q.type]}</span>
                     <span class="bank-chip">${node.code}｜${node.name}</span>
                     <span class="bank-chip bank-chip-perf">學習表現：${q.perf}</span>
@@ -9614,6 +9849,7 @@
                 let rows = '';
                 items.forEach(e => {
                     const chips = e.nodes.map(id => `<span class="bank-chip">${nodeLabel(id)}</span>`).join('');
+                    const conceptLabel = e.nodes.length > 1 ? `跨節點關鍵考點（${e.nodes.length}）` : '關鍵考點';
                     const imgs = cropsFor(e).map(f =>
                         `<img class="exam-crop ${invertCrops ? 'inverted' : ''}" loading="lazy" src="assets/exam_crops/${f}" alt="${info.label}第 ${e.q} 題">`
                     ).join('');
@@ -9623,7 +9859,7 @@
                                 <span class="exam-qno">第 ${e.q} 題</span>
                                 <span class="exam-headmain">
                                     <span class="exam-topic">${e.topic}</span>
-                                    <span class="bank-chips" style="margin-top:0.3rem;">${chips}</span>
+                                    <span class="bank-chips" style="margin-top:0.3rem;"><span style="font-size:0.72rem; color:var(--text-muted);">${conceptLabel}：</span>${chips}</span>
                                 </span>
                                 <span class="exam-chev">▶</span>
                             </button>
@@ -9679,7 +9915,7 @@
                 <div class="info-alert">
                     <span class="info-alert-icon">💡</span>
                     <div>
-                        <strong>使用說明：</strong>點各題列即在下方展開該題的單獨裁切圖（由試卷向量檔精準裁出，非模糊截圖）。99 課綱為舊制、部分主題與 108 課綱略有差異，預設不顯示，可用下方開關納入作為延伸練習。
+                        <strong>歸類與使用說明：</strong>同一題可同時計入多個知識節點；凡是實際參與公式、判斷或排除選項的概念都列為關鍵考點，題幹只提到名詞或情境背景則不列入。點各題列可展開裁切題目；99 課綱舊制題可由下方開關納入。
                     </div>
                 </div>
 
@@ -9892,6 +10128,13 @@
             </div>`;
         }
 
+        const EXAM_SHEET_ANSWERS = Object.freeze({
+            '111_51_sheet.png': '111_51_ans.png',
+            '113_46_sheet.png': '113_46_ans.png',
+            '115_49_sheet.png': '115_49_ans.png',
+            '115_53_sheet.png': '115_53_ans.png'
+        });
+
         // 歷屆題的「答案與詳解」區塊（非選附手寫作答區與 CER 結構，選擇題附作答按鈕）
         function examSolBlock(e) {
             const key = e.year + '_' + e.q;
@@ -9937,12 +10180,13 @@
             }
 
             // 如果是手繪題，動態在答案區最上方渲染官方手繪滿分答案圖
-            const ansImg = sheetFile ? `
+            const answerSheetFile = EXAM_SHEET_ANSWERS[sheetFile] || '';
+            const ansImg = answerSheetFile ? `
                 <div style="margin: 0.5rem 0.9rem 0.75rem 0.9rem; padding-bottom: 0.75rem; border-bottom: 1px dashed var(--border-color);">
                     <div style="font-weight:700; color:#047857; font-size:0.85rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.25rem;">
                         <span>🎯</span> 官方答題卷手繪滿分答案示範：
                     </div>
-                    <img class="exam-crop ${invertCrops ? 'inverted' : ''}" src="assets/exam_crops/${sheetFile.replace('_sheet.png', '_ans.png')}" style="max-width:100%; border:1px solid var(--border-color); border-radius:6px;" alt="手繪題官方答案圖">
+                    <img class="exam-crop ${invertCrops ? 'inverted' : ''}" src="assets/exam_crops/${answerSheetFile}" style="max-width:100%; border:1px solid var(--border-color); border-radius:6px;" alt="手繪題官方答案圖">
                 </div>
             ` : '';
 
@@ -9986,7 +10230,8 @@
                     tool: 'pen',
                     lastX: 0,
                     lastY: 0,
-                    sheetFile: sheetFile
+                    sheetFile: sheetFile,
+                    sheetRatio: 2.5
                 };
 
                 // 綁定事件（僅綁定一次）
@@ -10023,6 +10268,18 @@
 
                 // 監聽視窗大小改變，自動調整 canvas 比例
                 window.addEventListener('resize', () => resizeCanvas(uid));
+
+                // 依答案卡底圖的原始尺寸設定畫布比例，避免不同年度作答區被壓扁或裁切。
+                if (sheetFile) {
+                    const sheetImage = new Image();
+                    sheetImage.onload = () => {
+                        if (!sheetImage.naturalWidth || !sheetImage.naturalHeight) return;
+                        canvasStates[uid].sheetRatio = sheetImage.naturalWidth / sheetImage.naturalHeight;
+                        resizeCanvas(uid);
+                        resizeExamBody(canvas);
+                    };
+                    sheetImage.src = `assets/exam_crops/${sheetFile}`;
+                }
             }
 
             // 每次展開時重新 resize 確保寬高尺寸正確
@@ -10038,15 +10295,7 @@
             const container = canvas.parentElement;
             const width = container.clientWidth || 500;
 
-            // 決定高寬比例
-            let ratio = 2.5; // 預設 2.5:1
-            if (state.sheetFile) {
-                if (state.sheetFile.includes('115_49')) ratio = 3.27; // width 490 / height 150
-                else if (state.sheetFile.includes('115_53')) ratio = 2.0;  // width 490 / height 245
-                else if (state.sheetFile.includes('113_46')) ratio = 2.58; // width 490 / height 190 (now unclipped bottom)
-                else if (state.sheetFile.includes('111_51')) ratio = 3.77; // width 490 / height 130
-            }
-
+            const ratio = state.sheetRatio || 2.5;
             const height = width / ratio;
 
             // 備份現有內容以免 resize 後筆跡被清空
