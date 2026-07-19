@@ -6194,16 +6194,16 @@
             s += dgTxt(cx - 18, 56, 'I', { fill: DG.rose, b: 1, fs: 13 });
             s += dgTxt(cx + 36, 178, '電流方向', { fill: DG.rose, fs: 10 });
 
-            // Draw front half of magnetic field lines (y > cy) with arrows pointing left (counter-clockwise)
+            // Draw front half of magnetic field lines (y > cy) with arrows pointing right (counter-clockwise from top view)
             s += `<path d="M ${cx + 24} ${cy} A 24 7 0 0 1 ${cx - 24} ${cy}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(cx + 2, cy + 7, cx - 2, cy + 7, DG.green, 1.5);
+            s += dgArrow(cx - 2, cy + 7, cx + 2, cy + 7, DG.green, 1.5);
             s += dgTxt(cx + 36, cy + 10, 'B', { fill: DG.green, b: 1, fs: 11 });
 
             s += `<path d="M ${cx + 42} ${cy + 25} A 42 12 0 0 1 ${cx - 42} ${cy + 25}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(cx + 2, cy + 25 + 12, cx - 2, cy + 25 + 12, DG.green, 1.5);
+            s += dgArrow(cx - 2, cy + 25 + 12, cx + 2, cy + 25 + 12, DG.green, 1.5);
 
             s += `<path d="M ${cx + 60} ${cy - 25} A 60 17 0 0 1 ${cx - 60} ${cy - 25}" fill="none" stroke="${DG.green}" stroke-width="1.5"/>`;
-            s += dgArrow(cx + 2, cy - 25 + 17, cx - 2, cy - 25 + 17, DG.green, 1.5);
+            s += dgArrow(cx - 2, cy - 25 + 17, cx + 2, cy - 25 + 17, DG.green, 1.5);
 
             // Right Side: Solenoid
             const mx = 390, my = 120;
@@ -7939,7 +7939,7 @@
                 const displayMagnetX = window.physicsLab.lastMagnetX !== undefined ? window.physicsLab.lastMagnetX : magnetX;
                 const displayDist = Math.max(80, coilX - displayMagnetX);
 
-                drawInductionSetup(ctx, coilX, coilY, turns, 0, step);
+                drawInductionSetup(ctx, coilX, coilY, turns, -inducedField, step);
                 drawMagnet(ctx, displayMagnetX, magnetY, pole);
                 drawMagnetFieldLines(ctx, displayMagnetX, magnetY, pole, displayDist, step);
                 if (step >= 3) drawInducedFieldLines(ctx, coilX, coilY, inducedField);
@@ -7987,7 +7987,7 @@
             document.getElementById('ind-flux-ind-readout').textContent = deltaField.toFixed(2);
             document.getElementById('ind-flux-tot-readout').textContent = inducedField.toFixed(2);
             document.getElementById('ind-current-dir-readout').textContent = totalField.toFixed(2);
-            drawInductionSetup(ctx, coilX, coilY, turns, 0, step);
+            drawInductionSetup(ctx, coilX, coilY, turns, -inducedField, step);
             drawMagnet(ctx, magnetX, magnetY, pole);
             drawMagnetFieldLines(ctx, magnetX, magnetY, pole, dist, step);
             if (step >= 3) drawInducedFieldLines(ctx, coilX, coilY, inducedField);
