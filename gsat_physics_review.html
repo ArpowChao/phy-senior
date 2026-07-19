@@ -5708,7 +5708,7 @@
                             <tr>
                                 <td><b>載流螺線管 (電磁鐵)</b></td>
                                 <td><b>管內</b>：平行且均勻的強磁場。<br><b>管外</b>：與條形磁鐵（Bar Magnet）磁場完全相同。</td>
-                                <td>管內磁場方向為 <b>S $\to$ N</b>。管內磁場強度與電流大小、單位長度圈數成正比，與管子長度溫關。</td>
+                                <td>管內磁場方向為 <b>S $\to$ N</b>。管內磁場強度與電流大小、單位長度圈數成正比，與管子長度無關。</td>
                             </tr>
                         </tbody>
                     </table>
@@ -6237,12 +6237,13 @@
 
             // Draw N/S labels
             s += dgTxt(mx - 54, my + 4, 'N', { fill: DG.rose, b: 1, fs: 13 });
-            s += dgTxt(mx + 54, my + 4, 'S', { fill: DG.ink, b: 1, fs: 13 });
+            s += dgTxt(mx + 54, my + 4, 'S', { fill: DG.blue, b: 1, fs: 13 });
 
             // Draw Solenoid Windings
-            const xs = [350, 370, 390, 410, 430];
+            const xsBack = [370, 390, 410];
+            const xsFront = [350, 370, 390, 410];
             // Back half of windings (drawn first)
-            xs.forEach(x => {
+            xsBack.forEach(x => {
                 s += `<path d="M ${x} 107 A 12 18 0 0 0 ${x} 133" fill="none" stroke="${wireColor}" stroke-width="2.2" stroke-dasharray="3 2" opacity="0.65"/>`;
             });
 
@@ -6250,11 +6251,9 @@
             s += `<rect x="${mx - 45}" y="${my - 12}" width="90" height="24" rx="2" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1" opacity="0.8"/>`;
             
             // Front half of windings (slanted, going up-right)
-            xs.forEach((x, idx) => {
-                if (idx < xs.length - 1) {
-                    s += `<path d="M ${x} 133 L ${x + 20} 107" fill="none" stroke="${wireColor}" stroke-width="3" stroke-linecap="round"/>`;
-                    s += dgArrow(x + 7, 124, x + 13, 116, DG.rose, 1.2);
-                }
+            xsFront.forEach(x => {
+                s += `<path d="M ${x} 133 L ${x + 20} 107" fill="none" stroke="${wireColor}" stroke-width="3" stroke-linecap="round"/>`;
+                s += dgArrow(x + 7, 124, x + 13, 116, DG.rose, 1.2);
             });
 
             // Leads
@@ -8286,7 +8285,7 @@
             ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1; ctx.beginPath();
             ctx.moveTo(-15, -8); ctx.lineTo(-12, -6); ctx.moveTo(0, -18); ctx.lineTo(0, -15); ctx.moveTo(15, -8); ctx.lineTo(12, -6); ctx.stroke();
             labText(ctx, 'G', 0, 15, '#334155', 10, 'center');
-            const needleAngle = (step === 3) ? Math.max(-Math.PI / 4, Math.min(Math.PI / 4, current * 2.2)) : 0;
+            const needleAngle = (step === 3) ? Math.max(-Math.PI / 4, Math.min(Math.PI / 4, -current * 2.2)) : 0;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(18 * Math.sin(needleAngle), -18 * Math.cos(needleAngle)); ctx.stroke();
             
