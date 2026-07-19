@@ -2971,6 +2971,7 @@
         }
 
         const nodeInteractiveLabs = {
+            N07: { lab: 'astronomy', title: '天體運行與行星逆行（地心說 vs. 日心說）' },
             N14: { lab: 'wave', mode: 'huygens', title: '波動傳播與惠更斯原理' },
             N15: { lab: 'wave', mode: 'doppler', title: '聲波與都卜勒效應' },
             N16: { lab: 'wave', mode: 'refraction', title: '光的反射與折射' },
@@ -3111,6 +3112,7 @@
                 + (nodeId === 'N02' ? scaleSectionHtml() : '')
                 + (nodeId === 'N06' ? matterSectionHtml() : '')
                 + (nodeId === 'N03' ? kinematicsGraphsHtml() : '')
+                + (nodeId === 'N07' ? keplerSectionHtml() : '')
                 + (nodeId === 'N18' ? emSpectrumSectionHtml() : '')
                 + (nodeId === 'N23' ? photoelectricSectionHtml() : '')
                 + (nodeId === 'N28' ? blackbodyQuantumSectionHtml() : '')
@@ -5019,6 +5021,556 @@
             peSimState.raf = requestAnimationFrame(frame);
         }
 
+        // ===== 天體運行與行星逆行互動實驗室 (astronomy lab) =====
+        function drawAstronomyLab() {
+            const setup = prepLabCanvas('astronomy-canvas');
+            if (!setup) return;
+            const { ctx, w, h } = setup;
+            
+            if (window.physicsLab.astroTime === undefined) window.physicsLab.astroTime = 0;
+            if (window.physicsLab.astroTrace === undefined) window.physicsLab.astroTrace = [];
+            if (window.physicsLab.astroPaused === undefined) window.physicsLab.astroPaused = false;
+            
+            const mode = document.getElementById('astro-mode').value;
+            const showSightline = document.getElementById('astro-show-sightline').checked;
+            const showOrbits = document.getElementById('astro-show-orbits').checked;
+            const showSky = document.getElementById('astro-show-sky').checked;
+            const showTrace = document.getElementById('astro-show-trace').checked;
+            
+            const R_E = 72; 
+            const R_M = 130; 
+            const R_stars = 170; 
+            
+            if (!window.physicsLab.astroPaused) {
+                const speed = labNumber('astro-speed') !== undefined ? labNumber('astro-speed') : 1.0;
+                const dt = 0.015 * speed;
+                window.physicsLab.astroTime += dt;
+            }
+            
+            const theta_E = window.physicsLab.astroTime;
+            const theta_M = 0.5317 * window.physicsLab.astroTime;
+            
+            const x_E_rel = R_E * Math.cos(theta_E);
+            const y_E_rel = R_E * Math.sin(theta_E);
+            const x_M_rel = R_M * Math.cos(theta_M);
+            const y_M_rel = R_M * Math.sin(theta_M);
+            
+            const dx = x_M_rel - x_E_rel;
+            const dy = y_M_rel - y_E_rel;
+            const phi = Math.atan2(dy, dx);
+            
+            const dist = Math.hypot(dx, dy);
+            const beta = 22 * Math.sin(theta_M - 0.7) / (dist / 100);
+            
+            if (!window.physicsLab.astroPaused) {
+                window.physicsLab.astroTrace.push({ phi, beta });
+                if (window.physicsLab.astroTrace.length > 500) {
+                    window.physicsLab.astroTrace.shift();
+                }
+            }
+            
+            let isRetrograde = false;
+            if (window.physicsLab.lastAstroPhi !== undefined) {
+                let diff = phi - window.physicsLab.lastAstroPhi;
+                if (diff > Math.PI) diff -= 2 * Math.PI;
+                if (diff < -Math.PI) diff += 2 * Math.PI;
+                if (diff < 0) {
+                    isRetrograde = true;
+                }
+            }
+            window.physicsLab.lastAstroPhi = phi;
+            
+            const earthEl = document.getElementById('astro-earth-angle');
+            const marsEl = document.getElementById('astro-mars-angle');
+            const relEl = document.getElementById('astro-relative-angle');
+            if (earthEl) earthEl.textContent = `${((theta_E * 180 / Math.PI) % 360).toFixed(1)}°`;
+            if (marsEl) marsEl.textContent = `${((theta_M * 180 / Math.PI) % 360).toFixed(1)}°`;
+            if (relEl) {
+                let diffAng = ((theta_E - theta_M) * 180 / Math.PI) % 360;
+                if (diffAng < 0) diffAng += 360;
+                relEl.textContent = `${diffAng.toFixed(1)}°`;
+            }
+            
+            const stateEl = document.getElementById('astro-state-readout');
+            if (stateEl) {
+                if (isRetrograde) {
+                    stateEl.textContent = '逆行 (Retrograde)';
+                    stateEl.style.color = '#f87171';
+                } else {
+                    stateEl.textContent = '順行 (Prograde)';
+                    stateEl.style.color = '#72b9b5';
+                }
+            }
+            
+            if (mode === 'both') {
+                drawHeliocentric(ctx, 260, 205, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+                drawGeocentric(ctx, 700, 205, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+            } else if (mode === 'helio') {
+                drawHeliocentric(ctx, 480, 205, R_E + 20, R_M + 30, R_stars + 35, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+            } else if (mode === 'geo') {
+                drawGeocentric(ctx, 480, 205, R_E + 20, R_M + 30, R_stars + 35, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde);
+            }
+            
+            drawSkyView(ctx, w, h, phi, beta, showSky, showTrace, isRetrograde);
+        }
+
+        function drawHeliocentric(ctx, cx, cy, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde) {
+            labText(ctx, '日心說模型 (Heliocentric)', cx, 30, '#d5e2e3', 15, 'center');
+            
+            ctx.strokeStyle = '#26444e';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(cx, cy, R_stars + 15, 0, Math.PI * 2); ctx.stroke();
+            
+            if (showSky) {
+                drawStarRingBackground(ctx, cx, cy, R_stars);
+            }
+            
+            if (showOrbits) {
+                ctx.strokeStyle = 'rgba(96, 165, 250, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.arc(cx, cy, R_E, 0, Math.PI * 2); ctx.stroke();
+                
+                ctx.strokeStyle = 'rgba(248, 113, 113, 0.15)';
+                ctx.beginPath(); ctx.arc(cx, cy, R_M, 0, Math.PI * 2); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            const sunGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, 10);
+            sunGrad.addColorStop(0, '#fff');
+            sunGrad.addColorStop(0.3, '#fbbf24');
+            sunGrad.addColorStop(1, 'rgba(251,191,36,0)');
+            ctx.fillStyle = sunGrad;
+            ctx.beginPath(); ctx.arc(cx, cy, 12, 0, Math.PI * 2); ctx.fill();
+            
+            const x_E = cx + R_E * Math.cos(theta_E);
+            const y_E = cy + R_E * Math.sin(theta_E);
+            const x_M = cx + R_M * Math.cos(theta_M);
+            const y_M = cy + R_M * Math.sin(theta_M);
+            
+            ctx.fillStyle = '#60a5fa';
+            ctx.beginPath(); ctx.arc(x_E, y_E, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(x_E, y_E, 7, 0, Math.PI * 2); ctx.stroke();
+            labText(ctx, '地', x_E + 8, y_E + 4, '#60a5fa', 11, 'left');
+            
+            ctx.fillStyle = '#f87171';
+            ctx.beginPath(); ctx.arc(x_M, y_M, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(248, 113, 113, 0.4)';
+            ctx.beginPath(); ctx.arc(x_M, y_M, 6, 0, Math.PI * 2); ctx.stroke();
+            labText(ctx, '火', x_M + 8, y_M + 4, '#f87171', 11, 'left');
+            
+            const x_proj = cx + R_stars * Math.cos(phi);
+            const y_proj = cy + R_stars * Math.sin(phi);
+            
+            if (showSightline) {
+                ctx.strokeStyle = isRetrograde ? 'rgba(248,113,113,0.45)' : 'rgba(213,226,227,0.3)';
+                ctx.lineWidth = 1.2;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath(); ctx.moveTo(x_E, y_E); ctx.lineTo(x_proj, y_proj); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            ctx.fillStyle = '#f87171';
+            ctx.beginPath(); ctx.arc(x_proj, y_proj, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(x_proj, y_proj, 6, 0, Math.PI * 2); strokeStyle = '#fff'; ctx.stroke();
+        }
+
+        function drawGeocentric(ctx, cx, cy, R_E, R_M, R_stars, theta_E, theta_M, phi, showOrbits, showSightline, showSky, isRetrograde) {
+            labText(ctx, '地心說模型 (Geocentric)', cx, 30, '#d5e2e3', 15, 'center');
+            
+            ctx.strokeStyle = '#26444e';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(cx, cy, R_stars + 15, 0, Math.PI * 2); ctx.stroke();
+            
+            if (showSky) {
+                drawStarRingBackground(ctx, cx, cy, R_stars);
+            }
+            
+            ctx.fillStyle = '#60a5fa';
+            ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2); ctx.stroke();
+            labText(ctx, '地', cx + 10, cy + 4, '#60a5fa', 11, 'left');
+            
+            const x_S = cx - R_E * Math.cos(theta_E);
+            const y_S = cy - R_E * Math.sin(theta_E);
+            
+            if (showOrbits) {
+                ctx.strokeStyle = 'rgba(251, 191, 36, 0.12)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.arc(cx, cy, R_E, 0, Math.PI * 2); ctx.stroke();
+            }
+            
+            const sunGrad = ctx.createRadialGradient(x_S, y_S, 2, x_S, y_S, 8);
+            sunGrad.addColorStop(0, '#fff');
+            sunGrad.addColorStop(0.3, '#fbbf24');
+            sunGrad.addColorStop(1, 'rgba(251,191,36,0)');
+            ctx.fillStyle = sunGrad;
+            ctx.beginPath(); ctx.arc(x_S, y_S, 10, 0, Math.PI * 2); ctx.fill();
+            labText(ctx, '日', x_S + 10, y_S + 4, '#fbbf24', 11, 'left');
+            
+            if (showOrbits) {
+                ctx.strokeStyle = 'rgba(132, 169, 176, 0.12)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.arc(cx, cy, R_M, 0, Math.PI * 2); ctx.stroke();
+            }
+            
+            const x_c = cx + R_M * Math.cos(theta_M);
+            const y_c = cy + R_M * Math.sin(theta_M);
+            
+            if (showOrbits) {
+                ctx.fillStyle = 'rgba(132, 169, 176, 0.4)';
+                ctx.beginPath(); ctx.arc(x_c, y_c, 2.5, 0, Math.PI * 2); ctx.fill();
+                
+                ctx.strokeStyle = 'rgba(213, 226, 227, 0.15)';
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath(); ctx.arc(x_c, y_c, R_E, 0, Math.PI * 2); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            const x_M_geo = x_c - R_E * Math.cos(theta_E);
+            const y_M_geo = y_c - R_E * Math.sin(theta_E);
+            
+            if (showOrbits) {
+                ctx.strokeStyle = 'rgba(213, 226, 227, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(x_c, y_c); ctx.lineTo(x_M_geo, y_M_geo); ctx.stroke();
+            }
+            
+            ctx.fillStyle = '#f87171';
+            ctx.beginPath(); ctx.arc(x_M_geo, y_M_geo, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = 'rgba(248, 113, 113, 0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(x_M_geo, y_M_geo, 6, 0, Math.PI * 2); ctx.stroke();
+            labText(ctx, '火', x_M_geo + 8, y_M_geo + 4, '#f87171', 11, 'left');
+            
+            const x_proj = cx + R_stars * Math.cos(phi);
+            const y_proj = cy + R_stars * Math.sin(phi);
+            
+            if (showSightline) {
+                ctx.strokeStyle = isRetrograde ? 'rgba(248,113,113,0.45)' : 'rgba(213,226,227,0.3)';
+                ctx.lineWidth = 1.2;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x_proj, y_proj); ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            ctx.fillStyle = '#f87171';
+            ctx.beginPath(); ctx.arc(x_proj, y_proj, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(x_proj, y_proj, 6, 0, Math.PI * 2); ctx.stroke();
+        }
+
+        function drawStarRingBackground(ctx, cx, cy, R_stars) {
+            ctx.strokeStyle = 'rgba(145, 167, 173, 0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(cx, cy, R_stars, 0, Math.PI * 2); ctx.stroke();
+            
+            const constellations = [
+                { name: '牡羊座', angle: 0 },
+                { name: '雙子座', angle: Math.PI / 4 },
+                { name: '獅子座', angle: Math.PI / 2 },
+                { name: '處女座', angle: 3 * Math.PI / 4 },
+                { name: '天秤座', angle: Math.PI },
+                { name: '天蠍座', angle: -3 * Math.PI / 4 },
+                { name: '摩羯座', angle: -Math.PI / 2 },
+                { name: '雙魚座', angle: -Math.PI / 4 }
+            ];
+            
+            constellations.forEach(c => {
+                const x_s = cx + R_stars * Math.cos(c.angle);
+                const y_s = cy + R_stars * Math.sin(c.angle);
+                
+                ctx.fillStyle = 'rgba(213, 226, 227, 0.6)';
+                ctx.beginPath(); ctx.arc(x_s, y_s, 2, 0, Math.PI * 2); ctx.fill();
+                
+                const x_t = cx + (R_stars + 16) * Math.cos(c.angle);
+                const y_t = cy + (R_stars + 16) * Math.sin(c.angle) + 4;
+                labText(ctx, c.name, x_t, y_t, 'rgba(145, 167, 173, 0.55)', 10, 'center');
+            });
+        }
+
+        function drawSkyView(ctx, w, h, phi, beta, showSky, showTrace, isRetrograde) {
+            const X_left = 120;
+            const W_sky = 720;
+            const Y_top = 440;
+            const Y_mid = 480;
+            const H_sky = 80;
+            
+            ctx.fillStyle = '#0d2630';
+            ctx.fillRect(X_left, Y_top, W_sky, H_sky);
+            
+            ctx.strokeStyle = '#26444e';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(X_left, Y_top, W_sky, H_sky);
+            
+            ctx.strokeStyle = 'rgba(145, 167, 173, 0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(X_left, Y_mid); ctx.lineTo(X_left + W_sky, Y_mid); ctx.stroke();
+            
+            labText(ctx, '地球觀測天空 (觀測投影)', X_left - 15, Y_mid + 5, '#9fb7c0', 12, 'right');
+            labText(ctx, '恆星背景', X_left + 10, Y_top + 18, 'rgba(145, 167, 173, 0.35)', 10, 'left');
+            
+            const constellations = [
+                { name: '天秤座', angle: -Math.PI },
+                { name: '天蠍座', angle: -3 * Math.PI / 4 },
+                { name: '摩羯座', angle: -Math.PI / 2 },
+                { name: '雙魚座', angle: -Math.PI / 4 },
+                { name: '牡羊座', angle: 0 },
+                { name: '雙子座', angle: Math.PI / 4 },
+                { name: '獅子座', angle: Math.PI / 2 },
+                { name: '處女座', angle: 3 * Math.PI / 4 },
+                { name: '天秤座', angle: Math.PI }
+            ];
+            
+            if (showSky) {
+                constellations.forEach(c => {
+                    const x = X_left + ((c.angle + Math.PI) / (2 * Math.PI)) * W_sky;
+                    
+                    ctx.strokeStyle = 'rgba(145, 167, 173, 0.05)';
+                    ctx.beginPath(); ctx.moveTo(x, Y_top); ctx.lineTo(x, Y_top + H_sky); ctx.stroke();
+                    
+                    labText(ctx, c.name, x, Y_top + H_sky - 8, 'rgba(145, 167, 173, 0.35)', 9, 'center');
+                    
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.beginPath(); ctx.arc(x - 20, Y_mid - 15, 1, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(x + 20, Y_mid + 10, 1.2, 0, Math.PI * 2); ctx.fill();
+                });
+            }
+            
+            if (showTrace && window.physicsLab.astroTrace && window.physicsLab.astroTrace.length > 1) {
+                ctx.strokeStyle = 'rgba(248, 113, 113, 0.7)';
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                let first = true;
+                let lastX = 0;
+                for (let i = 0; i < window.physicsLab.astroTrace.length; i++) {
+                    const pt = window.physicsLab.astroTrace[i];
+                    const x = X_left + ((pt.phi + Math.PI) / (2 * Math.PI)) * W_sky;
+                    const y = Y_mid - pt.beta;
+                    
+                    if (first) {
+                        ctx.moveTo(x, y);
+                        first = false;
+                    } else {
+                        if (Math.abs(x - lastX) > W_sky * 0.8) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    }
+                    lastX = x;
+                }
+                ctx.stroke();
+            }
+            
+            const m_x = X_left + ((phi + Math.PI) / (2 * Math.PI)) * W_sky;
+            const m_y = Y_mid - beta;
+            
+            ctx.strokeStyle = isRetrograde ? 'rgba(248, 113, 113, 0.25)' : 'rgba(114, 185, 181, 0.15)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            ctx.beginPath(); ctx.moveTo(m_x, Y_top); ctx.lineTo(m_x, Y_top + H_sky); ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#f87171';
+            ctx.beginPath(); ctx.arc(m_x, m_y, 4.5, 0, Math.PI * 2); ctx.fill();
+            
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(m_x, m_y, 6.5, 0, Math.PI * 2); ctx.stroke();
+            
+            labText(ctx, '火星 (Mars)', m_x, m_y - 10, '#f87171', 10, 'center');
+        }
+
+        function updateAstroReadouts() {
+            if (!window.physicsLab || !document.getElementById('astro-speed')) return;
+            const speed = labNumber('astro-speed');
+            document.getElementById('astro-speed-out').textContent = `${speed.toFixed(1)}×`;
+            
+            const mode = document.getElementById('astro-mode').value;
+            const explains = {
+                both: `對比說明：左側為哥白尼「日心說」（太陽在中心），右側為托勒密「地心說」（地球在中心）。雖然兩者在動態上完全等價（由地球觀測到的火星軌跡與逆行完全相同，見下方天空投影），但日心說免去了地心說中行星本輪必須與太陽同步的繁複設定，後續更由克卜勒與牛頓揭示了天體運動的物理本質。`,
+                helio: `日心說模型：太陽靜止於中心，地球與火星皆繞日公轉。因為地球位於內軌道、公轉速率快於外軌道的火星，當地球在軌道上「追越」火星時，由地球看火星的視線會短暫向後倒退，在背景星空形成「逆行」現象（如超車時看鄰車向後退）。此模型簡單且符合萬有引力規律。`,
+                geo: `地心說模型：地球靜止於中心，太陽繞地公轉，火星則在「均輪」上繞行，並在均輪軌道上同時繞「本輪」旋轉。當火星轉至本輪內側（靠近地球）時，其合成運動方向與均輪相反，從而形成「逆行」。此模型極其複雜，且各行星本輪必須與太陽位置人為同步。`
+            };
+            document.getElementById('astro-explain').innerHTML = explains[mode];
+            
+            drawAstronomyLab();
+        }
+
+        function toggleAstroPause() {
+            if (!window.physicsLab) return;
+            window.physicsLab.astroPaused = !window.physicsLab.astroPaused;
+            const btn = document.getElementById('astro-pause-btn');
+            if (!btn) return;
+            btn.textContent = window.physicsLab.astroPaused ? '▶ 繼續動畫' : '⏸ 暫停動畫';
+            btn.classList.toggle('active', window.physicsLab.astroPaused);
+            drawAstronomyLab();
+        }
+
+        function resetAstroTrace() {
+            if (!window.physicsLab) return;
+            window.physicsLab.astroTrace = [];
+            drawAstronomyLab();
+        }
+
+        function keplerSectionHtml() {
+            return `
+                <div class="handout-section-title" style="margin-top: 1.5rem;">💡 核心觀念解析：天體模型的演進與克卜勒定律的物理本質</div>
+                <p class="content-subtitle">在物理學的發展史上，克卜勒定律是由古典幾何宇宙觀邁向近代動力學（萬有引力）的關鍵橋樑。理解其內涵需從模型的演進與觀測數據出發：</p>
+                
+                <div class="edu-card" style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-top:0; color:var(--primary-blue);">1. 地心說 vs. 日心說模型的本質對決</h4>
+                    <p style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
+                        歷史上，如何解釋觀測到的<b>「行星逆行現象」</b>（行星在背景星空中短暫向後移動）是天體模型最重要的試金石：
+                    </p>
+                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem;">
+                        <li><b>托勒密的地心說 (Geocentric Model)</b>：以地球為宇宙中心。為了在「圓周運動」的執念下解釋逆行，必須假設行星在小圓（<b>本輪</b>）上旋轉，而本輪中心又在大圓（<b>均輪</b>）上繞地旋轉。此外，為了配合觀測，所有行星本輪的旋轉週期與方向都必須與太陽的位置進行「人為強制同步」，使得系統極其複雜且缺乏物理機制。</li>
+                        <li><b>哥白尼的日心說 (Heliocentric Model)</b>：將太陽置於中心，行星繞日公轉。逆行現象迎刃而解——它只不過是<b>「軌道追越的幾何投影」</b>。地球位於內軌道，公轉速率較快，當它追上並超越外軌道的火星時，由地球看火星的視角線便會向後退。這就如同在高速公路上超車時，鄰車看起來在往後退一般，本質極為簡單優雅。</li>
+                    </ul>
+                </div>
+
+                <div class="edu-card" style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-top:0; color:var(--primary-blue);">2. 克卜勒定律的發現與三大定律內涵</h4>
+                    <p style="font-size:0.92rem; line-height:1.6; color:var(--text-main);">
+                        克卜勒利用導師第谷長達數十年的高精度觀測數據，拋棄了古希臘「完美圓周」的束縛，歸納出行星運動三大定律：
+                    </p>
+                    <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem;">
+                        <li><b>第一定律（橢圓軌道定律）</b>：所有行星繞太陽公轉的軌道都是橢圓，太陽位於橢圓的其中一個焦點上。此定律打破了均輪與本輪的繁瑣幾何設定。</li>
+                        <li><b>第二定律（等面積定律）</b>：行星與太陽的連線，在相同的時間內掃過的面積相等。這意味著行星在軌道上各點的速率是變化的：<b>近日點距離小、速率最快；遠日點距離大、速率最慢</b>。從能量觀點看，近日點重力勢能最低、動能最高；遠日點則相反，本質為力學能守恆。</li>
+                        <li><b>第三定律（週期定律）</b>：行星公轉週期 $T$ 的平方與軌道半長軸 $R$ 的三次方成正比，即 $\\frac{T^2}{R^3} = K$（常數）。此常數 $K$ 僅由<b>中心天體的質量</b>決定，繞同一中心天體運行的所有行星，其 $K$ 值均相同。</li>
+                    </ul>
+                </div>
+
+                <div class="handout-section-title">🔍 觀念深度剖析：地心說 vs. 日心說 ＆ 太陽系公轉特徵對照</div>
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">比較項目</th>
+                                <th style="width: 40%">托勒密地心說模型</th>
+                                <th style="width: 40%">哥白尼日心說模型</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>宇宙中心</b></td>
+                                <td>地球（靜止不動）</td>
+                                <td>太陽（靜止不動，行星繞日）</td>
+                            </tr>
+                            <tr>
+                                <td><b>行星逆行解釋</b></td>
+                                <td>行星本身繞著<b>本輪</b>旋轉，本輪中心繞著<b>均輪</b>旋轉，當行星處於本輪內側時速度與均輪相反，產生逆行。</td>
+                                <td>地球公轉速率快於外側行星。當地球<b>追越</b>外側行星時，觀測視線在背景星空產生向後的投影。</td>
+                            </tr>
+                            <tr>
+                                <td><b>系統複雜度</b></td>
+                                <td>極高，需數十個本輪、均輪與偏心圓疊加，且各行星本輪必須與太陽同步。</td>
+                                <td>極低，行星僅需做簡單的繞日圓周（或橢圓）運動即可自然解釋。</td>
+                            </tr>
+                            <tr>
+                                <td><b>牛頓力學解釋</b></td>
+                                <td>無法以簡單的物理規律解釋（需要極其複雜、非物理的力場）。</td>
+                                <td>可用<b>萬有引力定律</b>統一解釋（$\\frac{T^2}{R^3} = \\frac{4\\pi^2}{GM}$），常數 $K$ 由太陽質量 $M$ 決定。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-alert" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+                    <span class="info-alert-icon">💡</span>
+                    <div>
+                        <strong>數據實證：太陽系主要行星週期與軌道半長軸對照表（驗證第三定律）</strong><br>
+                        由下方真實觀測數據可見，不同行星的 $R^3/T^2$ 比值幾乎完全相等（常數 $K \\approx 1.00\\,\\text{AU}^3/\\text{yr}^2$），這正是克卜勒從數據中提取規律的偉大實證：
+                    </div>
+                </div>
+
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%">行星名稱</th>
+                                <th style="width: 20%">軌道半長軸 $R$ (AU)</th>
+                                <th style="width: 20%">公轉週期 $T$ (年)</th>
+                                <th style="width: 20%">$R^3$ ($\\text{AU}^3$)</th>
+                                <th style="width: 20%">$T^2$ ($\\text{yr}^2$)</th>
+                                <th>$R^3/T^2$ 比值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>水星</b></td>
+                                <td>0.387</td>
+                                <td>0.241</td>
+                                <td>0.058</td>
+                                <td>0.058</td>
+                                <td><span class="code-badge">1.00</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>金星</b></td>
+                                <td>0.723</td>
+                                <td>0.615</td>
+                                <td>0.378</td>
+                                <td>0.378</td>
+                                <td><span class="code-badge">1.00</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>地球</b></td>
+                                <td>1.000</td>
+                                <td>1.000</td>
+                                <td>1.000</td>
+                                <td>1.000</td>
+                                <td><span class="code-badge">1.00</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>火星</b></td>
+                                <td>1.524</td>
+                                <td>1.881</td>
+                                <td>3.540</td>
+                                <td>3.538</td>
+                                <td><span class="code-badge">1.00</span></td>
+                            </tr>
+                            <tr>
+                                <td><b>木星</b></td>
+                                <td>5.203</td>
+                                <td>11.86</td>
+                                <td>140.8</td>
+                                <td>140.7</td>
+                                <td><span class="code-badge">1.00</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="handout-section-title">📝 生活應用與估算實戰：同步衛星與系外行星軌道計算</div>
+                <div class="edu-card" style="margin-bottom: 2rem;">
+                    <div style="font-weight: 700; color: var(--accent-rose); margin-bottom: 0.5rem;">🔥 費米估算實戰：利用克卜勒第三定律快速求同步衛星軌道</div>
+                    <p style="font-size: 0.92rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-main);">
+                        已知國際太空站（ISS）在離地表約 $400\\,\\text{km}$ 軌道繞地球運行，其公轉週期約為 $1.5\\,\\text{小時}$ (90分鐘)。若同步衛星的公轉週期必須等於地球自轉週期（$24\\,\\text{小時}$），請估算同步衛星的軌道半徑約為地球半徑的幾倍？（地球半徑 $R_e \\approx 6400\\,\\text{km}$）
+                    </p>
+                    <div style="background-color: #f8fafc; border: 1px solid var(--border-color); padding: 1rem; border-radius: 8px; font-size: 0.88rem; line-height: 1.5; color: var(--text-main);">
+                        <strong>估算步驟解析：</strong><br>
+                        1. <b>建立比例關係</b>：繞同一中心天體（地球）運行，適用克卜勒第三定律：$\\frac{r^3}{T^2} = \\text{常數} \\implies \\left(\\frac{r_{\\text{同步}}}{r_{\\text{ISS}}}\\right)^3 = \\left(\\frac{T_{\\text{同步}}}{T_{\\text{ISS}}}\\right)^2$。<br>
+                        2. <b>代入週期比值</b>：$\\frac{T_{\\text{同步}}}{T_{\\text{ISS}}} = \\frac{24\\,\\text{小時}}{1.5\\,\\text{小時}} = 16$倍。<br>
+                        3. <b>求解半徑比值</b>：$\\left(\\frac{r_{\\text{同步}}}{r_{\\text{ISS}}}\\right)^3 = 16^2 = 256$。<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• 估算 $256$ 的三次方根：因為 $6^3 = 216$，$7^3 = 343$，故 $\\sqrt[3]{256} \\approx 6.3$。<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• 因此 $r_{\\text{同步}} \\approx 6.3 \\times r_{\\text{ISS}}$。<br>
+                        4. <b>換算地表高度與地球半徑倍數</b>：<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• ISS 軌道半徑 $r_{\\text{ISS}} = R_e + 400\\,\\text{km} \\approx 6400 + 400 = 6800\\,\\text{km}$（約等於 $1.06\\,R_e$）。<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• 同步衛星軌道半徑 $r_{\\text{同步}} \\approx 6.3 \\times 6800\\,\\text{km} \\approx 42800\\,\\text{km}$。<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• 換算為地球半徑倍數：$\\frac{42800\\,\\text{km}}{6400\\,\\text{km}} \\approx 6.7$倍（真實值約為 $6.6$倍）。此方法能快速在選擇題中找出答案！
+                    </div>
+                </div>
+            `;
+        }
+
         // 四大基本交互作用對照矩陣——併入模組七
         function fourForcesSectionHtml() {
             return `
@@ -5144,15 +5696,149 @@
                 pts += ' ' + dgR(fx) + ',' + cy;
                 return '<polygon points="' + pts + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1"/>';
             };
-            s += sector(150, 210, 'rgba(37,99,235,0.16)', DG.blue);
-            s += sector(-16, 16, 'rgba(5,150,105,0.16)', DG.green);
+            s += sector(160, 200, 'rgba(37,99,235,0.16)', DG.blue);
+            s += sector(-12, 12, 'rgba(5,150,105,0.16)', DG.green);
             s += '<circle cx="' + dgR(fx) + '" cy="' + cy + '" r="8" fill="' + DG.orange + '"/>' + dgTxt(fx, 156, '太陽（焦點）', { fs: 11, fill: DG.orange, b: 1 });
             s += dgArrow(cx - rx, cy, cx - rx, cy - 50, DG.blue, 2.5) + dgTxt(cx - rx - 18, cy - 28, 'v 大', { fill: DG.blue, b: 1 });
             s += dgArrow(cx + rx, cy, cx + rx, cy + 38, DG.green, 2.5) + dgTxt(cx + rx + 21, cy + 24, 'v 小', { fill: DG.green, b: 1 });
             s += dgTxt(cx - rx + 4, cy - 60, '近日點', { fs: 11 }) + dgTxt(cx + rx - 6, cy + 56, '遠日點', { fs: 11 });
             s += dgTxt(148, cy + 4, '甲', { fs: 13, b: 1, fill: DG.blue }) + dgTxt(398, cy + 4, '乙', { fs: 13, b: 1, fill: DG.green });
-            return dgCard('克卜勒第二定律：等面積律', dgSvg(520, 262, s),
+            const kepler2Card = dgCard('克卜勒第二定律：等面積律', dgSvg(520, 262, s),
                 '行星與太陽的連線在「相等時間」內掃過「相等面積」（甲＝乙）→ 近日點快、遠日點慢。第三定律：T² ∝ r³，軌道越大、週期越長（繞同一中心天體比較）。');
+                
+            return kepler2Card + diagN07_retrograde();
+        }
+
+        function diagN07_retrograde() {
+            let s = '';
+            
+            // Add premium gradients and filters
+            s += `<defs>
+                <radialGradient id="sun-glow-diag" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="35%" stop-color="#fbbf24"/>
+                    <stop offset="100%" stop-color="rgba(245,158,11,0)"/>
+                </radialGradient>
+                <linearGradient id="bg-grad-diag" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#0b0f19"/>
+                    <stop offset="50%" stop-color="#111827"/>
+                    <stop offset="100%" stop-color="#1f2937"/>
+                </linearGradient>
+                <linearGradient id="sky-grad-diag" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#050b14"/>
+                    <stop offset="100%" stop-color="#0f172a"/>
+                </linearGradient>
+            </defs>`;
+            
+            // Background Card Capsule
+            s += `<rect width="520" height="270" fill="url(#bg-grad-diag)" rx="10"/>`;
+            
+            // 1. Draw Grid Plane (黃道面格線)
+            s += '<!-- Ecliptic Plane Grid -->';
+            const gridFill = 'rgba(17, 24, 39, 0.65)';
+            const gridStroke = 'rgba(99, 102, 241, 0.15)';
+            
+            // Outer boundary of the plane
+            s += `<polygon points="20,260 500,260 380,160 140,160" fill="${gridFill}" stroke="rgba(99, 102, 241, 0.35)" stroke-width="1.2"/>`;
+            
+            // Transverse grid lines (depth)
+            s += `<line x1="50" y1="235" x2="470" y2="235" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            s += `<line x1="80" y1="210" x2="440" y2="210" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            s += `<line x1="110" y1="185" x2="410" y2="185" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            
+            // Longitudinal grid lines
+            s += `<line x1="140" y1="160" x2="20" y2="260" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            s += `<line x1="200" y1="160" x2="140" y2="260" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            s += `<line x1="260" y1="160" x2="260" y2="260" stroke="${gridStroke}" stroke-width="1.2" stroke-dasharray="4 2"/>`; // Center axis
+            s += `<line x1="320" y1="160" x2="380" y2="260" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            s += `<line x1="380" y1="160" x2="500" y2="260" stroke="${gridStroke}" stroke-width="0.8"/>`;
+            
+            s += `<text x="35" y="250" font-size="10" fill="rgba(148,163,184,0.4)" font-weight="700">黃道平面</text>`;
+            
+            // 2. Draw Orbits (地球 & 火星軌道)
+            // Earth Orbit (rx=90, ry=30, center=(260, 205))
+            s += `<path d="M 170 205 A 90 30 0 0 1 350 205" fill="none" stroke="rgba(56,189,248,0.4)" stroke-width="1.5" stroke-dasharray="4 2"/>`;
+            
+            // Mars Orbit (rx=150, ry=50, center=(260, 205))
+            s += `<path d="M 110 205 A 150 50 0 0 1 410 205" fill="none" stroke="rgba(248,113,113,0.4)" stroke-width="1.5" stroke-dasharray="4 2"/>`;
+            
+            // Sun in the center
+            s += `<circle cx="260" cy="205" r="10" fill="url(#sun-glow-diag)"/>`;
+            s += `<circle cx="260" cy="205" r="4.5" fill="#fff"/>`;
+            s += `<text x="260" y="222" font-size="10.5" fill="#fbbf24" font-weight="700" text-anchor="middle">太陽</text>`;
+            
+            // 3. Draw Sky Board (星空背景)
+            s += `<!-- Sky Board Background -->`;
+            s += `<rect x="40" y="25" width="440" height="85" rx="10" ry="10" fill="url(#sky-grad-diag)" stroke="rgba(99,102,241,0.22)" stroke-width="1.2" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5))"/>`;
+            
+            // Stars background details
+            const starCoords = [[60,40,0.6],[100,80,0.8],[150,35,0.5],[200,90,0.7],[320,35,0.6],[380,90,0.5],[430,40,0.8],[450,75,0.7]];
+            starCoords.forEach(st => {
+                s += `<circle cx="${st[0]}" cy="${st[1]}" r="1" fill="#fff" opacity="${st[2]}"/>`;
+            });
+            s += `<text x="260" y="38" font-size="9" fill="rgba(148,163,184,0.5)" font-weight="700" text-anchor="middle" letter-spacing="1">恆星背景與火星視運動投影</text>`;
+            
+            // Define positions 1..6 (Mathematically placed exactly on orbits: rx=90/30, rx=150/50 centered at 260,205)
+            const E = [
+                [338, 190],
+                [312, 180.5],
+                [282, 176],
+                [238, 176],
+                [208, 180.5],
+                [182, 190]
+            ];
+            
+            const S = [
+                [444, 68],
+                [350, 62],
+                [255, 80],
+                [293, 48],
+                [180, 62],
+                [81, 68]
+            ];
+            
+            const M = [
+                [358, 167],
+                [319, 159],
+                [276, 155],
+                [247, 155],
+                [203, 159],
+                [163, 167]
+            ];
+            
+            // 4. Draw lines of sight (地球 -> 火星 -> 天球)
+            s += `<!-- Lines of Sight -->`;
+            for (let i = 0; i < 6; i++) {
+                s += `<line x1="${E[i][0]}" y1="${E[i][1]}" x2="${S[i][0]}" y2="${S[i][1]}" stroke="rgba(255,255,255,0.18)" stroke-width="0.9" stroke-dasharray="2 3"/>`;
+            }
+            // 5. Draw Mars apparent path in the sky (Cubic Bezier smooth curve sequentially connecting 1->2->3->4->5->6)
+            s += `<!-- Sky path -->`;
+            s += `<path d="M 444 68 C 410 66, 375 61, 350 62 C 320 63, 270 78, 255 80 C 235 82, 260 50, 293 48 C 320 46, 220 58, 180 62 C 150 65, 110 67, 81 68" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" style="filter: drop-shadow(0 0 3px rgba(239,68,68,0.5))"/>`;
+            s += `<text x="430" y="85" font-size="9" fill="#fca5a5" font-weight="700">火星視運動路徑</text>`;
+            
+            // 6. Draw Orbit Labels
+            s += `<text x="355" y="212" font-size="8.5" fill="#38bdf8" font-weight="700" text-anchor="start">地球軌道</text>`;
+            s += `<text x="415" y="212" font-size="8.5" fill="#f87171" font-weight="700" text-anchor="start">火星軌道</text>`;
+            
+            // 7. Draw dots and numbers 1..6
+            for (let i = 0; i < 6; i++) {
+                const idx = i + 1;
+                
+                // Earth dot (blue glow)
+                s += `<circle cx="${E[i][0]}" cy="${E[i][1]}" r="4" fill="#38bdf8" stroke="#fff" stroke-width="0.8"/>`;
+                s += `<text x="${E[i][0]}" y="${E[i][1] + 12}" font-size="8.5" fill="#38bdf8" font-weight="700" text-anchor="middle">${idx}</text>`;
+                
+                // Mars dot (red glow)
+                s += `<circle cx="${M[i][0]}" cy="${M[i][1]}" r="3.5" fill="#f87171" stroke="#fff" stroke-width="0.8"/>`;
+                s += `<text x="${M[i][0]}" y="${M[i][1] + 11}" font-size="8.5" fill="#f87171" font-weight="700" text-anchor="middle">${idx}</text>`;
+                
+                // Projected Mars dot (orange-red)
+                s += `<circle cx="${S[i][0]}" cy="${S[i][1]}" r="3" fill="#ffffff" stroke="#f87171" stroke-width="1.2"/>`;
+                s += `<text x="${S[i][0]}" y="${S[i][1] - 5}" font-size="8.5" fill="#fca5a5" font-weight="700" text-anchor="middle">${idx}</text>`;
+            }
+            
+            return dgCard('日心說模型：行星逆行投影原理 (黃道面追越與天球投影)', dgSvg(520, 270, s),
+                '地球（內軌道，速度快，1→6）在公轉時「追越」火星（外軌道，速度慢，1→6）。從地球看火星的視線投影到背景星空中，在超車階段（2→5）會產生暫時逆向運動的迴圈（Retrograde Loop），此幾何現象完美解釋了行星逆行的視差原理。');
         }
 
         function diagN14() {
@@ -5443,6 +6129,7 @@
                     <button class="lab-switch-btn" data-lab="photo" onclick="switchLabPanel('photo', this)">⚡ 光電效應</button>
                     <button class="lab-switch-btn" data-lab="blackbody" onclick="switchLabPanel('blackbody', this)">🌈 黑體輻射</button>
                     <button class="lab-switch-btn" data-lab="induction" onclick="switchLabPanel('induction', this)">🧲 電磁感應</button>
+                    <button class="lab-switch-btn" data-lab="astronomy" onclick="switchLabPanel('astronomy', this)">🪐 天體運行</button>
                 </div>
 
                 <section class="lab-panel active" id="lab-wave" role="tabpanel">
@@ -5562,6 +6249,38 @@
                     </div>
                     <div class="lab-explain" id="induction-explain">步驟一：磁鐵靠近或遠離會改變線圈位置的外加磁場 B<sub>ext</sub>。</div>
                 </section>
+
+                <section class="lab-panel" id="lab-astronomy" role="tabpanel">
+                    <div class="lab-stage-grid">
+                        <div class="lab-stage"><canvas class="lab-canvas" id="astronomy-canvas" width="960" height="540" aria-label="天體運行與行星逆行動畫"></canvas></div>
+                        <div class="lab-controls">
+                            <h3>天體運行參數</h3>
+                            <label class="lab-control"><span class="lab-control-head">顯示模式</span>
+                                <select id="astro-mode">
+                                    <option value="both" selected>雙模型對照 (地心 vs 日心)</option>
+                                    <option value="helio">日心說模型 (Heliocentric)</option>
+                                    <option value="geo">地心說模型 (Geocentric)</option>
+                                </select>
+                            </label>
+                            <label class="lab-control"><span class="lab-control-head">動畫速率 <b class="lab-value" id="astro-speed-out">1.0×</b></span><input id="astro-speed" type="range" min="0" max="2.5" value="1.0" step="0.1"></label>
+                            <button id="astro-pause-btn" class="lab-btn" onclick="toggleAstroPause()">⏸ 暫停動畫</button>
+                            <button id="astro-reset-btn" class="lab-btn" onclick="resetAstroTrace()">🔄 清除軌跡</button>
+                            
+                            <h4 style="margin: 12px 0 6px 0; color: #70d2d0; font-size: 14px; font-weight: 600;">顯示切換</h4>
+                            <label class="lab-check"><input id="astro-show-sightline" type="checkbox" checked> 顯示視線 (Earth-Mars Line)</label>
+                            <label class="lab-check"><input id="astro-show-orbits" type="checkbox" checked> 顯示軌道與軌跡</label>
+                            <label class="lab-check"><input id="astro-show-sky" type="checkbox" checked> 顯示星空背景投影</label>
+                            <label class="lab-check"><input id="astro-show-trace" type="checkbox" checked> 顯示行星逆行軌跡</label>
+                        </div>
+                    </div>
+                    <div class="lab-readouts">
+                        <div class="lab-readout"><span class="lab-readout-label">目前運動狀態</span><strong id="astro-state-readout" style="color: var(--teal);">順行 (Prograde)</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label">地球軌道角度</span><strong id="astro-earth-angle">0.0°</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label">火星軌道角度</span><strong id="astro-mars-angle">0.0°</strong></div>
+                        <div class="lab-readout"><span class="lab-readout-label">兩星夾角 (對日心)</span><strong id="astro-relative-angle">0.0°</strong></div>
+                    </div>
+                    <div class="lab-explain" id="astro-explain">正在加載天體運行模型說明...</div>
+                </section>
             `;
         }
 
@@ -5577,6 +6296,7 @@
             if (initialLab === 'wave') updateWaveReadouts();
             if (initialLab === 'photo') updatePhotoReadouts();
             if (initialLab === 'induction') updateInductionReadouts();
+            if (initialLab === 'astronomy') updateAstroReadouts();
             startLabAnimation();
             const main = document.getElementById('main-content');
             if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([main]);
@@ -5595,6 +6315,11 @@
             document.querySelectorAll('.lab-switch-btn').forEach(btn => btn.classList.toggle('active', btn === button));
             document.querySelectorAll('.lab-panel').forEach(panel => panel.classList.toggle('active', panel.id === `lab-${name}`));
             if (name === 'blackbody') drawBlackbodyLab();
+            if (name === 'astronomy') {
+                window.physicsLab.astroTime = 0;
+                window.physicsLab.astroTrace = [];
+                updateAstroReadouts();
+            }
             if (name === 'induction') {
                 window.physicsLab.lastFluxExt = undefined;
                 window.physicsLab.lastDeltaField = 0;
@@ -5727,6 +6452,25 @@
             updateWaveReadouts();
             updatePhotoReadouts();
             updateInductionReadouts();
+            
+            // Bind astronomy controls
+            ['astro-mode', 'astro-speed'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', updateAstroReadouts);
+                    el.addEventListener('change', updateAstroReadouts);
+                }
+            });
+            ['astro-show-sightline', 'astro-show-orbits', 'astro-show-sky', 'astro-show-trace'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', () => {
+                        if (window.physicsLab && window.physicsLab.active === 'astronomy') {
+                            drawAstronomyLab();
+                        }
+                    });
+                }
+            });
         }
 
         function labNumber(id) { return Number(document.getElementById(id).value); }
@@ -5740,6 +6484,7 @@
                 if (window.physicsLab.active === 'wave') drawWaveLab();
                 if (window.physicsLab.active === 'photo') drawPhotoLab();
                 if (window.physicsLab.active === 'induction') drawInductionLab();
+                if (window.physicsLab.active === 'astronomy') drawAstronomyLab();
                 window.labAnimationFrame = requestAnimationFrame(loop);
             };
             window.labAnimationFrame = requestAnimationFrame(loop);
