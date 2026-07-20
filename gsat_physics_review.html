@@ -3025,6 +3025,7 @@
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-lab')"><span class="nav-icon">🔬</span> 互動物理實驗室</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-quiz')"><span class="nav-icon">✏️</span> 知識節點分級題庫</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-exams')"><span class="nav-icon">📚</span> 歷屆試題練習</a></li>
+            <li><a class="nav-item" onclick="switchMainView(this, 'tool-mock')"><span class="nav-icon">🧪</span> 模擬考練習（111–114）</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-wrong')"><span class="nav-icon">📕</span> 錯題本<span class="nav-badge" id="wrong-nav-badge" style="display:none;"></span></a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-stats')"><span class="nav-icon">📊</span> 五年命題矩陣（節點層級）</a></li>
             <li><a class="nav-item" onclick="switchMainView(this, 'tool-buster')"><span class="nav-icon">⚡</span> 大考「素養包裝」破解器</a></li>
@@ -3089,6 +3090,8 @@
                 renderExamsView();
             } else if (targetId === 'tool-wrong') {
                 renderWrongView();
+            } else if (targetId === 'tool-mock') {
+                renderMockView();
             } else if (targetId === 'tool-videos') {
                 renderVideosView();
             }
@@ -10248,6 +10251,78 @@
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise();
             }
+        }
+
+        // ===== 模擬考練習（111–114 學年自然科模擬考，取自嘉華中學公開試題區） =====
+        // 檔案放 模擬考/{學年}模考{次}_試題|解答.pdf。phy＝物理題所在頁（文字版由關鍵字掃描得出；
+        // null＝圖像掃描版無法自動定位，但物理固定從第 2 頁（第壹部分卷首）起，解答逐題標「概念：物理科」。
+        const mockExams = [
+            { yr: '114', n: 1, pages: 18, phy: null },
+            { yr: '114', n: 2, pages: 20, phy: null },
+            { yr: '114', n: 3, pages: 20, phy: null },
+            { yr: '114', n: 4, pages: 24, phy: null },
+            { yr: '113', n: 1, pages: 21, phy: '3–5、14' },
+            { yr: '113', n: 2, pages: 24, phy: null },
+            { yr: '113', n: 3, pages: 20, phy: null },
+            { yr: '113', n: 4, pages: 24, phy: null },
+            { yr: '112', n: 1, pages: 24, phy: '2–3' },
+            { yr: '112', n: 2, pages: 20, phy: '2–4、15' },
+            { yr: '111', n: 2, pages: 16, phy: '2–3、9–11' },
+            { yr: '111', n: 3, pages: 20, phy: '4–6、12–13' },
+            { yr: '111', n: 4, pages: 16, phy: '2–4、15–16', extra: true },
+        ];
+
+        function renderMockView() {
+            currentView = 'mock';
+            const main = document.getElementById('main-content');
+            const groups = {};
+            mockExams.forEach(m => { (groups[m.yr] = groups[m.yr] || []).push(m); });
+
+            let cards = '';
+            Object.keys(groups).sort((a, b) => b - a).forEach(yr => {
+                const rows = groups[yr].map(m => {
+                    const base = `模擬考/${m.yr}模考${m.n}`;
+                    const q = encodeURI(base + '_試題.pdf');
+                    const ans = encodeURI(base + '_解答.pdf');
+                    const phyStart = m.phy ? parseInt(m.phy) : 2;
+                    const hint = m.phy
+                        ? `物理題主要在第 <strong>${m.phy}</strong> 頁（關鍵字掃描，跨科題組另計）`
+                        : `掃描版：物理從卷首第 2 頁起；解答每題標有「概念：物理科」可對照挑出物理題`;
+                    return `
+                        <div class="exam-item" style="padding:0.7rem 0.9rem;">
+                            <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem;">
+                                <span class="exam-qno">第 ${m.n} 次</span>
+                                <span style="font-size:0.8rem; color:var(--text-muted);">${m.pages} 頁</span>
+                                <span style="font-size:0.83rem; flex:1; min-width:220px;">${hint}</span>
+                                <span style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                    <a class="exam-toplink" href="${q}#page=${phyStart}" target="_blank" rel="noopener">🎯 從物理題開啟</a>
+                                    <a class="exam-toplink" href="${q}" target="_blank" rel="noopener">📄 試題</a>
+                                    <a class="exam-toplink" href="${ans}" target="_blank" rel="noopener">✅ 解答詳解</a>
+                                    ${m.extra ? `<a class="exam-toplink" href="${encodeURI(base + '_答案卡.pdf')}" target="_blank" rel="noopener">📝 答案卡</a>` : ''}
+                                </span>
+                            </div>
+                        </div>`;
+                }).join('');
+                cards += `
+                    <div class="edu-card">
+                        <div class="edu-card-title">🗓️ ${yr} 學年度學測模擬考（自然科）　<span style="font-weight:500; font-size:0.85rem; color:var(--text-muted);">${groups[yr].length} 回</span></div>
+                        ${rows}
+                    </div>`;
+            });
+
+            main.innerHTML = `
+                <div class="content-header">
+                    <span class="content-badge">全真模擬演練</span>
+                    <h2 class="content-title">🧪 學測自然科模擬考練習（111–114 學年，共 ${mockExams.length} 回）</h2>
+                    <p class="content-subtitle">來源：嘉華中學公開學測模擬考題（翰林／北模等命題）。建議整份自然科限時 110 分鐘計時演練，或用「從物理題開啟」只練物理部分；寫完對照解答，物理錯題記得自行歸類到對應知識節點回去複習。</p>
+                </div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">⏱️</span>
+                    <div><strong>模擬考使用法：</strong>①限時作答（自然科全卷 110 分鐘；只寫物理約 25–30 分鐘）→ ②對解答逐題檢討，錯的物理題找出「概念：物理科—×××」標籤 → ③回到對應知識節點與題庫補強，並可用命題矩陣「掌握度」追蹤。模擬考題型比照學測：第壹部分選擇題＋第貳部分混合題組。</div>
+                </div>
+                ${cards}
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">試卷來源：嘉義市嘉華高級中學網站公開資源（學測模擬考題專區）。檔案已下載至本專案 模擬考/ 資料夾，離線可用。</div>
+            `;
         }
 
         // ===== 錯題本視圖 =====
