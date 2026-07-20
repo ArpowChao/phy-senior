@@ -10254,23 +10254,36 @@
         }
 
         // ===== 模擬考練習（111–114 學年自然科模擬考，取自嘉華中學公開試題區） =====
-        // 檔案放 模擬考/{學年}模考{次}_試題|解答.pdf。phy＝物理題所在頁（文字版由關鍵字掃描得出；
-        // null＝圖像掃描版無法自動定位，但物理固定從第 2 頁（第壹部分卷首）起，解答逐題標「概念：物理科」。
+        // 原始 PDF 在 模擬考/；物理部分已裁成頁圖 assets/mock_crops/{學年}模考{次}_q|a_p{頁}.jpg 內嵌顯示。
+        // qp＝內嵌的試題頁、ap＝內嵌的詳解頁。txt=true 表示文字版（頁碼經關鍵字掃描精確定位）；
+        // 掃描版（114 全、113 第2–4次）物理固定從第 2 頁卷首起，內嵌前段，混合題組的物理題看完整 PDF。
         const mockExams = [
-            { yr: '114', n: 1, pages: 18, phy: null },
-            { yr: '114', n: 2, pages: 20, phy: null },
-            { yr: '114', n: 3, pages: 20, phy: null },
-            { yr: '114', n: 4, pages: 24, phy: null },
-            { yr: '113', n: 1, pages: 21, phy: '3–5、14' },
-            { yr: '113', n: 2, pages: 24, phy: null },
-            { yr: '113', n: 3, pages: 20, phy: null },
-            { yr: '113', n: 4, pages: 24, phy: null },
-            { yr: '112', n: 1, pages: 24, phy: '2–3' },
-            { yr: '112', n: 2, pages: 20, phy: '2–4、15' },
-            { yr: '111', n: 2, pages: 16, phy: '2–3、9–11' },
-            { yr: '111', n: 3, pages: 20, phy: '4–6、12–13' },
-            { yr: '111', n: 4, pages: 16, phy: '2–4、15–16', extra: true },
+            { yr: '114', n: 1, pages: 18, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '114', n: 2, pages: 20, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '114', n: 3, pages: 20, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '114', n: 4, pages: 24, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '113', n: 1, pages: 21, qp: [3,4,5,14], ap: [2,3], txt: true },
+            { yr: '113', n: 2, pages: 24, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '113', n: 3, pages: 20, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '113', n: 4, pages: 24, qp: [2,3,4,5], ap: [2,3,4] },
+            { yr: '112', n: 1, pages: 24, qp: [2,3,4], ap: [1], txt: true },
+            { yr: '112', n: 2, pages: 20, qp: [2,3,4,15], ap: [2,3], txt: true },
+            { yr: '111', n: 2, pages: 16, qp: [2,3,9,10,11], ap: [1,2], txt: true },
+            { yr: '111', n: 3, pages: 20, qp: [4,5,6,12,13], ap: [1,2,3], txt: true },
+            { yr: '111', n: 4, pages: 16, qp: [2,3,4,15,16], ap: [1,2,3,4], txt: true, extra: true },
         ];
+
+        function toggleMockSol(btn) {
+            const box = btn.parentElement.querySelector('.exam-sol');
+            if (box.hasAttribute('hidden')) {
+                box.removeAttribute('hidden');
+                btn.textContent = '📖 收合物理詳解';
+            } else {
+                box.setAttribute('hidden', '');
+                btn.textContent = '📖 顯示物理詳解';
+            }
+            resizeExamBody(btn);
+        }
 
         function renderMockView() {
             currentView = 'mock';
@@ -10282,24 +10295,45 @@
             Object.keys(groups).sort((a, b) => b - a).forEach(yr => {
                 const rows = groups[yr].map(m => {
                     const base = `模擬考/${m.yr}模考${m.n}`;
+                    const crop = `${m.yr}模考${m.n}`;
                     const q = encodeURI(base + '_試題.pdf');
                     const ans = encodeURI(base + '_解答.pdf');
-                    const phyStart = m.phy ? parseInt(m.phy) : 2;
-                    const hint = m.phy
-                        ? `物理題主要在第 <strong>${m.phy}</strong> 頁（關鍵字掃描，跨科題組另計）`
-                        : `掃描版：物理從卷首第 2 頁起；解答每題標有「概念：物理科」可對照挑出物理題`;
+                    const hint = m.txt
+                        ? `物理題頁已內嵌（第 ${m.qp.join('、')} 頁）`
+                        : `掃描版：內嵌卷首物理段（第 ${m.qp[0]}–${m.qp[m.qp.length - 1]} 頁），混合題組的物理題見完整試卷`;
+                    const inv = invertCrops ? 'inverted' : '';
+                    const qImgs = m.qp.map(p =>
+                        `<img class="exam-crop ${inv}" loading="lazy" src="assets/mock_crops/${crop}_q_p${p}.jpg" alt="${crop} 試題第 ${p} 頁" onload="resizeExamBody(this)">`
+                    ).join('');
+                    const aImgs = m.ap.map(p =>
+                        `<img class="exam-crop ${inv}" loading="lazy" src="assets/mock_crops/${crop}_a_p${p}.jpg" alt="${crop} 詳解第 ${p} 頁" onload="resizeExamBody(this)">`
+                    ).join('');
                     return `
-                        <div class="exam-item" style="padding:0.7rem 0.9rem;">
-                            <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem;">
+                        <div class="exam-item">
+                            <button class="exam-head" onclick="toggleExamItem(this)">
                                 <span class="exam-qno">第 ${m.n} 次</span>
-                                <span style="font-size:0.8rem; color:var(--text-muted);">${m.pages} 頁</span>
-                                <span style="font-size:0.83rem; flex:1; min-width:220px;">${hint}</span>
-                                <span style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                    <a class="exam-toplink" href="${q}#page=${phyStart}" target="_blank" rel="noopener">🎯 從物理題開啟</a>
-                                    <a class="exam-toplink" href="${q}" target="_blank" rel="noopener">📄 試題</a>
-                                    <a class="exam-toplink" href="${ans}" target="_blank" rel="noopener">✅ 解答詳解</a>
-                                    ${m.extra ? `<a class="exam-toplink" href="${encodeURI(base + '_答案卡.pdf')}" target="_blank" rel="noopener">📝 答案卡</a>` : ''}
+                                <span class="exam-headmain">
+                                    <span class="exam-topic">${m.yr} 學年模擬考 — 物理部分</span>
+                                    <span style="font-size:0.75rem; color:var(--text-muted);">${hint}</span>
                                 </span>
+                                <span class="exam-chev">▶</span>
+                            </button>
+                            <div class="exam-body">
+                                <div class="exam-body-inner">
+                                    ${qImgs}
+                                    <div class="exam-sol-wrap">
+                                        <button class="exam-sol-btn" onclick="toggleMockSol(this)">📖 顯示物理詳解</button>
+                                        <div class="exam-sol" hidden>
+                                            <div style="font-size:0.78rem; color:var(--text-muted); margin:0.3rem 0;">翰林詳解按物→化→生→地排列，每題標「概念：物理科」；以下內嵌物理段。</div>
+                                            ${aImgs}
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin-top:0.5rem;">
+                                        <a class="exam-pdflink" href="${q}#page=${m.qp[0]}" target="_blank" rel="noopener">📄 完整試卷（跳至物理，第 ${m.qp[0]} 頁）</a>
+                                        <a class="exam-pdflink" href="${ans}" target="_blank" rel="noopener" style="background:var(--accent-green-light); border-color:rgba(16,185,129,0.2); color:#047857;">✅ 完整詳解 PDF</a>
+                                        ${m.extra ? `<a class="exam-pdflink" href="${encodeURI(base + '_答案卡.pdf')}" target="_blank" rel="noopener">📝 答案卡</a>` : ''}
+                                    </div>
+                                </div>
                             </div>
                         </div>`;
                 }).join('');
@@ -10314,11 +10348,11 @@
                 <div class="content-header">
                     <span class="content-badge">全真模擬演練</span>
                     <h2 class="content-title">🧪 學測自然科模擬考練習（111–114 學年，共 ${mockExams.length} 回）</h2>
-                    <p class="content-subtitle">來源：嘉華中學公開學測模擬考題（翰林／北模等命題）。建議整份自然科限時 110 分鐘計時演練，或用「從物理題開啟」只練物理部分；寫完對照解答，物理錯題記得自行歸類到對應知識節點回去複習。</p>
+                    <p class="content-subtitle">來源：嘉華中學公開學測模擬考題（翰林／北模等命題）。點任一回即<strong>原地展開物理題頁</strong>（免開 PDF），寫完再點「顯示物理詳解」對答案；物理錯題記得自行歸類到對應知識節點回去複習。</p>
                 </div>
                 <div class="info-alert">
                     <span class="info-alert-icon">⏱️</span>
-                    <div><strong>模擬考使用法：</strong>①限時作答（自然科全卷 110 分鐘；只寫物理約 25–30 分鐘）→ ②對解答逐題檢討，錯的物理題找出「概念：物理科—×××」標籤 → ③回到對應知識節點與題庫補強，並可用命題矩陣「掌握度」追蹤。模擬考題型比照學測：第壹部分選擇題＋第貳部分混合題組。</div>
+                    <div><strong>模擬考使用法：</strong>①限時作答（只寫物理約 25–30 分鐘；整卷演練用底部完整試卷連結，110 分鐘）→ ②展開詳解逐題檢討，物理題認「概念：物理科—×××」標籤 → ③回到對應知識節點與題庫補強，並用命題矩陣「掌握度」追蹤。題型比照學測：第壹部分選擇題＋第貳部分混合題組。</div>
                 </div>
                 ${cards}
                 <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">試卷來源：嘉義市嘉華高級中學網站公開資源（學測模擬考題專區）。檔案已下載至本專案 模擬考/ 資料夾，離線可用。</div>
