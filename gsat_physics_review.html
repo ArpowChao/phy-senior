@@ -2726,6 +2726,49 @@
             box-shadow: 0 10px 28px rgba(26, 58, 68, 0.07);
         }
 
+        /* 響應式卡片內容排版 */
+        .context-card-content {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center; /* 垂直置中 */
+        }
+        .context-card-left {
+            flex: 1.3;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .context-card-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.8rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .context-card-svg {
+            width: 100%;
+            height: auto;
+            max-width: 220px;
+            max-height: 180px;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .context-card-content {
+                flex-direction: column;
+            }
+            .context-card-right {
+                flex: 0 0 auto;
+                width: 100%;
+                height: 200px;
+            }
+        }
+
         .context-card[data-tone="sky"] { --context-accent: #4386a8; }
         .context-card[data-tone="motion"] { --context-accent: #b87936; }
         .context-card[data-tone="wave"] { --context-accent: #397d7a; }
@@ -3151,6 +3194,7 @@
                 + (nodeId === 'N02' ? scaleSectionHtml() : '')
                 + (nodeId === 'N06' ? matterSectionHtml() : '')
                 + (nodeId === 'N03' ? kinematicsGraphsHtml() : '')
+                + (nodeId === 'N05' ? airResistanceSectionHtml() : '')
                 + (nodeId === 'N07' ? keplerSectionHtml() : '')
                 + (nodeId === 'N19' ? electrostaticsSectionHtml() : '')
                 + (nodeId === 'N20' ? magnetismSectionHtml() : '')
@@ -3272,7 +3316,7 @@
                 { target: 'N04', reason: '因果關係：運動學圖形（速度與加速度變化）是受力情況（牛頓第二定律 $F=ma$）的宏觀表現。' }
             ],
             'N04': [
-                { target: 'N09', reason: '能量與衝量：力在時間上的累積（動量變化）與力在空間上的累積（做功與動能定理 N09）共同決定運動狀態。' }
+                { target: 'N09', reason: '同一個力的兩種效果：作用一段時間改變運動狀態（N04），沿位移方向累積則是做功、改變動能（N09）。' }
             ],
             'N05': [
                 { target: 'N19', reason: '力學平衡：靜電力與摩擦力/重力之受力平衡與力學作圖對照（如 112 學測 Q36）。' }
@@ -3519,7 +3563,7 @@
                 ${data.extensions}
 
                 ${moduleNum === 1 ? siSectionHtml() : ''}
-                ${moduleNum === 2 ? kinematicsGraphsHtml() : ''}
+                ${moduleNum === 2 ? kinematicsGraphsHtml() + airResistanceSectionHtml() : ''}
                 ${moduleNum === 5 ? waveSimHtml() + emSpectrumSectionHtml() : ''}
                 ${moduleNum === 7 ? photoelectricSectionHtml() + peSimHtml() : ''}
 
@@ -3952,7 +3996,7 @@
                         <br>• <strong>1897 年｜湯姆森陰極射線實驗（發現電子）</strong> ➔ 利用電磁偏折證實陰極射線為帶負電粒子，更換材料證實其為所有物質共有的基本粒子，提出葡萄乾布丁模型。
                         <br>• <strong>1911 年｜拉塞福 $\alpha$ 粒子散射實驗（發現原子核）</strong> ➔ 發現大角度偏折與反彈，打破布丁模型，提出「行星軌道模型」。
                         <br>• <strong>1919 年｜拉塞福撞擊氮核實驗（發現質子）</strong> ➔ 以 $\alpha$ 粒子轟擊氮核釋放出氫核（質子），證實質子為核內成分。
-                        <br>• <strong>1932 年｜查兌克鈹射線實驗（發現中子）</strong> ➔ 以 $\alpha$ 粒子撞擊鈹核釋放電中性射線，撞擊石蠟產生質子，用動量與能量守恆推算出中子質量。
+                        <br>• <strong>1932 年｜查兌克鈹射線實驗（發現中子）</strong> ➔ 以 $\alpha$ 粒子撞擊鈹核釋放電中性射線，撞擊石蠟產生質子，由被撞出質子的速度，利用碰撞前後的守恆定律推算出中子質量。
                         <br>• <strong>1964 年｜蓋爾曼夸克模型（提出基本粒子）</strong> ➔ 提出強子是由帶分數電荷的夸克組成（質子 $uud$，中子 $udd$），後經高能散射實驗證實。
                     </div>
                 </div>
@@ -4394,6 +4438,155 @@
                 </div>
                 <div class="formula-desc" style="margin-top: 0.6rem;">
                     例：電費的「一度電＝1 kW × 1 hr」就是「功率×時間＝能量」（$P$-$t$ 圖的面積）；電量 $Q = I\\times t$（$I$-$t$ 圖的面積）也對應到「庫侖 ＝ 安培 × 秒」。
+                </div>
+            `;
+        }
+
+        // 補充專題：空氣阻力 × 牛頓三大運動定律——併入模組二
+        function airResistanceSectionHtml() {
+            // 終端速度 v-t 曲線（漸近水平線）
+            const vtSvg = `
+                <svg viewBox="0 0 300 170" width="300" style="max-width:100%; display:block; margin:0 auto;">
+                    <line x1="38" y1="12" x2="38" y2="140" stroke="#94a3b8" stroke-width="1.5"/>
+                    <line x1="38" y1="140" x2="285" y2="140" stroke="#94a3b8" stroke-width="1.5"/>
+                    <text x="14" y="24" fill="#64748b" font-size="12">v</text>
+                    <text x="278" y="158" fill="#64748b" font-size="12">t</text>
+                    <line x1="38" y1="46" x2="285" y2="46" stroke="#f59e0b" stroke-width="1.3" stroke-dasharray="5,4"/>
+                    <text x="200" y="38" fill="#b45309" font-size="12" font-weight="bold">終端速度 v_t（阻力＝重力）</text>
+                    <path d="M38,140 C90,60 140,48 275,46" fill="none" stroke="var(--primary-blue)" stroke-width="2.6"/>
+                    <text x="52" y="120" fill="#334155" font-size="11">a≈g（阻力小）</text>
+                    <text x="120" y="78" fill="#334155" font-size="11">a 漸減</text>
+                    <text x="212" y="62" fill="#334155" font-size="11">a＝0，等速</text>
+                </svg>`;
+
+            // Micro SVGs for Newton's Laws Table
+            const n2Svg = `
+                <svg viewBox="0 0 120 75" width="100" style="display:block; margin:0.4rem auto 0;">
+                    <!-- 落體 -->
+                    <circle cx="60" cy="35" r="10" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
+                    <!-- 重力 mg (長紅箭頭) -->
+                    <path d="M60,45 L60,70" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+                    <text x="66" y="65" fill="#ef4444" font-size="9" font-weight="bold">mg</text>
+                    <!-- 阻力 f (短藍箭頭) -->
+                    <path d="M60,25 L60,10" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+                    <text x="66" y="18" fill="#3b82f6" font-size="9" font-weight="bold">f (小)</text>
+                    <!-- 合力 & 加速度 -->
+                    <path d="M25,25 L25,45" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow-green)"/>
+                    <text x="5" y="38" fill="#22c55e" font-size="9" font-weight="bold">a &lt; g</text>
+                    <!-- Define markers -->
+                    <defs>
+                        <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/>
+                        </marker>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/>
+                        </marker>
+                        <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#22c55e"/>
+                        </marker>
+                    </defs>
+                </svg>`;
+
+            const n1Svg = `
+                <svg viewBox="0 0 120 75" width="100" style="display:block; margin:0.4rem auto 0;">
+                    <!-- 落體 -->
+                    <circle cx="60" cy="35" r="10" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
+                    <!-- 重力 mg (紅箭頭) -->
+                    <path d="M60,45 L60,68" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red-n1)"/>
+                    <text x="66" y="60" fill="#ef4444" font-size="9" font-weight="bold">mg</text>
+                    <!-- 阻力 f (等長藍箭頭) -->
+                    <path d="M60,25 L60,2" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue-n1)"/>
+                    <text x="66" y="14" fill="#3b82f6" font-size="9" font-weight="bold">f = mg</text>
+                    <!-- 平衡狀態 -->
+                    <text x="10" y="38" fill="#475569" font-size="9" font-weight="bold">a = 0 (等速)</text>
+                    <defs>
+                        <marker id="arrow-red-n1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/>
+                        </marker>
+                        <marker id="arrow-blue-n1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/>
+                        </marker>
+                    </defs>
+                </svg>`;
+
+            const n3Svg = `
+                <svg viewBox="0 0 120 75" width="100" style="display:block; margin:0.4rem auto 0;">
+                    <!-- 落體底面與空氣分子 -->
+                    <path d="M30,30 L90,30" stroke="#475569" stroke-width="2"/>
+                    <circle cx="60" cy="20" r="8" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+                    <circle cx="50" cy="42" r="3" fill="#93c5fd" opacity="0.8"/>
+                    <circle cx="62" cy="46" r="3" fill="#93c5fd" opacity="0.8"/>
+                    <circle cx="72" cy="40" r="3" fill="#93c5fd" opacity="0.8"/>
+                    <!-- 落體推空氣向下 F1 (紅箭頭) -->
+                    <path d="M55,30 L55,55" fill="none" stroke="#ef4444" stroke-width="1.8" marker-end="url(#arrow-red-n3)"/>
+                    <text x="12" y="52" fill="#ef4444" font-size="8" font-weight="bold">F_落對空</text>
+                    <!-- 空氣推落體向上 F2 (藍箭頭) -->
+                    <path d="M65,30 L65,5" fill="none" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#arrow-blue-n3)"/>
+                    <text x="70" y="14" fill="#3b82f6" font-size="8" font-weight="bold">F_空對落(阻力)</text>
+                    <defs>
+                        <marker id="arrow-red-n3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/>
+                        </marker>
+                        <marker id="arrow-blue-n3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/>
+                        </marker>
+                    </defs>
+                </svg>`;
+
+            return `
+                <div class="handout-section-title">🪂 補充專題：空氣阻力——牛頓三大運動定律的總演練</div>
+                <div class="info-alert">
+                    <span class="info-alert-icon">💡</span>
+                    <div><b>為什麼值得專題討論：</b>「受空氣阻力的落體／跳傘」是學測愛考的情境（107 Q16、110 Q58-59、112 Q33），而它恰好把牛頓三大定律一次用完。關鍵性質只有兩條：<b>阻力方向與運動方向相反</b>、<b>速率越快阻力越大</b>（定性，不需公式）。</div>
+                </div>
+
+                <div class="edu-table-container">
+                    <table class="edu-table">
+                        <thead>
+                            <tr>
+                                <th style="width:18%">定律</th>
+                                <th style="width:44%">在空氣阻力情境中的角色</th>
+                                <th>對應的落體階段</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>第二定律</b><br>$F_{net}=ma$</td>
+                                <td>剛落下時速度小 → 阻力小 → 合力≈重力（向下）→ 加速度≈$g$。<br>隨速率增大 → 阻力增大 → <b>合力變小 → 加速度變小</b>（仍在加速，但越加越慢）。</td>
+                                <td>下落初期與中期：$v$-$t$ 圖斜率由 $g$ 逐漸變緩${n2Svg}</td>
+                            </tr>
+                            <tr>
+                                <td><b>第一定律</b><br>慣性</td>
+                                <td>當速率大到<b>阻力＝重力</b>，合力為零 → 依慣性定律「動者恆做等速度運動」→ 以<b>終端速度</b>等速下落。</td>
+                                <td>末期：$v$-$t$ 圖趨於水平線（107 學測 Q16 正解圖形）${n1Svg}</td>
+                            </tr>
+                            <tr>
+                                <td><b>第三定律</b><br>作用與反作用</td>
+                                <td>阻力的來源：落體向下推開空氣（作用力），空氣同時反推落體（反作用力）——空氣阻力正是牛頓第三定律的體現。</td>
+                                <td>全程${n3Svg}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="edu-card" style="margin-top:1rem;">
+                    <div class="formula-card-title">📉 受空氣阻力落體的 v-t 圖</div>
+                    ${vtSvg}
+                    <div class="formula-desc" style="margin-top:0.6rem;">
+                        三段解讀：①起點斜率＝$g$（阻力還很小）；②斜率漸減（阻力隨速率增大、合力變小）；③趨近水平＝終端速度（阻力＝重力、合力為零）。<br>
+                        <b>質量的影響（110 Q59、112 Q33 考點）</b>：重的物體重力較大，需要「更大的阻力」才能平衡 → 要達到更高速率 → <b>終端速度較大</b>；相同高度落下時，重者先落地。這不違背伽利略——真空中（無阻力）所有物體加速度同為 $g$。
+                    </div>
+                </div>
+
+                <div class="feature-guide-box" style="margin-top:1rem;">
+                    <div class="feature-trigger">
+                        <span class="feature-trigger-tag">歷屆考點</span>
+                        <div class="feature-trigger-title">107 學測 Q16：小球受空氣阻力落下的 $v$-$t$ 圖（選漸近水平的曲線）｜110 學測 Q58-59：跳傘者兩段終端速度（開傘前後）、攜重物終端速度變大｜112 學測 Q33：1g/4g/9g 三球落下，質量越大終端速度越大。</div>
+                    </div>
+                    <div class="feature-bridge">
+                        <div class="feature-bridge-title">➔ 解題口訣</div>
+                        <div class="feature-bridge-desc">看到「空氣阻力＋落下」就問三件事：①現在阻力和重力誰大？（決定合力方向）②合力還剩多少？（決定加速度大小）③阻力＝重力了嗎？（到了就是終端速度、等速下落）。開傘＝阻力突然暴增 → 阻力＞重力 → 合力向上 → <b>向下減速</b>，降到新的（較小的）終端速度。</div>
+                    </div>
                 </div>
             `;
         }
@@ -5825,7 +6018,7 @@
                     </p>
                     <ul style="font-size:0.92rem; line-height:1.6; color:var(--text-main); padding-left:1.25rem;">
                         <li><b>場的觀點</b>：帶電體 $Q$ 會在其周圍空間建立<b>電場 (Electric Field)</b>。當另一個電荷 $q$ 進入此空間時，它是與該處的「電場」發生局部交互作用，進而受到靜電力 $F = qE$。</li>
-                        <li><b>磁場的類比</b>：正如磁鐵在其周圍空間建立<b>磁場 (Magnetic Field)</b>，並對放入其中的磁極或電流施加磁力。場是物質存在的一種形式，具有能量與動量。</li>
+                        <li><b>磁場的類比</b>：正如磁鐵在其周圍空間建立<b>磁場 (Magnetic Field)</b>，並對放入其中的磁極或電流施加磁力。場是物質存在的一種形式，本身帶有能量。</li>
                     </ul>
                 </div>
 
@@ -9109,8 +9302,10 @@
                 start: '先判斷題目問路程還是位移',
                 formulas: ['平均速度＝位移／時間', '平均速率＝路程／時間', 'ΣF＝ma'],
                 traps: ['速率不變但方向改變時，加速度與合力仍不為零。', '平均速度只看起點與終點，不能拿彎曲路徑長度來除。'],
-                exams: ['111 學測 Q1–2', '108 學測 Q37'], nodes: ['N03', 'N04']
+                exams: ['111 學測 Q1–2', '108 學測 Q37'], nodes: ['N03', 'N04'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-ty-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="aw-ty-o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><path d="M30,138 Q120,138 175,40" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,5"/><text x="30" y="156" font-size="10" fill="#475569">颱風路徑</text><circle cx="73" cy="131" r="4" fill="#334155"/><line x1="73" y1="131" x2="101" y2="122" stroke="#2563eb" stroke-width="2.4" marker-end="url(#aw-ty-b)"/><text x="97" y="140" font-size="11" fill="#2563eb" font-weight="bold">v</text><line x1="73" y1="131" x2="66" y2="110" stroke="#ea580c" stroke-width="2.4" marker-end="url(#aw-ty-o)"/><text x="52" y="108" font-size="11" fill="#ea580c" font-weight="bold">a</text><circle cx="139" cy="90" r="4" fill="#334155"/><line x1="139" y1="90" x2="159" y2="68" stroke="#2563eb" stroke-width="2.4" marker-end="url(#aw-ty-b)"/><text x="163" y="66" font-size="11" fill="#2563eb" font-weight="bold">v</text><line x1="139" y1="90" x2="123" y2="76" stroke="#ea580c" stroke-width="2.4" marker-end="url(#aw-ty-o)"/><text x="108" y="74" font-size="11" fill="#ea580c" font-weight="bold">a</text><text x="110" y="168" font-size="10" fill="#334155" text-anchor="middle">兩處 v 等長（速率同）→ 方向變，a 指向彎內側</text></svg>`
             },
+
             {
                 tone: 'motion', domain: '阻力 × 落體', title: '空氣阻力落體：終端速率不是停止',
                 signal: '阻力隨速率增大、v–t 圖漸平、終端速率',
@@ -9118,7 +9313,8 @@
                 start: '向下取正，先寫 mg − D(v)＝ma',
                 formulas: ['mg − D(v)＝ma', '終端狀態：D(vₜ)＝mg', 'v–t 圖斜率＝a'],
                 traps: ['終端速率時是 a＝0、v＝定值，不是 v＝0。', '同形狀物體在相同速率下阻力相近；質量較大者通常需更高速才平衡重力。'],
-                exams: ['112 學測 Q33', '107 學測 Q16', '110 學測 Q58–59'], nodes: ['N05', 'N03', 'N04']
+                exams: ['112 學測 Q33', '107 學測 Q16', '110 學測 Q58–59'], nodes: ['N05', 'N03', 'N04'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-fa-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/></marker><marker id="aw-fa-o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ea580c"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><text x="110" y="20" font-size="10.5" fill="#334155" text-anchor="middle">紅＝重力 mg（不變）　橘＝空氣阻力（隨 v 增）</text><circle cx="45" cy="72" r="9" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/><line x1="45" y1="81" x2="45" y2="113" stroke="#ef4444" stroke-width="2.4" marker-end="url(#aw-fa-r)"/><line x1="45" y1="63" x2="45" y2="53" stroke="#ea580c" stroke-width="2.4" marker-end="url(#aw-fa-o)"/><text x="45" y="138" font-size="10.5" fill="#334155" text-anchor="middle" font-weight="bold">初期</text><text x="45" y="151" font-size="9.5" fill="#475569" text-anchor="middle">a ≈ g</text><circle cx="110" cy="72" r="9" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/><line x1="110" y1="81" x2="110" y2="113" stroke="#ef4444" stroke-width="2.4" marker-end="url(#aw-fa-r)"/><line x1="110" y1="63" x2="110" y2="41" stroke="#ea580c" stroke-width="2.4" marker-end="url(#aw-fa-o)"/><text x="110" y="138" font-size="10.5" fill="#334155" text-anchor="middle" font-weight="bold">中期</text><text x="110" y="151" font-size="9.5" fill="#475569" text-anchor="middle">阻力變大</text><text x="110" y="162" font-size="9.5" fill="#475569" text-anchor="middle">a 漸小</text><circle cx="175" cy="72" r="9" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/><line x1="175" y1="81" x2="175" y2="113" stroke="#ef4444" stroke-width="2.4" marker-end="url(#aw-fa-r)"/><line x1="175" y1="63" x2="175" y2="31" stroke="#ea580c" stroke-width="2.4" marker-end="url(#aw-fa-o)"/><text x="175" y="138" font-size="10.5" fill="#334155" text-anchor="middle" font-weight="bold">終端</text><text x="175" y="151" font-size="9.5" fill="#475569" text-anchor="middle">阻力＝重力</text><text x="175" y="162" font-size="9.5" fill="#475569" text-anchor="middle">等速下落</text></svg>`
             },
             {
                 tone: 'wave', domain: '地科 × 波動', title: '地震預警：抵達時間差才是核心',
@@ -9127,7 +9323,8 @@
                 start: '把未知震源距離設成同一個 d',
                 formulas: ['t＝d／v', 'Δt＝d(1／vₛ − 1／vₚ)', '可應變時間＝抵達時刻−通知時刻'],
                 traps: ['先後到達的時間差，不等於市民真正擁有的預警時間。', 'km/s、km/min 與秒、分鐘混用時要先統一單位。'],
-                exams: ['113 學測 Q31', '115 學測 Q8', '110 學測 Q16'], nodes: ['N14', 'N03']
+                exams: ['113 學測 Q31', '115 學測 Q8', '110 學測 Q16'], nodes: ['N14', 'N03'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-eq-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker><marker id="aw-eq-d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><line x1="35" y1="148" x2="205" y2="148" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aw-eq-s)"/><line x1="35" y1="148" x2="35" y2="18" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aw-eq-s)"/><text x="196" y="163" font-size="10" fill="#475569">距離</text><text x="12" y="26" font-size="10" fill="#475569">時間</text><line x1="35" y1="148" x2="195" y2="58" stroke="#2563eb" stroke-width="2.4"/><text x="160" y="88" font-size="10.5" fill="#2563eb" font-weight="bold">P 波（快）</text><line x1="35" y1="148" x2="160" y2="20" stroke="#ef4444" stroke-width="2.4"/><text x="55" y="70" font-size="10.5" fill="#ef4444" font-weight="bold">S 波（慢，破壞大）</text><line x1="140" y1="148" x2="140" y2="34" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/><text x="140" y="161" font-size="9.5" fill="#475569" text-anchor="middle">測站</text><circle cx="140" cy="89" r="3.5" fill="#2563eb"/><circle cx="140" cy="41" r="3.5" fill="#ef4444"/><line x1="148" y1="86" x2="148" y2="44" stroke="#334155" stroke-width="1.8" marker-start="url(#aw-eq-d)" marker-end="url(#aw-eq-d)"/><text x="154" y="68" font-size="10.5" fill="#334155" font-weight="bold">Δt＝預警時間</text></svg>`
             },
             {
                 tone: 'orbit', domain: '天體 × 力學', title: '衛星軌道：週期、重力與失重一起看',
@@ -9136,16 +9333,18 @@
                 start: '先把高度 h 換成中心距離 r＝R＋h',
                 formulas: ['T² ∝ r³', 'v＝√(GM／r)', 'g＝GM／r²'],
                 traps: ['軌道高度不是軌道半徑。', '失重代表支撐力近零，不代表萬有引力消失；質量未知時不能武斷比較總能量。'],
-                exams: ['114 學測 Q19', '111 參考卷 Q52', '108 學測 Q51', '107 學測 Q60'], nodes: ['N07', 'N08', 'N09']
+                exams: ['114 學測 Q19', '111 參考卷 Q52', '108 學測 Q51', '107 學測 Q60'], nodes: ['N07', 'N08', 'N09'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-sa-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/></marker><marker id="aw-sa-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><circle cx="110" cy="112" r="30" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><text x="110" y="116" font-size="10.5" fill="#334155" text-anchor="middle">地球</text><circle cx="110" cy="112" r="68" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,5"/><circle cx="110" cy="44" r="6" fill="#334155"/><line x1="110" y1="52" x2="110" y2="76" stroke="#ef4444" stroke-width="2.4" marker-end="url(#aw-sa-r)"/><text x="62" y="68" font-size="10" fill="#ef4444" font-weight="bold">重力指向地心</text><line x1="118" y1="44" x2="152" y2="44" stroke="#2563eb" stroke-width="2.4" marker-end="url(#aw-sa-b)"/><text x="158" y="48" font-size="11" fill="#2563eb" font-weight="bold">v</text><text x="110" y="170" font-size="10" fill="#334155" text-anchor="middle">只受重力 → 一直改變方向（也是失重的原因）</text></svg>`
             },
             {
                 tone: 'medical', domain: '醫療 × 訊號', title: '醫療物理：先找訊號如何被改變',
                 signal: '血流回波、額溫槍、質子治療、介面折射',
                 model: '移動改變頻率；介面改變方向；能量沉積決定治療深度',
-                start: '先標出波源、接收者、反射體與傳播介質',
+                start: '先標出波源、接收者、反射體與傳質',
                 formulas: ['接近：f觀測上升', '遠離：f觀測下降', '|Δf| ∝ 血流速率'],
                 traps: ['都卜勒頻移的正負看距離正在縮短或增加，不看物體名稱。', '波跨介質時頻率不變；額溫槍接收的是紅外線，不是量到「熱流速度」。'],
-                exams: ['111 學測 Q49–51、Q54', '112 學測 Q29、Q32', '113 學測 Q22–23'], examCount: 5, nodes: ['N15', 'N16', 'N18', 'N26']
+                exams: ['111 學測 Q49–51、Q54', '112 學測 Q29、Q32', '113 學測 Q22–23'], examCount: 5, nodes: ['N15', 'N16', 'N18', 'N26'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-md-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker><marker id="aw-md-f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><text x="38" y="30" font-size="10.5" fill="#2563eb" font-weight="bold">X 光</text><rect x="66" y="40" width="76" height="102" rx="14" fill="rgba(37,99,235,0.08)" stroke="#94a3b8" stroke-width="1.2"/><text x="104" y="56" font-size="9.5" fill="#475569" text-anchor="middle">組織</text><ellipse cx="104" cy="96" rx="15" ry="26" fill="#94a3b8"/><text x="104" y="99" font-size="9.5" fill="#ffffff" text-anchor="middle">骨</text><line x1="18" y1="66" x2="62" y2="66" stroke="#2563eb" stroke-width="3" marker-end="url(#aw-md-b)"/><line x1="18" y1="96" x2="62" y2="96" stroke="#2563eb" stroke-width="3" marker-end="url(#aw-md-b)"/><line x1="18" y1="126" x2="62" y2="126" stroke="#2563eb" stroke-width="3" marker-end="url(#aw-md-b)"/><line x1="146" y1="66" x2="176" y2="66" stroke="#2563eb" stroke-width="2.2" marker-end="url(#aw-md-b)"/><line x1="146" y1="96" x2="176" y2="96" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#aw-md-f)"/><line x1="146" y1="126" x2="176" y2="126" stroke="#2563eb" stroke-width="2.2" marker-end="url(#aw-md-b)"/><rect x="184" y="46" width="12" height="100" fill="#475569"/><rect x="184" y="80" width="12" height="32" fill="#e2e8f0"/><text x="190" y="160" font-size="9.5" fill="#475569" text-anchor="middle">底片</text><text x="104" y="170" font-size="10" fill="#334155" text-anchor="middle">骨吸收多 → 穿透少 → 影像對比</text></svg>`
             },
             {
                 tone: 'energy', domain: '能源 × 熱學', title: '能源題：先畫能量帳本再代公式',
@@ -9154,16 +9353,18 @@
                 start: '先定系統邊界，再畫「輸入 → 轉換 → 輸出」',
                 formulas: ['P＝E／t', 'η＝有用輸出／總輸入', 'Q＝mL', 'ΔU重＝mgh'],
                 traps: ['「一度電」是能量，不是功率。', '能量沒有消失；效率小於 100% 是部分能量轉成較難利用的熱。'],
-                exams: ['112 學測 Q37–40', '114 學測 Q20–21', '113 學測 Q24–25', '108 學測 Q54–56'], nodes: ['N09', 'N10', 'N12']
+                exams: ['112 學測 Q37–40', '114 學測 Q20–21', '113 學測 Q24–25', '108 學測 Q54–56'], nodes: ['N09', 'N10', 'N12'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><polygon points="12,72 76,72 76,64 96,84 76,104 76,96 12,96" fill="#2563eb" opacity="0.85"/><text x="42" y="88" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="bold">輸入 100</text><rect x="96" y="56" width="46" height="56" rx="8" fill="#e2e8f0" stroke="#475569" stroke-width="1.4"/><text x="119" y="88" font-size="10.5" fill="#334155" text-anchor="middle" font-weight="bold">裝置</text><polygon points="142,66 186,52 184,47 206,52 192,68 190,63 145,77" fill="#16a34a" opacity="0.9"/><text x="176" y="36" font-size="10.5" fill="#16a34a" font-weight="bold" text-anchor="middle">有用 40</text><polygon points="142,92 184,106 186,100 204,116 182,124 184,118 140,106" fill="#ea580c" opacity="0.9"/><text x="178" y="142" font-size="10.5" fill="#ea580c" font-weight="bold" text-anchor="middle">廢熱 60</text><text x="110" y="158" font-size="10" fill="#334155" text-anchor="middle">能量守恆：100 ＝ 40 ＋ 60</text><text x="110" y="171" font-size="10" fill="#334155" text-anchor="middle">效率 ＝ 有用/輸入 ＝ 40%</text></svg>`
             },
             {
                 tone: 'induction', domain: '科技 × 電磁', title: '感應裝置：有磁場不代表有感應電流',
                 signal: '磁鐵移動、線圈電流改變、無線充電、感應卡',
-                model: '穿過線圈的磁通量改變，才產生感應電動勢',
-                start: '先比較前後磁通量，再用冷次定律判方向',
-                formulas: ['Φ＝BA cosθ', '|ε| ∝ |ΔΦ／Δt|', '感應效果反抗磁通量的變化'],
+                model: '穿過線圈的磁力線（磁場）發生變化，才產生感應電流',
+                start: '先看穿過線圈的磁力線有沒有變、變多快，再用冷次定律判方向',
+                formulas: ['磁力線變化 → 感應電流', '變化越快 → 感應電流越大', '冷次定律：感應效果反抗磁力線的變化'],
                 traps: ['磁場很強但完全不變時，仍可沒有感應電流。', '冷次定律反抗的是「變化」，不是一律產生與原磁場相反的磁場。'],
-                exams: ['111 學測 Q6', '114 學測 Q27', '113 學測 Q44–46', '115 學測 Q53'], nodes: ['N21', 'N20']
+                exams: ['111 學測 Q6', '114 學測 Q27', '113 學測 Q44–46', '115 學測 Q53'], nodes: ['N21', 'N20'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-in-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker><marker id="aw-in-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><rect x="24" y="62" width="34" height="26" fill="#2563eb"/><rect x="58" y="62" width="34" height="26" fill="#ef4444"/><text x="41" y="80" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="bold">S</text><text x="75" y="80" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="bold">N</text><line x1="34" y1="46" x2="80" y2="46" stroke="#475569" stroke-width="2.2" marker-end="url(#aw-in-s)"/><text x="57" y="38" font-size="10" fill="#475569" text-anchor="middle">移動（關鍵！）</text><path d="M92,68 Q112,60 128,66" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/><path d="M92,82 Q112,90 128,84" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/><ellipse cx="136" cy="75" rx="6" ry="24" fill="none" stroke="#2563eb" stroke-width="2"/><ellipse cx="150" cy="75" rx="6" ry="24" fill="none" stroke="#2563eb" stroke-width="2"/><ellipse cx="164" cy="75" rx="6" ry="24" fill="none" stroke="#2563eb" stroke-width="2"/><ellipse cx="178" cy="75" rx="6" ry="24" fill="none" stroke="#2563eb" stroke-width="2"/><path d="M136,99 L136,132 L150,132" fill="none" stroke="#475569" stroke-width="1.6"/><path d="M178,99 L178,132 L172,132" fill="none" stroke="#475569" stroke-width="1.6"/><circle cx="161" cy="132" r="13" fill="#ffffff" stroke="#475569" stroke-width="1.6"/><line x1="161" y1="141" x2="169" y2="124" stroke="#16a34a" stroke-width="2" marker-end="url(#aw-in-g)"/><text x="161" y="160" font-size="9.5" fill="#16a34a" text-anchor="middle" font-weight="bold">指針偏轉</text><text x="110" y="174" font-size="10" fill="#334155" text-anchor="middle">磁力線變化才感應；磁鐵靜止 → 電流＝0</text></svg>`
             },
             {
                 tone: 'quantum', domain: '材料 × 量子', title: '光電與材料：先判斷是光子還是波',
@@ -9172,7 +9373,8 @@
                 start: '遇到能隙先寫 E＝hc／λ；遇到明暗條紋改查相位',
                 formulas: ['E＝hf＝hc／λ', 'Kmax＝hf−W', '干涉：比較光程差與相位'],
                 traps: ['提高光強度增加光子數，不會提高單一光子的能量。', '波長越長，光子能量越低；薄膜題還要處理反射相位與介質波速。'],
-                exams: ['114 學測 Q50–51', '115 學測 Q47–49', '111 參考卷 Q23', '112 學測 Q30–31'], nodes: ['N23', 'N24', 'N17', 'N28']
+                exams: ['114 學測 Q50–51', '115 學測 Q47–49', '111 參考卷 Q23', '112 學測 Q30–31'], nodes: ['N23', 'N24', 'N17', 'N28'],
+                svg: `<svg viewBox="0 0 220 180" class="context-card-svg" role="img"><defs><marker id="aw-pe-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/></marker><marker id="aw-pe-v" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker><marker id="aw-pe-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker></defs><rect x="1" y="1" width="218" height="178" rx="12" fill="rgba(148,163,184,0.10)"/><rect x="20" y="118" width="180" height="26" rx="4" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2"/><text x="110" y="135" font-size="10" fill="#475569" text-anchor="middle">金屬表面</text><line x1="40" y1="42" x2="64" y2="112" stroke="#ef4444" stroke-width="2.4" marker-end="url(#aw-pe-r)"/><text x="40" y="32" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="bold">低頻光子</text><text x="42" y="44" font-size="9.5" fill="#ef4444" text-anchor="middle">f＜f₀</text><text x="80" y="104" font-size="11" fill="#ef4444" font-weight="bold">✗</text><text x="94" y="104" font-size="9.5" fill="#475569">再亮也沒用</text><line x1="132" y1="42" x2="152" y2="112" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#aw-pe-v)"/><text x="136" y="32" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="bold">高頻光子</text><text x="132" y="44" font-size="9.5" fill="#7c3aed" text-anchor="middle">f≥f₀</text><circle cx="160" cy="106" r="5" fill="#2563eb"/><line x1="164" y1="102" x2="186" y2="76" stroke="#2563eb" stroke-width="2" marker-end="url(#aw-pe-b)"/><text x="192" y="70" font-size="10.5" fill="#2563eb" font-weight="bold" text-anchor="middle">e⁻</text><text x="110" y="163" font-size="10" fill="#334155" text-anchor="middle">看單一光子能量 hν 夠不夠</text><text x="110" y="175" font-size="10" fill="#334155" text-anchor="middle">亮度只改變光子「數量」</text></svg>`
             }
         ];
 
@@ -9180,25 +9382,33 @@
             const formulas = column.formulas.map(item => `<span class="context-formula">${item}</span>`).join('');
             const traps = column.traps.map(item => `<li>${item}</li>`).join('');
             const nodes = column.nodes.map(id => `<button class="context-node-btn" type="button" onclick="openContextNode('${id}')">${nodeLabel(id)}</button>`).join('');
+
             return `
                 <article class="context-card" data-tone="${column.tone}">
-                    <div class="context-card-head">
-                        <div><div class="context-domain">${column.domain}</div><h3>${column.title}</h3></div>
-                        <span class="context-frequency">${column.examCount || column.exams.length} 組代表題</span>
-                    </div>
-                    <div class="context-translation" aria-label="題幹訊號到物理模型的翻譯流程">
-                        <div class="context-translation-step"><span>題幹訊號</span><b>${column.signal}</b></div>
-                        <div class="context-arrow" aria-hidden="true">→</div>
-                        <div class="context-translation-step"><span>物理翻譯</span><b>${column.model}</b></div>
-                        <div class="context-arrow" aria-hidden="true">→</div>
-                        <div class="context-translation-step"><span>第一步</span><b>${column.start}</b></div>
-                    </div>
-                    <div class="context-block"><div class="context-block-title">起手式與核心關係</div><div class="context-formulas">${formulas}</div></div>
-                    <div class="context-block"><div class="context-block-title">最常失分的地方</div><ul class="context-traps">${traps}</ul></div>
-                    <div class="context-block"><div class="context-block-title">代表歷屆題</div><div class="context-exam-list">${column.exams.join('　／　')}</div></div>
-                    <div class="context-card-footer">
-                        <div class="context-node-list">${nodes}</div>
-                        <button class="context-exam-btn" type="button" onclick="showExamsForNode('${column.nodes[0]}')">練這類題目 →</button>
+                    <div class="context-card-content">
+                        <div class="context-card-left">
+                            <div class="context-card-head">
+                                <div><div class="context-domain">${column.domain}</div><h3>${column.title}</h3></div>
+                                <span class="context-frequency">${column.examCount || column.exams.length} 組代表題</span>
+                            </div>
+                            <div class="context-translation" aria-label="題幹訊號到物理模型的翻譯流程">
+                                <div class="context-translation-step"><span>題幹訊號</span><b>${column.signal}</b></div>
+                                <div class="context-arrow" aria-hidden="true">→</div>
+                                <div class="context-translation-step"><span>物理翻譯</span><b>${column.model}</b></div>
+                                <div class="context-arrow" aria-hidden="true">→</div>
+                                <div class="context-translation-step"><span>第一步</span><b>${column.start}</b></div>
+                            </div>
+                            <div class="context-block"><div class="context-block-title">起手式與核心關係</div><div class="context-formulas">${formulas}</div></div>
+                            <div class="context-block"><div class="context-block-title">最常失分的地方</div><ul class="context-traps">${traps}</ul></div>
+                            <div class="context-block"><div class="context-block-title">代表歷屆題</div><div class="context-exam-list">${column.exams.join('　／　')}</div></div>
+                            <div class="context-card-footer">
+                                <div class="context-node-list">${nodes}</div>
+                                <button class="context-exam-btn" type="button" onclick="showExamsForNode('${column.nodes[0]}')">練這類題目 →</button>
+                            </div>
+                        </div>
+                        <div class="context-card-right">
+                            ${column.svg || ''}
+                        </div>
                     </div>
                 </article>
             `;
@@ -9224,7 +9434,7 @@
                 </div>
                 <section class="context-hero" aria-label="情境題閱讀原則">
                     <strong>情境只是外衣；真正決定解法的是「什麼量正在改變」。</strong>
-                    <p>每篇專欄都沿同一條翻譯軌閱讀：題幹訊號 → 物理模型 → 第一條關係式。看到陌生題材時，先找位移、方向、波速、能量、磁通量或頻率，而不是先背情境名稱。</p>
+                    <p>每篇專欄都沿同一條翻譯軌閱讀：題幹訊號 → 物理模型 → 第一條關係式。看到陌生題材時，先找位移、方向、波速、能量、磁場變化或頻率，而不是先背情境名稱。</p>
                 </section>
                 <section class="context-grid" aria-label="八類常考物理情境">
                     ${contextColumns.map(contextColumnHtml).join('')}
