@@ -1698,6 +1698,31 @@
             line-height: 1.55;
         }
 
+        /* 發電機隨堂測驗 */
+        .gen-quiz {
+            margin-top: 0.9rem;
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid var(--border-color);
+        }
+        .gen-quiz-q { font-weight: 700; font-size: 0.92rem; color: var(--text-main); margin-bottom: 0.6rem; }
+        .gen-opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .gen-opt {
+            border: 1px solid var(--border-color);
+            background: var(--bg-card, #fff);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .gen-opt:hover { border-color: var(--primary-blue); }
+        .gen-opt.correct { background: var(--accent-green-light); border-color: rgba(16,185,129,0.4); color: var(--accent-green); font-weight: 700; }
+        .gen-opt.wrong { background: var(--accent-rose-light); border-color: rgba(244,63,94,0.4); color: var(--accent-rose); font-weight: 700; }
+        .gen-opt:disabled { cursor: default; }
+        .gen-score { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+
         /* Print Button and Media Style */
         .print-btn {
             background-color: var(--primary-blue);
@@ -3628,6 +3653,7 @@
                 ${moduleNum === 1 ? siSectionHtml() : ''}
                 ${moduleNum === 2 ? kinematicsGraphsHtml() + airResistanceSectionHtml() : ''}
                 ${moduleNum === 5 ? waveSimHtml() + emSpectrumSectionHtml() : ''}
+                ${moduleNum === 6 ? generatorSimHtml() : ''}
                 ${moduleNum === 7 ? photoelectricSectionHtml() + peSimHtml() : ''}
 
                 <div class="handout-section-title">🎯 歷屆真題實戰</div>
@@ -3645,6 +3671,7 @@
 
             // 啟動互動模擬（canvas 動畫需在 DOM 就緒後初始化）
             if (moduleNum === 5) initWaveSim();
+            if (moduleNum === 6) initGeneratorSim();
             if (moduleNum === 7) initPESim();
         }
 
@@ -5288,6 +5315,315 @@
                 waveSimState.raf = requestAnimationFrame(frame);
             }
             waveSimState.raf = requestAnimationFrame(frame);
+        }
+
+        // ===== 互動模擬三：交流發電機與感應電流判斷——併入模組六（N21 電磁感應） =====
+        // 物理約定（全必修語言，只用「穿過線圈的磁力線數目」與冷次定律，不用選修的積分量與感應電動勢公式）：φ＝線圈轉動相位。
+        //   φ=0 時線圈面「平行磁場」（兩導體邊正在最快切割磁力線）→ 穿過線圈的磁力線數目變化最快 → 感應電流最大；
+        //   φ=90° 時線圈面「正對磁鐵」（磁力線穿過線圈最多）→ 該瞬間變化率為零 → 感應電流為零，且為換向點。
+        //   穿過線圈磁力線(帶號) ∝ sin(φ)；感應電流 ∝ −cos(φ)·(轉向)；|感應電流| ∝ |cos(φ)|。
+        const generatorState = {
+            phi: 0.9, omega: 1.6, dir: 1, playing: true, raf: null, lastTs: 0,
+            showField: true, showCurrent: true, showMeter: true,
+            quiz: null, streak: 0, ansCount: 0, corrCount: 0
+        };
+
+        // 感應電流帶號值（相對，−1~1）：>0 規定導體 a 電流「流出紙面(⊙)」
+        function genCurrent(phi, dir) { return -Math.cos(phi) * dir; }
+        // 分類此刻感應電流大小/趨勢：'max' | 'zero' | 'rising' | 'falling'
+        function genMagClass(phi, dir) {
+            const mag = Math.abs(Math.cos(phi));
+            if (mag >= 0.94) return 'max';
+            if (mag <= 0.08) return 'zero';
+            // |cos| 的變化趨勢：d|cosφ|/dt 符號
+            const trend = -Math.sign(Math.cos(phi)) * Math.sin(phi) * generatorState.omega * dir;
+            return trend > 0 ? 'rising' : 'falling';
+        }
+        // 穿過線圈的磁力線數目正在增加或減少：sign(dΦ/dt), Φ∝sinφ
+        function genFluxTrend(phi, dir) {
+            return Math.sign(Math.cos(phi) * generatorState.omega * dir);
+        }
+
+        function generatorSimHtml() {
+            const s = generatorState;
+            const chk = (key, label) => `<label class="cur-toggle" style="font-size:0.82rem;"><input type="checkbox" ${s[key] ? 'checked' : ''} onchange="generatorState.${key}=this.checked"><span>${label}</span></label>`;
+            return `
+                <div class="handout-section-title">🎛️ 互動模擬：交流發電機——你判斷得出感應電流嗎？</div>
+                <div class="sim-box" id="gen-sim-box">
+                    <div class="sim-canvas-wrap"><canvas id="gen-sim-canvas" width="900" height="360"></canvas></div>
+                    <div class="sim-controls">
+                        <div class="sim-row">
+                            <button class="bank-chip-btn" id="gen-play-btn" onclick="toggleGenPlay()">${s.playing ? '⏸ 暫停' : '▶ 播放'}</button>
+                            <button class="bank-chip-btn" onclick="stepGen(-1)">⏮ 逐格倒轉</button>
+                            <button class="bank-chip-btn" onclick="stepGen(1)">逐格前進 ⏭</button>
+                            <button class="bank-chip-btn" onclick="flipGenDir()">🔄 反轉旋轉方向</button>
+                        </div>
+                        <div class="sim-row"><span class="sim-label">轉速</span><input type="range" min="0.4" max="3.2" step="0.1" value="${s.omega}" oninput="generatorState.omega=+this.value"><span class="sim-val" id="gen-val-omega"></span></div>
+                        <div class="sim-row" style="gap:1rem;">${chk('showField', '顯示磁力線')}${chk('showCurrent', '顯示感應電流方向')}${chk('showMeter', '顯示檢流計')}</div>
+                    </div>
+                    <div class="sim-readout" id="gen-sim-readout"></div>
+                    <div class="gen-quiz" id="gen-quiz">
+                        <div class="sim-row" style="justify-content:space-between;">
+                            <button class="bank-chip-btn" onclick="startGenQuiz()">🎯 出一題隨堂測驗（暫停現況考你）</button>
+                            <span class="gen-score" id="gen-score"></span>
+                        </div>
+                        <div id="gen-quiz-body"></div>
+                    </div>
+                    <div class="sim-note">🔎 <b>看圖判讀：</b>左藍 N 極、右紅 S 極，中間水平<b>磁力線</b>由 N 指向 S；線圈兩條導體邊標為 <b>a</b>、<b>b</b>，內部 <b>⊙</b> 代表電流流出紙面、<b>⊗</b> 代表流入紙面。<br>① 線圈面轉到<b>平行磁場</b>（a、b 正在最快切割磁力線）時，穿過線圈的磁力線數目變化最快 → <b>感應電流最大</b>；② 線圈面轉到<b>正對磁鐵</b>（磁力線穿過最多）時，該瞬間變化率為零 → <b>感應電流為零，並在此換向</b>，所以輸出是每半圈反向一次的<b>交流電</b>。方向一律用<b>冷次定律</b>判：感應電流要「反抗」穿過線圈磁力線的變化。</div>
+                </div>
+            `;
+        }
+
+        function toggleGenPlay() {
+            generatorState.playing = !generatorState.playing;
+            const b = document.getElementById('gen-play-btn');
+            if (b) b.textContent = generatorState.playing ? '⏸ 暫停' : '▶ 播放';
+        }
+        function stepGen(sgn) {
+            generatorState.playing = false;
+            const b = document.getElementById('gen-play-btn');
+            if (b) b.textContent = '▶ 播放';
+            generatorState.phi += sgn * generatorState.dir * 0.12;
+            drawGenerator();
+            updateGenReadout();
+        }
+        function flipGenDir() { generatorState.dir *= -1; }
+
+        function updateGenReadout() {
+            const s = generatorState;
+            const ov = document.getElementById('gen-val-omega'); if (ov) ov.textContent = s.omega.toFixed(1) + '（相對轉速）';
+            const ro = document.getElementById('gen-sim-readout');
+            if (!ro) return;
+            const cls = genMagClass(s.phi, s.dir);
+            const facing = Math.abs(Math.cos(s.phi)) >= 0.5 ? '線圈面偏向「平行磁場」（切割較快）' : '線圈面偏向「正對磁鐵」（磁力線穿過較多）';
+            const magTxt = { max: '最大', zero: '幾乎為零（換向點）', rising: '中等，正在變大', falling: '中等，正在變小' }[cls];
+            const fluxTxt = genFluxTrend(s.phi, s.dir) > 0 ? '正在增加' : '正在減少';
+            ro.innerHTML = `
+                <span class="sim-chip">${facing}</span>
+                <span class="sim-chip">穿過線圈的磁力線數目：<b>${fluxTxt}</b></span>
+                <span class="sim-chip">感應電流大小：<b>${magTxt}</b></span>`;
+        }
+
+        // ---- 隨堂測驗 ----
+        function startGenQuiz() {
+            const s = generatorState;
+            s.playing = false;
+            const pb = document.getElementById('gen-play-btn');
+            if (pb) pb.textContent = '▶ 播放';
+            const type = Math.random() < 0.5 ? 'mag' : 'dir';
+            // 挑一個「答案明確」的相位
+            let phi, tries = 0;
+            do {
+                phi = Math.random() * Math.PI * 2;
+                tries++;
+            } while (tries < 200 && !genPhiClear(phi, s.dir, type));
+            s.phi = phi;
+            s.quiz = { type, answered: false };
+            drawGenerator();
+            renderGenQuiz();
+        }
+        // 出題相位是否「明確」（避開分類邊界，方向題避開換向點）
+        function genPhiClear(phi, dir, type) {
+            const mag = Math.abs(Math.cos(phi));
+            if (type === 'dir') return mag > 0.4;               // 有明確流向
+            // mag 題：落在四類的核心區
+            if (mag >= 0.96) return true;                        // 最大
+            if (mag <= 0.05) return true;                        // 零
+            return mag > 0.35 && mag < 0.65;                     // 中等（漸增/漸減皆可）
+        }
+        function renderGenQuiz() {
+            const s = generatorState, q = s.quiz;
+            const body = document.getElementById('gen-quiz-body');
+            if (!body) return;
+            let opts;
+            if (q.type === 'mag') {
+                q.answer = genMagClass(s.phi, s.dir);
+                opts = [['max', '最大'], ['zero', '幾乎為零'], ['rising', '中等，正在變大'], ['falling', '中等，正在變小']];
+                body.innerHTML = `
+                    <div class="gen-quiz-q">Q：畫面已暫停並隱藏電流指示。此刻線圈中的<b>感應電流大小</b>是？</div>
+                    <div class="gen-opts">${opts.map(([v, l]) => `<button class="gen-opt" data-v="${v}" onclick="answerGenQuiz('${v}')">${l}</button>`).join('')}</div>`;
+            } else {
+                q.answer = genCurrent(s.phi, s.dir) > 0 ? 'out' : 'in';
+                opts = [['out', 'a 為 ⊙（電流流出紙面）'], ['in', 'a 為 ⊗（電流流入紙面）']];
+                body.innerHTML = `
+                    <div class="gen-quiz-q">Q：畫面已暫停並隱藏電流指示。依冷次定律，此刻導體 <b>a</b> 的感應電流方向是？</div>
+                    <div class="gen-opts">${opts.map(([v, l]) => `<button class="gen-opt" data-v="${v}" onclick="answerGenQuiz('${v}')">${l}</button>`).join('')}</div>`;
+            }
+        }
+        function answerGenQuiz(val) {
+            const s = generatorState, q = s.quiz;
+            if (!q || q.answered) return;
+            q.answered = true;
+            const ok = val === q.answer;
+            s.ansCount++; if (ok) { s.corrCount++; s.streak++; } else { s.streak = 0; }
+            recordResult('bank', 'gensim#' + q.type, ok, 'N21');   // 計入 N21 掌握度（非題庫題，不進錯題本）
+            const body = document.getElementById('gen-quiz-body');
+            body.querySelectorAll('.gen-opt').forEach(b => {
+                b.disabled = true;
+                if (b.dataset.v === q.answer) b.classList.add('correct');
+                else if (b.dataset.v === val) b.classList.add('wrong');
+            });
+            // 顯示電流指示，讓學生對照畫面
+            s.showCurrent = true; s.showMeter = true;
+            const cc = document.querySelector('#gen-sim-box input[onchange*="showCurrent"]'); if (cc) cc.checked = true;
+            const mc = document.querySelector('#gen-sim-box input[onchange*="showMeter"]'); if (mc) mc.checked = true;
+            drawGenerator();
+            const expl = genExplain(q);
+            body.insertAdjacentHTML('beforeend', `
+                <div class="sim-verdict ${ok ? 'ok' : 'no'}" style="margin-top:0.7rem;">${ok ? '✅ 答對了！' : '❌ 再想想'}　${expl}</div>
+                <div class="sim-row" style="margin-top:0.6rem;"><button class="bank-chip-btn" onclick="startGenQuiz()">下一題 →</button><button class="bank-chip-btn" onclick="resumeGen()">▶ 繼續轉動</button></div>`);
+            updateGenScore();
+            updateGenReadout();
+        }
+        function genExplain(q) {
+            const s = generatorState;
+            if (q.type === 'mag') {
+                const map = {
+                    max: '線圈面正轉到<b>平行磁場</b>，兩導體邊正在<b>最快切割磁力線</b>，穿過線圈的磁力線數目變化最快，感應電流<b>最大</b>。',
+                    zero: '線圈面正轉到<b>正對磁鐵</b>（磁力線穿過線圈最多），這一瞬間變化率為零，感應電流<b>為零</b>，也正是電流<b>換向</b>的時刻。',
+                    rising: '線圈正從「正對磁鐵」轉向「平行磁場」，磁力線數目的變化<b>越來越快</b>，感應電流<b>正在變大</b>。',
+                    falling: '線圈正從「平行磁場」轉向「正對磁鐵」，磁力線數目的變化<b>越來越慢</b>，感應電流<b>正在變小</b>。'
+                };
+                return map[q.answer];
+            }
+            const inc = genFluxTrend(s.phi, s.dir) > 0;
+            const dirTxt = q.answer === 'out' ? 'a 為 ⊙（流出紙面）' : 'a 為 ⊗（流入紙面）';
+            return `此刻穿過線圈的磁力線<b>${inc ? '正在增加' : '正在減少'}</b>；依<b>冷次定律</b>，感應電流要製造<b>${inc ? '相反' : '同向'}</b>的磁場來反抗這個變化，由此定出線圈的繞行方向，得到 <b>${dirTxt}</b>。`;
+        }
+        function resumeGen() {
+            generatorState.quiz = null;
+            const body = document.getElementById('gen-quiz-body');
+            if (body) body.innerHTML = '';
+            generatorState.playing = true;
+            const b = document.getElementById('gen-play-btn');
+            if (b) b.textContent = '⏸ 暫停';
+        }
+        function updateGenScore() {
+            const s = generatorState;
+            const el = document.getElementById('gen-score');
+            if (el) el.textContent = s.ansCount > 0 ? `已答 ${s.ansCount} 題・答對 ${s.corrCount} 題・連對 ${s.streak}` : '';
+        }
+
+        function initGeneratorSim() {
+            const canvas = document.getElementById('gen-sim-canvas');
+            if (!canvas) return;
+            if (generatorState.raf) cancelAnimationFrame(generatorState.raf);
+            updateGenReadout();
+            updateGenScore();
+            generatorState.lastTs = 0;
+            function loop(ts) {
+                if (!document.getElementById('gen-sim-canvas')) { generatorState.raf = null; return; }
+                const s = generatorState;
+                const dt = s.lastTs ? Math.min((ts - s.lastTs) / 1000, 0.05) : 0;
+                s.lastTs = ts;
+                if (s.playing && !s.quiz) {
+                    s.phi += s.omega * s.dir * dt;
+                    if (s.phi > Math.PI * 2) s.phi -= Math.PI * 2;
+                    if (s.phi < 0) s.phi += Math.PI * 2;
+                    drawGenerator();
+                    updateGenReadout();
+                }
+                generatorState.raf = requestAnimationFrame(loop);
+            }
+            drawGenerator();
+            generatorState.raf = requestAnimationFrame(loop);
+        }
+
+        function drawGenerator() {
+            const canvas = document.getElementById('gen-sim-canvas');
+            if (!canvas) return;
+            const s = generatorState;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const cx = W * 0.42, cy = H * 0.5, R = 118;
+            ctx.clearRect(0, 0, W, H);
+
+            // 磁鐵 N（左藍）S（右紅）
+            const magW = 70, magH = 250, gapL = cx - 210, gapR = cx + 210;
+            ctx.fillStyle = '#2563eb';
+            ctx.fillRect(gapL - magW, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(gapR, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#fff'; ctx.font = 'bold 30px sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText('N', gapL - magW / 2, cy + 10);
+            ctx.fillText('S', gapR + magW / 2, cy + 10);
+
+            // 磁力線 N→S（水平向右箭頭）
+            if (s.showField) {
+                ctx.strokeStyle = 'rgba(148,163,184,0.55)'; ctx.fillStyle = 'rgba(148,163,184,0.55)'; ctx.lineWidth = 1.5;
+                for (let i = 0; i < 5; i++) {
+                    const y = cy - 96 + i * 48;
+                    ctx.beginPath(); ctx.moveTo(gapL, y); ctx.lineTo(gapR, y); ctx.stroke();
+                    for (const ax of [cx - 70, cx + 60]) {
+                        ctx.beginPath(); ctx.moveTo(ax, y); ctx.lineTo(ax - 9, y - 5); ctx.lineTo(ax - 9, y + 5); ctx.closePath(); ctx.fill();
+                    }
+                }
+            }
+
+            // 旋轉半徑淡圈
+            ctx.strokeStyle = 'rgba(148,163,184,0.28)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+            ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+
+            // 導體 a、b 位置（φ=0 時 a 在正右方，穿過磁力線=0、電流最大）
+            const ax = cx + R * Math.cos(s.phi), ay = cy - R * Math.sin(s.phi);
+            const bx = cx - R * Math.cos(s.phi), by = cy + R * Math.sin(s.phi);
+
+            // 線圈連線（示意線圈平面）
+            ctx.strokeStyle = '#eab308'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+            const cur = genCurrent(s.phi, s.dir);       // >0 → a 為 ⊙
+            const drawConductor = (x, y, label, isOut) => {
+                ctx.beginPath(); ctx.arc(x, y, 16, 0, Math.PI * 2);
+                ctx.fillStyle = '#fde68a'; ctx.fill();
+                ctx.strokeStyle = '#b45309'; ctx.lineWidth = 2; ctx.stroke();
+                if (s.showCurrent && !(s.quiz && !s.quiz.answered) && Math.abs(cur) > 0.12) {
+                    ctx.strokeStyle = '#b45309'; ctx.fillStyle = '#b45309'; ctx.lineWidth = 2.5;
+                    if (isOut) { // ⊙
+                        ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.stroke();
+                        ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
+                    } else { // ⊗
+                        ctx.beginPath(); ctx.moveTo(x - 6, y - 6); ctx.lineTo(x + 6, y + 6); ctx.moveTo(x + 6, y - 6); ctx.lineTo(x - 6, y + 6); ctx.stroke();
+                    }
+                }
+                ctx.fillStyle = '#f8fafc'; ctx.font = 'bold 17px sans-serif';
+                ctx.fillText(label, x, y - 24);
+            };
+            drawConductor(ax, ay, 'a', cur > 0);
+            drawConductor(bx, by, 'b', cur <= 0);
+
+            // 轉軸中心
+            ctx.fillStyle = '#94a3b8'; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+
+            // 檢流計（右上）
+            if (s.showMeter) {
+                const mx = W - 118, my = 92, mr = 60;
+                ctx.fillStyle = '#f1f5f9'; ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(mx, my, mr, Math.PI, 0); ctx.lineTo(mx + mr, my + 14); ctx.lineTo(mx - mr, my + 14); ctx.closePath(); ctx.fill(); ctx.stroke();
+                ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1;
+                for (let a = -60; a <= 60; a += 30) {
+                    const rad = (a - 90) * Math.PI / 180;
+                    ctx.beginPath(); ctx.moveTo(mx + (mr - 10) * Math.cos(rad), my + (mr - 10) * Math.sin(rad)); ctx.lineTo(mx + mr * Math.cos(rad), my + mr * Math.sin(rad)); ctx.stroke();
+                }
+                ctx.fillStyle = '#334155'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('0', mx, my - mr + 16);
+                ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.fillText('−', mx - mr + 12, my + 8); ctx.fillText('＋', mx + mr - 12, my + 8);
+                const showNeedle = !(s.quiz && !s.quiz.answered);
+                const ang = (-90 + (showNeedle ? cur * 60 : 0)) * Math.PI / 180;
+                ctx.strokeStyle = showNeedle ? '#dc2626' : '#cbd5e1'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(mx, my + 10); ctx.lineTo(mx + (mr - 8) * Math.cos(ang), my + 10 + (mr - 8) * Math.sin(ang)); ctx.stroke();
+                ctx.fillStyle = '#475569'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('檢流計', mx, my + 32);
+            }
+
+            // 外電路連線（線圈 → 檢流計，示意）
+            ctx.strokeStyle = 'rgba(148,163,184,0.6)'; ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + R + 2); ctx.lineTo(cx, H - 24); ctx.lineTo(W - 118, H - 24);
+            ctx.stroke();
+
+            ctx.textAlign = 'left';
+            ctx.fillStyle = 'rgba(226,232,240,0.85)'; ctx.font = '13px sans-serif';
+            ctx.fillText(s.quiz && !s.quiz.answered ? '❓ 測驗中：電流指示已隱藏，請先判斷再看答案' : (s.playing ? '▶ 轉動中' : '⏸ 已暫停'), 14, H - 12);
+            ctx.textAlign = 'center';
         }
 
         // ===== 互動模擬二：光電效應虛擬實驗——併入模組七 =====
