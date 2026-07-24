@@ -5885,8 +5885,8 @@
                                 <div class="generator-stage-legend" aria-hidden="true">
                                     <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#df5b62;"></span>N 極</span>
                                     <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#4087cf;"></span>S 極</span>
-                                    <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#be702c;"></span>連續銅線圈</span>
-                                    <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#244d68;"></span>繞線順序</span>
+                                    <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#e2e8f0; border:1px solid #94a3b8;"></span>單匝代表線圈（銀白）</span>
+                                    <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#e11d48;"></span>線圈電流 I（環繞方向）</span>
                                     <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#8a4fd2;"></span>A 引線</span>
                                     <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#00a18a;"></span>B 引線</span>
                                     <span class="generator-legend-chip"><span class="generator-legend-swatch" style="background:#1a9b84;"></span>磁場 B</span>
@@ -5951,7 +5951,7 @@
                     </div>
                     <div class="sim-readout" id="gen3d-sim-readout" style="padding:0 1rem 0.85rem; margin-top:0;"></div>
                     <div class="generator-explanation">
-                        <div class="generator-explanation-item"><span class="generator-step-number">1</span><div><strong>線圈轉動</strong><br>一條連續銅線由外向內繞成四匝矩形線圈；深藍箭頭標示繞線順序，A、B 是兩個端點。</div></div>
+                        <div class="generator-explanation-item"><span class="generator-step-number">1</span><div><strong>用電流環繞方向判斷磁場</strong><br>銀白色導線以單匝代表實機的多匝線圈，讓完整走線可直接追蹤；紅色箭頭表示線圈中「此刻」的感應電流。右手四指順著電流環繞，大拇指所指即為線圈磁場方向。</div></div>
                         <div class="generator-explanation-item"><span class="generator-step-number">2</span><div><strong>產生電動勢</strong><br>穿過線圈的磁力線數目變化越快，感應電動勢越大；數目達極值時電動勢瞬間為零。</div></div>
                         <div class="generator-explanation-item"><span class="generator-step-number">3</span><div><strong>送入外電路</strong><br>兩條絕緣引線沿轉軸兩側連到集電環，與線圈共同旋轉；固定碳刷再把電流送往負載燈泡。</div></div>
                     </div>
@@ -5964,10 +5964,10 @@
             phi: 0, omega: 1.6, dir: 1, poleDir: 1, playing: true, lastTs: 0,
             trackCamera: false, slipRings: true, showField: true, showCurrent: true,
             showFlux: true, transparentMagnets: false,
-            camDist: 205, theta: 0.22, elev: 0.36, dragging: false, lastX: 0, lastY: 0,
+            camDist: 205, theta: 0.22, elev: 0.58, dragging: false, lastX: 0, lastY: 0,
             magN: null, magS: null, rotorGroup: null, coilFace: null,
             ringACGroup: null, ringDCGroup: null, circuitACGroup: null, circuitDCGroup: null,
-            fieldGroup: null, currentGroup: null, iArrows: [], matN: null, matS: null,
+            fieldGroup: null, currentGroup: null, iArrows: [], coilCurrentMarkers: [], matN: null, matS: null,
             bulbLight: null, bulbGlassMat: null, filamentMat: null,
             _onDown: null, _onMove: null, _onUp: null, _resizeObserver: null, instanceId: 0
         };
@@ -6012,6 +6012,7 @@
             s.ringACGroup = s.ringDCGroup = s.circuitACGroup = s.circuitDCGroup = null;
             s.fieldGroup = s.currentGroup = null;
             s.iArrows = [];
+            s.coilCurrentMarkers = [];
         }
 
         function init3DGenerator() {
@@ -6153,28 +6154,36 @@
                         new THREE.Vector3(1, 0, 0),
                         new THREE.Vector3(-2.5, y, z),
                         5,
-                        0x1a9b84,
-                        0.24,
-                        0.12
+                        0x008f75,
+                        0.42,
+                        0.24
                     );
-                    arrow.line.material.transparent = true;
-                    arrow.line.material.opacity = 0.62;
-                    arrow.cone.material.transparent = true;
-                    arrow.cone.material.opacity = 0.78;
+                    arrow.line.material.transparent = false;
+                    arrow.line.material.opacity = 1;
+                    arrow.cone.material.transparent = false;
+                    arrow.cone.material.opacity = 1;
                     s.fieldGroup.add(arrow);
                 }
             }
             s.scene.add(s.fieldGroup);
 
-            const shaft = makeCylinderBetween(
+            // 旋轉軸只保留軸承附近的上下短軸，避免長桿遮住線圈與電流箭頭。
+            const shaftBack = makeCylinderBetween(
                 new THREE.Vector3(0, 0, -2.5),
-                new THREE.Vector3(0, 0, 3.0),
-                0.075,
+                new THREE.Vector3(0, 0, -1.72),
+                0.065,
                 steelMat,
                 18
             );
-            shaft.castShadow = true;
-            s.scene.add(shaft);
+            const shaftFront = makeCylinderBetween(
+                new THREE.Vector3(0, 0, 1.72),
+                new THREE.Vector3(0, 0, 3.0),
+                0.065,
+                steelMat,
+                18
+            );
+            shaftBack.castShadow = shaftFront.castShadow = true;
+            s.scene.add(shaftBack, shaftFront);
             for (const z of [-2.0, 2.75]) {
                 const stand = makeCylinderBetween(
                     new THREE.Vector3(0, -1.58, z),
@@ -6191,54 +6200,50 @@
             s.rotorGroup = new THREE.Group();
             const halfX = 1.36;
             const halfZ = 1.5;
-            const turnCount = 4;
-            const turnInset = 0.11;
-            const windingPoints = [];
-            for (let turnIndex = 0; turnIndex < turnCount; turnIndex += 1) {
-                const hx = halfX - turnIndex * turnInset;
-                const hz = halfZ - turnIndex * turnInset;
-                const layerY = (turnIndex - (turnCount - 1) / 2) * 0.018;
-                const rightFront = new THREE.Vector3(hx, layerY, hz);
-                const rightBack = new THREE.Vector3(hx, layerY, -hz);
-                const leftBack = new THREE.Vector3(-hx, layerY, -hz);
-                const leftFront = new THREE.Vector3(-hx, layerY, hz);
-                if (turnIndex === 0) windingPoints.push(rightFront);
-                windingPoints.push(rightBack, leftBack, leftFront, rightFront);
-                if (turnIndex < turnCount - 1) {
-                    const nextHx = halfX - (turnIndex + 1) * turnInset;
-                    const nextHz = halfZ - (turnIndex + 1) * turnInset;
-                    const nextY = (turnIndex + 1 - (turnCount - 1) / 2) * 0.018;
-                    windingPoints.push(new THREE.Vector3(nextHx, nextY, nextHz));
-                }
-            }
-            const continuousWinding = makeWirePath(windingPoints, copperMat, 0.042);
+            const terminalGap = 0.24;
+            // 單匝代表線圈：A、B 在近側中央留出缺口，導線路徑可由肉眼從頭追到尾。
+            const windingPoints = [
+                new THREE.Vector3(terminalGap, 0, halfZ),
+                new THREE.Vector3(halfX, 0, halfZ),
+                new THREE.Vector3(halfX, 0, -halfZ),
+                new THREE.Vector3(-halfX, 0, -halfZ),
+                new THREE.Vector3(-halfX, 0, halfZ),
+                new THREE.Vector3(-terminalGap, 0, halfZ)
+            ];
+            const visibleCoilMat = new THREE.MeshStandardMaterial({
+                color: 0xe2e8f0,
+                roughness: 0.24,
+                metalness: 0.72,
+                emissive: 0x334155,
+                emissiveIntensity: 0.08
+            });
+            const continuousWinding = makeWirePath(windingPoints, visibleCoilMat, 0.065);
             s.rotorGroup.add(continuousWinding);
 
-            const windingMarkerMat = new THREE.MeshBasicMaterial({ color: 0x244d68 });
+            s.coilCurrentMarkers = [];
+            const windingMarkerMat = new THREE.MeshBasicMaterial({ color: 0xe11d48, depthTest: false, transparent: true, opacity: 1 });
             const addWindingMarker = (from, to, positionRatio = 0.55) => {
                 const direction = new THREE.Vector3().subVectors(to, from).normalize();
-                const marker = new THREE.Mesh(new THREE.ConeGeometry(0.095, 0.26, 12), windingMarkerMat);
+                const marker = new THREE.Group();
+                const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 14), windingMarkerMat);
+                shaft.position.y = -0.06;
+                const head = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.32, 18), windingMarkerMat);
+                head.position.y = 0.24;
+                shaft.renderOrder = head.renderOrder = 8;
+                marker.add(shaft, head);
                 marker.position.copy(from).lerp(to, positionRatio);
                 marker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+                marker.userData.positiveDirection = direction.clone();
+                marker.userData.materials = [shaft.material, head.material];
+                s.coilCurrentMarkers.push(marker);
                 s.rotorGroup.add(marker);
             };
-            const outerY = -(turnCount - 1) / 2 * 0.018;
-            addWindingMarker(
-                new THREE.Vector3(halfX, outerY, halfZ),
-                new THREE.Vector3(halfX, outerY, -halfZ)
-            );
-            addWindingMarker(
-                new THREE.Vector3(halfX, outerY, -halfZ),
-                new THREE.Vector3(-halfX, outerY, -halfZ)
-            );
-            addWindingMarker(
-                new THREE.Vector3(-halfX, outerY, -halfZ),
-                new THREE.Vector3(-halfX, outerY, halfZ)
-            );
-            addWindingMarker(
-                new THREE.Vector3(-halfX, outerY, halfZ),
-                new THREE.Vector3(halfX, outerY, halfZ)
-            );
+            // 箭頭貼在單匝導線的每一段；近側因 A、B 缺口分為左右兩段。
+            for (let markerIndex = 0; markerIndex < windingPoints.length - 1; markerIndex += 1) {
+                const from = windingPoints[markerIndex];
+                const to = windingPoints[markerIndex + 1];
+                addWindingMarker(from, to, 0.5);
+            }
 
             const terminalA = windingPoints[0].clone();
             const terminalB = windingPoints[windingPoints.length - 1].clone();
@@ -6270,17 +6275,12 @@
             ring2.position.z = 2.32;
             const acLead1 = makeWirePath([
                 terminalA,
-                new THREE.Vector3(halfX, 0.12, 1.68),
-                new THREE.Vector3(0.46, 0.12, 1.76),
-                new THREE.Vector3(0.25, 0.1, 1.82),
+                new THREE.Vector3(0.28, 0.1, 1.7),
                 new THREE.Vector3(0.25, 0.02, 1.9)
             ], rotorLeadMatA, 0.038);
             const acLead2 = makeWirePath([
                 terminalB,
-                new THREE.Vector3(terminalB.x, -0.16, 1.78),
-                new THREE.Vector3(0.45, -0.2, 1.88),
-                new THREE.Vector3(0, -0.32, 1.98),
-                new THREE.Vector3(-0.25, -0.2, 2.08),
+                new THREE.Vector3(-0.28, -0.1, 1.82),
                 new THREE.Vector3(-0.25, -0.02, 2.32)
             ], rotorLeadMatB, 0.038);
             const acGuide1 = makeCylinderBetween(
@@ -6307,17 +6307,12 @@
             dc1.position.z = dc2.position.z = 2.12;
             const dcLead1 = makeWirePath([
                 terminalA,
-                new THREE.Vector3(halfX, 0.12, 1.68),
-                new THREE.Vector3(0.46, 0.12, 1.78),
-                new THREE.Vector3(0.25, 0.1, 1.9),
+                new THREE.Vector3(0.28, 0.1, 1.78),
                 new THREE.Vector3(0.25, 0.02, 2.12)
             ], rotorLeadMatA, 0.038);
             const dcLead2 = makeWirePath([
                 terminalB,
-                new THREE.Vector3(terminalB.x, -0.16, 1.78),
-                new THREE.Vector3(0.45, -0.2, 1.88),
-                new THREE.Vector3(0, -0.32, 1.98),
-                new THREE.Vector3(-0.25, -0.2, 2.06),
+                new THREE.Vector3(-0.28, -0.1, 1.82),
                 new THREE.Vector3(-0.25, -0.02, 2.12)
             ], rotorLeadMatB, 0.038);
             const dcGuide1 = makeCylinderBetween(
@@ -6469,13 +6464,23 @@
             const makeCurrentArrow = (from, to) => {
                 const direction = new THREE.Vector3().subVectors(to, from).normalize();
                 const center = new THREE.Vector3().addVectors(from, to).multiplyScalar(0.5);
-                center.y += 0.09;
+                center.y += 0.13;
                 const origin = center.clone().addScaledVector(direction, -0.35);
-                const arrow = new THREE.ArrowHelper(direction, origin, 0.7, 0xdf5b62, 0.18, 0.1);
+                const arrow = new THREE.ArrowHelper(direction, origin, 0.7, 0xe11d48, 0.27, 0.16);
+                const shaft = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.045, 0.045, 0.7, 12),
+                    new THREE.MeshBasicMaterial({ color: 0xe11d48, depthTest: false })
+                );
+                shaft.position.y = 0.35;
+                shaft.renderOrder = 9;
+                arrow.add(shaft);
+                arrow.line.visible = false;
+                arrow.cone.material.depthTest = false;
+                arrow.cone.renderOrder = 10;
                 arrow.userData.positiveDirection = direction.clone();
                 arrow.userData.segmentCenter = center;
-                arrow.line.material.transparent = true;
                 arrow.cone.material.transparent = true;
+                arrow.userData.shaft = shaft;
                 return arrow;
             };
             s.iArrows = [
@@ -6620,6 +6625,20 @@
             }
             const arrowVisible = s.showCurrent && Math.abs(electrical.output) > 0.08;
             if (s.currentGroup) s.currentGroup.visible = arrowVisible;
+            if (s.coilCurrentMarkers.length) {
+                // 正輸出時電流由 A 端流出至外電路，因此線圈內部沿 B → A 流動；
+                // 這樣線圈箭頭、引線、燈泡旁箭頭可連成同一個閉合迴路。
+                const coilSign = electrical.output >= 0 ? -1 : 1;
+                const coilMagnitude = Math.abs(electrical.normalizedCurrent);
+                s.coilCurrentMarkers.forEach(marker => {
+                    marker.visible = arrowVisible;
+                    const direction = marker.userData.positiveDirection.clone().multiplyScalar(coilSign);
+                    marker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+                    marker.userData.materials.forEach(material => {
+                        material.opacity = 0.72 + coilMagnitude * 0.28;
+                    });
+                });
+            }
             if (s.iArrows.length === 2) {
                 const sign = electrical.output >= 0 ? 1 : -1;
                 const magnitude = Math.abs(electrical.normalizedCurrent);
@@ -6630,9 +6649,14 @@
                     arrow.userData.currentLength = length;
                     arrow.setDirection(direction);
                     arrow.position.copy(arrow.userData.segmentCenter).addScaledVector(direction, -length * 0.5);
-                    arrow.setLength(length, 0.16 + magnitude * 0.06, 0.08 + magnitude * 0.04);
-                    arrow.line.material.opacity = 0.35 + magnitude * 0.65;
-                    arrow.cone.material.opacity = 0.35 + magnitude * 0.65;
+                    arrow.setLength(length, 0.23 + magnitude * 0.09, 0.13 + magnitude * 0.05);
+                    if (arrow.userData.shaft) {
+                        arrow.userData.shaft.position.y = length * 0.5;
+                        arrow.userData.shaft.scale.y = length / 0.7;
+                        arrow.userData.shaft.material.opacity = 0.72 + magnitude * 0.28;
+                        arrow.userData.shaft.material.transparent = magnitude < 0.99;
+                    }
+                    arrow.cone.material.opacity = 0.72 + magnitude * 0.28;
                 });
             }
             if (s.bulbLight && s.bulbGlassMat && s.filamentMat) {
@@ -6727,7 +6751,7 @@
             gen3DState.playing = false;
             gen3DState.lastTs = 0;
             gen3DState.theta = 0.22;
-            gen3DState.elev = 0.36;
+            gen3DState.elev = 0.58;
             gen3DState.camDist = 205;
             gen3DState.trackCamera = false;
             const zoomSlider = document.getElementById('gen3d-zoom');
@@ -8605,6 +8629,186 @@
                         <li><b>電動機 (馬達) 與揚聲器 (喇叭)</b>：馬達是利用「電流在磁場中受磁力作用（載流導線受力 $F = ILB$）」來產生旋轉力矩，將電能轉換為機械能；喇叭則是利用變動電流在磁場中受力，帶動紙盆振動發聲。
                         </li>
                     </ul>
+                </div>
+
+                <div class="handout-section-title">🎬 補充資料：電池小火車實驗</div>
+                <div class="edu-card" style="margin-bottom: 2rem;">
+                    <div style="font-weight: 700; color: var(--primary-blue); margin-bottom: 0.5rem;">EJ實驗：電池小火車（2）磁鐵方向</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:1.25rem; align-items:flex-start;">
+                        <div style="flex:0 1 315px; width:100%; margin-inline:auto;">
+                            <iframe
+                                src="https://www.youtube.com/embed/Gaw5zPC1OAk"
+                                title="EJ實驗：電池小火車（2）磁鐵方向"
+                                loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen
+                                style="display:block; width:100%; aspect-ratio:9/16; border:0; border-radius:0.85rem; background:#111;"
+                            ></iframe>
+                            <a href="https://www.youtube.com/shorts/Gaw5zPC1OAk" target="_blank" rel="noopener"
+                               style="display:block; margin-top:0.65rem; text-align:center; color:var(--primary-blue); font-size:0.88rem; font-weight:700;">
+                                無法播放時，在 YouTube 開啟影片 ↗
+                            </a>
+                        </div>
+                        <div style="flex:1 1 320px;">
+                            <p style="font-size:0.92rem; line-height:1.7; color:var(--text-main); margin-top:0;">
+                                影片中的「小火車」由電池與兩端的強力磁鐵組成。磁鐵接觸裸銅線圈後形成閉合電路，電流流過線圈，使線圈周圍產生磁場；這個磁場再與永久磁鐵的磁場交互作用，形成沿線圈軸向的推進力。
+                            </p>
+                            <div style="padding:0.85rem 1rem; border-left:4px solid var(--accent-rose); border-radius:0.45rem; background:var(--accent-rose-light); font-size:0.9rem; line-height:1.65; color:var(--text-main);">
+                                <b>影片觀察任務</b>
+                                <ol style="margin:0.45rem 0 0; padding-left:1.25rem;">
+                                    <li>把兩顆磁鐵一起反轉時，運動方向如何改變？</li>
+                                    <li>只反轉其中一顆磁鐵，是否仍能順利前進？</li>
+                                    <li>依安培右手定則，判斷線圈磁場方向，並連結到磁鐵受到的合力方向。</li>
+                                </ol>
+                            </div>
+                            <div style="margin-top:0.9rem; padding:0.9rem 1rem; border:1px solid rgba(37,99,235,0.22); border-radius:0.65rem; background:var(--primary-blue-light); font-size:0.9rem; line-height:1.65; color:var(--text-main);">
+                                <b style="color:var(--primary-blue);">📄 模考命題連結（一）：111 學年度第三次模考 Q16～17</b><br>
+                                Q16 要用右手握拳定則判斷螺線管的等效磁極，再比較兩端磁鐵的合力方向；Q17 進一步結合冷次定律，判斷列車前、後方線圈的感應磁力如何阻礙列車運動。這組題正好把影片現象串連到「電流磁效應＋電磁感應」。
+                                <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.7rem;">
+                                    <a href="模擬考/111模考3_試題.pdf#page=6" target="_blank" rel="noopener"
+                                       style="display:inline-block; padding:0.5rem 0.8rem; border-radius:0.55rem; background:var(--primary-blue); color:#fff; font-weight:700; text-decoration:none;">
+                                        開啟 Q16～17 試題
+                                    </a>
+                                    <a href="模擬考/111模考3_解答.pdf#page=2" target="_blank" rel="noopener"
+                                       style="display:inline-block; padding:0.5rem 0.8rem; border:1px solid var(--primary-blue); border-radius:0.55rem; color:var(--primary-blue); font-weight:700; text-decoration:none;">
+                                        查看詳解
+                                    </a>
+                                </div>
+                                <div style="height:1px; margin:0.9rem 0; background:rgba(37,99,235,0.18);"></div>
+                                <b style="color:var(--primary-blue);">📄 模考命題連結（二）：111 學年度第四次模考 Q58～60</b><br>
+                                Q58 檢驗電磁學科學史與基本觀念；Q59 以單極馬達考<b>右手開掌定則</b>，由電流方向與外加磁場方向判斷銅線受力、旋轉方向；Q60 則回到電池小火車，綜合判斷螺線管電流、磁極配置與列車受力方向。
+                                <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.7rem;">
+                                    <a href="模擬考/111模考4_試題.pdf#page=16" target="_blank" rel="noopener"
+                                       style="display:inline-block; padding:0.5rem 0.8rem; border-radius:0.55rem; background:var(--primary-blue); color:#fff; font-weight:700; text-decoration:none;">
+                                        開啟 Q58～60 試題
+                                    </a>
+                                    <a href="模擬考/111模考4_解答.pdf#page=4" target="_blank" rel="noopener"
+                                       style="display:inline-block; padding:0.5rem 0.8rem; border:1px solid var(--primary-blue); border-radius:0.55rem; color:var(--primary-blue); font-weight:700; text-decoration:none;">
+                                        查看詳解
+                                    </a>
+                                </div>
+                            </div>
+                            <p style="font-size:0.84rem; line-height:1.55; color:var(--text-muted); margin:0.8rem 0 0;">
+                                ※ 實際受力來自磁場與電流的交互作用；磁鐵方向、電流方向與接觸位置會共同影響結果。強力磁鐵與線圈可能發熱，實作時應避免短路過久。
+                            </p>
+                        </div>
+                    </div>
+
+                    <figure style="margin:1.5rem 0 0;">
+                        <svg viewBox="0 0 900 430" role="img" aria-labelledby="batteryTrainTitle batteryTrainDesc"
+                             style="display:block; width:100%; height:auto; border:1px solid var(--border-light); border-radius:0.9rem; background:#f8fbff;">
+                            <title id="batteryTrainTitle">電池小火車的電流、磁場與受力方向示意圖</title>
+                            <desc id="batteryTrainDesc">電池與兩端磁鐵包在銅線圈內。磁鐵接觸線圈後，電流只流過兩接觸點之間的線圈，使這一小段線圈成為電磁鐵；它吸引左磁鐵並排斥右磁鐵，兩力都朝右而推動整組電池。</desc>
+                            <defs>
+                                <linearGradient id="batteryBody" x1="0" x2="1">
+                                    <stop offset="0" stop-color="#334155"/>
+                                    <stop offset="0.12" stop-color="#64748b"/>
+                                    <stop offset="0.88" stop-color="#94a3b8"/>
+                                    <stop offset="1" stop-color="#475569"/>
+                                </linearGradient>
+                                <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+                                </marker>
+                                <marker id="arrowRose" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#e11d48"/>
+                                </marker>
+                                <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#059669"/>
+                                </marker>
+                            </defs>
+
+                            <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#1e3a5f">電池小火車：局部通電線圈形成電磁鐵</text>
+
+                            <!-- 整條裸銅線圈是軌道；接觸點外沒有接入電池，不屬於有效通電區 -->
+                            <g fill="none" stroke="#a16207" stroke-width="6" opacity="0.35">
+                                <ellipse cx="145" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="205" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="265" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="325" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="385" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="445" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="505" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="565" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="625" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="685" cy="190" rx="32" ry="92"/>
+                                <ellipse cx="745" cy="190" rx="32" ry="92"/>
+                            </g>
+                            <text x="755" y="95" font-size="16" font-weight="700" fill="#92400e">未通電線圈</text>
+                            <path d="M742 101 L710 129" stroke="#92400e" stroke-width="2"/>
+
+                            <!-- A、B 兩接觸點之間的線圈才有電流，先畫位於電池後方的半圈 -->
+                            <rect x="276" y="82" width="344" height="218" rx="22" fill="#dbeafe" fill-opacity="0.5" stroke="#60a5fa" stroke-width="2" stroke-dasharray="8 6"/>
+                            <text x="448" y="62" text-anchor="middle" font-size="17" font-weight="700" fill="#1d4ed8">有效通電區：只在兩顆磁鐵接觸點之間</text>
+                            <g fill="none" stroke="#d97706" stroke-width="8">
+                                <path d="M325 98 A32 92 0 0 1 325 282"/>
+                                <path d="M385 98 A32 92 0 0 1 385 282"/>
+                                <path d="M445 98 A32 92 0 0 1 445 282"/>
+                                <path d="M505 98 A32 92 0 0 1 505 282"/>
+                                <path d="M565 98 A32 92 0 0 1 565 282"/>
+                            </g>
+
+                            <!-- 電池與兩端磁鐵位於線圈內 -->
+                            <rect x="335" y="158" width="230" height="64" rx="12" fill="url(#batteryBody)" stroke="#334155" stroke-width="2"/>
+                            <rect x="315" y="164" width="24" height="52" rx="5" fill="#ef4444"/>
+                            <rect x="565" y="164" width="24" height="52" rx="5" fill="#ef4444"/>
+                            <rect x="294" y="158" width="21" height="64" rx="5" fill="#3b82f6"/>
+                            <rect x="589" y="158" width="21" height="64" rx="5" fill="#3b82f6"/>
+                            <text x="450" y="197" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">電池</text>
+                            <text x="302" y="149" text-anchor="middle" font-size="14" font-weight="700" fill="#1d4ed8">S</text>
+                            <text x="327" y="149" text-anchor="middle" font-size="14" font-weight="700" fill="#dc2626">N</text>
+                            <text x="577" y="149" text-anchor="middle" font-size="14" font-weight="700" fill="#dc2626">N</text>
+                            <text x="600" y="149" text-anchor="middle" font-size="14" font-weight="700" fill="#1d4ed8">S</text>
+                            <circle cx="294" cy="190" r="7" fill="#facc15" stroke="#92400e" stroke-width="2"/>
+                            <circle cx="610" cy="190" r="7" fill="#facc15" stroke="#92400e" stroke-width="2"/>
+                            <text x="294" y="245" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">接觸點 A</text>
+                            <text x="610" y="245" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">接觸點 B</text>
+
+                            <!-- 前半圈覆在電池前方，表現線圈包住電池與磁鐵 -->
+                            <g fill="none" stroke="#f59e0b" stroke-width="8">
+                                <path d="M325 98 A32 92 0 0 0 325 282"/>
+                                <path d="M385 98 A32 92 0 0 0 385 282"/>
+                                <path d="M445 98 A32 92 0 0 0 445 282"/>
+                                <path d="M505 98 A32 92 0 0 0 505 282"/>
+                                <path d="M565 98 A32 92 0 0 0 565 282"/>
+                            </g>
+
+                            <!-- 閉合迴路：電流只經過 A、B 之間的線圈 -->
+                            <path d="M310 292 C350 325, 550 325, 590 292" fill="none" stroke="#2563eb" stroke-width="5" marker-end="url(#arrowBlue)"/>
+                            <text x="450" y="348" text-anchor="middle" font-size="16" font-weight="700" fill="#2563eb">線圈電流 I：A → 中間線圈 → B</text>
+                            <path d="M610 270 C670 364, 230 392, 294 270" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrowBlue)"/>
+                            <text x="450" y="409" text-anchor="middle" font-size="14" fill="#475569">再經磁鐵與電池內部返回，形成閉合迴路</text>
+
+                            <!-- 有效通電區成為一小段等效電磁鐵 -->
+                            <rect x="350" y="105" width="200" height="36" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+                            <text x="370" y="129" text-anchor="middle" font-size="17" font-weight="700" fill="#047857">S</text>
+                            <text x="450" y="129" text-anchor="middle" font-size="15" font-weight="700" fill="#047857">等效電磁鐵</text>
+                            <text x="530" y="129" text-anchor="middle" font-size="17" font-weight="700" fill="#047857">N</text>
+                            <path d="M360 88 L540 88" fill="none" stroke="#059669" stroke-width="4" stroke-dasharray="9 6" marker-end="url(#arrowGreen)"/>
+                            <text x="555" y="93" font-size="15" font-weight="700" fill="#047857">B</text>
+
+                            <!-- 左端被吸引、右端被排斥，兩力都向右 -->
+                            <path d="M265 137 L322 137" fill="none" stroke="#e11d48" stroke-width="5" marker-end="url(#arrowRose)"/>
+                            <text x="292" y="122" text-anchor="middle" font-size="13" font-weight="700" fill="#be123c">吸引力</text>
+                            <path d="M570 137 L627 137" fill="none" stroke="#e11d48" stroke-width="5" marker-end="url(#arrowRose)"/>
+                            <text x="598" y="122" text-anchor="middle" font-size="13" font-weight="700" fill="#be123c">排斥力</text>
+                            <path d="M650 190 L800 190" fill="none" stroke="#e11d48" stroke-width="7" marker-end="url(#arrowRose)"/>
+                            <text x="725" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#be123c">合力／前進</text>
+                        </svg>
+                        <figcaption style="margin-top:0.65rem; text-align:center; font-size:0.84rem; line-height:1.5; color:var(--text-muted);">
+                            只有磁鐵接觸點 A、B 之間的線圈接入電池而有電流，這一段才形成電磁鐵。圖示配置中，等效電磁鐵吸引左磁鐵、排斥右磁鐵，兩個磁力同向疊加而推動整組電池向右。
+                        </figcaption>
+                    </figure>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:0.8rem; margin-top:1rem;">
+                        <div style="padding:0.9rem 1rem; border-radius:0.7rem; background:var(--bg-soft); border:1px solid var(--border-light); font-size:0.88rem; line-height:1.6;">
+                            <b style="color:var(--primary-blue);">① 右手握拳定則：先找磁場</b><br>
+                            四指沿線圈的傳統電流方向彎曲，大拇指所指就是螺線管內部磁場方向，也指向螺線管的 N 極。適用於小火車線圈與 Q16、Q60。
+                        </div>
+                        <div style="padding:0.9rem 1rem; border-radius:0.7rem; background:var(--bg-soft); border:1px solid var(--border-light); font-size:0.88rem; line-height:1.6;">
+                            <b style="color:var(--accent-rose);">② 右手開掌定則：再找受力</b><br>
+                            四指指向傳統電流 $I$，讓磁場 $B$ 穿入掌心，大拇指即指載流導線的受力 $F$。適用於單極馬達銅線的旋轉方向與 Q59；必須有<b>外加磁場</b>，不能說導線受自己的磁場推動。
+                        </div>
+                    </div>
                 </div>
             `;
         }
